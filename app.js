@@ -25,5 +25,12 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 // routes
 app.get('*', checkUser);
 app.get('/', (req, res) => res.send('home'));
-app.get('/smoothies', requireAuth, (req, res) => res.send('smoothies'));
+app.get('/smoothies', requireAuth, (req, res) =>{
+    if(res.statusCode ==200){
+        res.send("You are authorized");
+    }
+    else{
+        res.send("You must log in");
+    }
+});
 app.use(authRoutes);

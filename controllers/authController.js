@@ -50,7 +50,7 @@ module.exports.signup_get = (req, res) => {
 }
 
 module.exports.login_get = (req, res) => {
-  res.send('login');
+  res.send('you must login');
 }
 
 module.exports.signup_post = async (req, res) => {
