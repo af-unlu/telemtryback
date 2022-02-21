@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -21,8 +22,8 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 
 //#endregion
 
-//bu daha moduler
+// routes
+app.get('*', checkUser);
+app.get('/', (req, res) => res.send('home'));
+app.get('/smoothies', requireAuth, (req, res) => res.send('smoothies'));
 app.use(authRoutes);
-
-//http://localhost:portno/test
-app.get('/test', (req, res) => res.send("Hello Guys"));
