@@ -23,14 +23,16 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 //#endregion
 
 // routes
-app.get('*', checkUser);
 app.get('/', (req, res) => res.send('home'));
-app.get('/smoothies', requireAuth, (req, res) =>{
+app.get('/secret', requireAuth, (req, res) =>{
     if(res.statusCode ==200){
-        res.send("You are authorized");
+        res.json({ "message":"You are authorized" });
     }
     else{
-        res.send("You must log in");
+        res.json({ "message":"You are not authorized" });
     }
 });
 app.use(authRoutes);
+app.get('*', checkUser,(req,res)=>{
+    res.status(404).json({"message":"This end point doesnt exist"});
+});
