@@ -46,7 +46,13 @@ const createToken = (id) => {
 
 // controller actions
 module.exports.signup_get = (req, res) => {
-  res.status(200).json({ "page":"SignUp Page" });
+  console.log(res.locals.user);
+  if(res.locals.user===null){
+    res.status(200).json({ "page":"SignUp Page" });
+  }else{
+    res.status(200).json({ "message":"You are already logged in" });
+  }
+  
 }
 
 module.exports.login_get = (req, res) => {
