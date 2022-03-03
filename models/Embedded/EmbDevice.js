@@ -21,7 +21,7 @@ embDeviceSchema.pre('save', async function(next) {
 
 //a static function for the model
 embDeviceSchema.statics.login = async function(param1, param2) {
-  console.log(this.name);
+  
 };
 
 const EmbDevice = mongoose.model('emb_device', embDeviceSchema);

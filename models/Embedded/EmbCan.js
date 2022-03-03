@@ -15,7 +15,7 @@ embCanSchema.pre('save', async function(next) {
 
 //a static function for the model
 embCanSchema.statics.login = async function(param1, param2) {
-  console.log(this.name);
+ 
 };
 
 const EmbCan = mongoose.model('emb_can', embCanSchema);
