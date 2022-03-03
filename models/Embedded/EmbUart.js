@@ -11,7 +11,7 @@ const embUartSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  datas:[EmbData],
+  data:[EmbData],
 
 });
 
