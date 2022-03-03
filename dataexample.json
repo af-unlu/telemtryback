@@ -1,0 +1,118 @@
+{
+    "_id": {
+        "$oid": "6213659ec931c92ec203e439"
+    },
+    "email": "ahmetfunlu@telemetry.com",
+    "password": "$2b$10$T.l6kC68rRoA15PI9emXe.MeiaLcDvh9phb7FaH.rvi0AieQ6Yx72",
+    "__v": 0,
+    "devices": [
+        {
+            "_id": {
+                "$oid": "6213659egfl26k7s8f2djk439sdf"
+            },
+            "ui": {
+                "page": {
+                    "body": {
+                        "color": "red",
+                        "children": {
+                            "row": {
+                                "props": "fjsdhdsfj",
+                                "children": {
+                                    "textbox": {
+                                        "props": "sfdsf",
+                                        "text_data": {
+                                            "start_index": 4,
+                                            "end_index": 8,
+                                            "type": "f32",
+                                            "name": "Speed"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "emb": {
+                "Props": {
+                    "api_key": "sdfkljfhdsjlwrjkew32",
+                    "log_ms": 500
+                },
+                "CAN": {
+                    "count": 2,
+                    "messages": [
+                        {
+                            "is_ex": 1,
+                            "id": "0x88994411",
+                            "dlc": 2,
+                            "data": [
+                                {
+                                    "type": "u16",
+                                    "name": "temp",
+                                    "index": 0,
+                                    "log": 0
+                                },
+                                {
+                                    "type": "u8",
+                                    "name": "count",
+                                    "index": 2,
+                                    "log": 0
+                                }
+                            ]
+                        },
+                        {
+                            "is_ex": 1,
+                            "id": "0x99887766",
+                            "dlc": 8,
+                            "data": [
+                                {
+                                    "type": "s32",
+                                    "name": "temp",
+                                    "index": 3,
+                                    "log": 0
+                                },
+                                {
+                                    "type": "f32",
+                                    "name": "count",
+                                    "index": 7,
+                                    "log": 0
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "RS485": {
+                    "count": 4,
+                    "byte_count": 16,
+                    "messages": [
+                        {
+                            "type": "f32",
+                            "name": "count",
+                            "index": 11,
+                            "log": 0
+                        },
+                        {
+                            "type": "f32",
+                            "name": "count",
+                            "index": 15,
+                            "log": 0
+                        },
+                        {
+                            "type": "f32",
+                            "name": "count",
+                            "index": 19,
+                            "log": 0
+                        },
+                        {
+                            "type": "f32",
+                            "name": "count",
+                            "index": 23,
+                            "log": 0
+                        }
+                    ]
+                }
+            }
+        },
+        {}
+    ]
+}
