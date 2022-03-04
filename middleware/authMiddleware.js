@@ -7,15 +7,15 @@ const requireAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, process.env.JWT_KEY, (err, decodedToken) => {
       if (err) {
-        res.status(400);
+        res.locals.myStatus =400;
         next();
       } else {
-        res.status(200);
+        res.locals.myStatus =200;
         next();
       }
     });
   } else {
-    res.status(401);
+    res.locals.myStatus =401;
     next();
   }
 };
