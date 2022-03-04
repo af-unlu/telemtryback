@@ -23,19 +23,14 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 
 //#endregion
 
-// routes
-app.get('/secret', requireAuth, (req, res) =>{
-    if(res.statusCode ==200){
-        res.json({ "message":"You are authorized" });
-    }
-    else{
-        res.json({ "message":"You are not authorized" });
-    }
-});
 
 app.use(authRoutes);
+
 app.use(embRoutes);
 
+
+//#region 404
 app.get('*', checkUser,(req,res)=>{
-    res.status(404).json({"message":"This end point doesnt exist"});
+    res.status(404).json({"message":"Not Found"});
 });
+//#endregion
