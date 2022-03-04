@@ -34,4 +34,7 @@ app.use(embRoutes);
 app.get('*', checkUser,(req,res)=>{
     res.status(404).json({"message":"Not Found"});
 });
+app.post('*' ,checkUser,(req,res)=>{
+    res.status(404).json({"message":"Not Found"});
+});
 //#endregion
