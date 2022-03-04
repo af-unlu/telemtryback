@@ -17,7 +17,7 @@ app.use(cookieParser());
 mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then((result) => {
     app.listen(process.env.PORT);
-    console.log("Has Startted");
+    console.log("http://localhost:" +process.env.PORT);
 })
 .catch((err) => console.log(err));
 
@@ -25,7 +25,7 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 
 
 app.use(authRoutes);
-
+app.use(dummyRoutes);
 app.use(embRoutes);
 
 

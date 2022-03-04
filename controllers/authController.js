@@ -4,7 +4,6 @@ require('dotenv').config()
 
 // handle errors
 const handleErrors = (err) => {
-  //console.log(err.message, err.code);
   let errors = { email: '', password: '' };
 
   // incorrect email
@@ -25,10 +24,7 @@ const handleErrors = (err) => {
 
   // validation errors
   if (err.message.includes('user validation failed')) {
-    // console.log(err);
     Object.values(err.errors).forEach(({ properties }) => {
-      // console.log(val);
-      // console.log(properties);
       errors[properties.path] = properties.message;
     });
   }
@@ -64,7 +60,6 @@ module.exports.login_get = (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   const {name,surname,email,password} = req.body;
-  console.log(email);
   try {
     const user = await User.create({name,surname,email,password});
     const token = createToken(user._id);
@@ -88,8 +83,7 @@ module.exports.login_post = async (req, res) => {
       const token = createToken(user._id);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
       res.status(200).json({ user: user._id });
-    } 
-    catch (err) {const errors = handleErrors(err);res.status(400).json({ errors });}
+    } catch (err) {const errors = handleErrors(err);res.status(400).json({ errors });}
   }else{
     res.status(200).json({"message":"You are already logged in","usermail":res.locals.user.email});
   }
@@ -97,6 +91,13 @@ module.exports.login_post = async (req, res) => {
 }
 
 module.exports.logout_get = (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 });
-  res.status(200).json({ "message":"Logget Out" });
+
+  if(res.locals.user===null){
+    res.status(200).json({ "message":"You are not even logged in" });
+  }else{
+    res.cookie('jwt', '', { maxAge: 1 });
+    res.status(200).json({ "message":"Logget Out" });
+  }
+
+
 }
