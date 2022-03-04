@@ -16,7 +16,6 @@ module.exports.hardconfig_get = async (req, res) => {
             }else{
                 res.status(404).json({ "message": "Dummy Not Found" });
             }
-            console.log(found.dummies[0].name.toString());
         }
     });
 }
@@ -30,8 +29,7 @@ module.exports.addDummy = async (req, res) => {
                     "$push": {
                         "dummies": {
                             "name": name,
-                            "apikey": generateApiKey({ method: 'string', prefix: 'DummyKey',
-                            pool: 'ABCDEFGHIJKLMNOPQRSTUVWXYZqwertyuopilkjhgfdsazxcvbnm123456798!#$½&' }) // ⇨ 'test_app.aTd34Rli0nir70/8'
+                            "apikey": generateApiKey({ method: 'string', prefix: 'DummyKey' })
                         }
                     }
                 }, (err) => {
