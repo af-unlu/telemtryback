@@ -32,9 +32,9 @@ app.use(embRoutes);
 
 //#region 404
 app.get('*', checkUser,(req,res)=>{
-    res.status(404).json({"message":"Not Found"});
+    res.status(404).json({"message":"The Get route you wanted to acces is not exist"});
 });
 app.post('*' ,checkUser,(req,res)=>{
-    res.status(404).json({"message":"Not Found"});
+    res.status(404).json({"message":"The Post route you wanted to acces is not exist"});
 });
 //#endregion
