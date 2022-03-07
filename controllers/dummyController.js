@@ -19,7 +19,9 @@ module.exports.hardconfig_get = async (req, res) => {
         }
     });
 }
-
+const generateDummyKey = ()=>{
+    return generateApiKey({ method: 'string', prefix: 'DummyKey', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+'});
+}
 module.exports.addDummy = async (req, res) => {
     const { name } = req.body;
     if (res.locals.myStatus == 200) {
@@ -29,7 +31,7 @@ module.exports.addDummy = async (req, res) => {
                     "$push": {
                         "dummies": {
                             "name": name,
-                            "apikey": generateApiKey({ method: 'string', prefix: 'DummyKey' })
+                            "apikey": generateDummyKey()
                         }
                     }
                 }, (err) => {

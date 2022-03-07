@@ -17,8 +17,8 @@ app.use(cookieParser());
 
 mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then((result) => {
-    app.listen(process.env.PORT);
-    console.log("http://localhost:" +process.env.PORT);
+    app.listen(process.env.PORTX || process.env.PORT);
+    //console.log("App Has Started");
 })
 .catch((err) => console.log(err));
 

@@ -78,7 +78,7 @@ module.exports.signup_post = async (req, res) => {
 module.exports.login_post = async (req, res) => {
 
   const { email, password } = req.body;
-
+  //console.log("Hello User");
   if(res.locals.user===null){
     try {
       const user = await User.login(email, password);
