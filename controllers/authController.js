@@ -86,8 +86,8 @@ module.exports.login_post = async (req, res) => {
       res.status(200).json({ user: user._id });
 
     } catch (err) {
-      console.log(err);
-      const errors = handleErrors(err);res.status(400).json({ errors });
+      const errors = handleErrors(err);
+      res.status(400).json({ errors });
     }
   }else{
     res.status(200).json({"message":"You are already logged in","usermail":res.locals.user.email});
