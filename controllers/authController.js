@@ -76,7 +76,6 @@ module.exports.signup_post = async (req, res) => {
 }
 
 module.exports.login_post = async (req, res) => {
-console.log(req);
   const { email, password } = req.body;
   if(res.locals.user===null){
     try {
