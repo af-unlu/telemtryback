@@ -48,12 +48,9 @@ module.exports.addDummy = async (req, res) => {
         res.json({ "message": "You are not authorized" });
     }
 
-<<<<<<< Updated upstream
-=======
 }
 
 module.exports.secretDummy = async (req, res) => {
-    console.log(host);
     if (res.locals.myStatus == 200) {
         if (res.locals.user) {
             console.log("test");
@@ -64,5 +61,4 @@ module.exports.secretDummy = async (req, res) => {
         res.status(401).json({ "message": "You are not authorized" });
     }
 
->>>>>>> Stashed changes
 }
