@@ -46,7 +46,6 @@ module.exports.signup_get = (req, res) => {
     
     res.status(200).json({ "page":"SignUp Page" });
   }else{
-    console.log(res.locals.user._id.toString());
     res.status(200).json({"message":"You are already logged in","usermail":res.locals.user.email});
   }
   
@@ -62,7 +61,6 @@ module.exports.login_get = (req, res) => {
 
 module.exports.signup_post = async (req, res) => {
   const {name,surname,email,password} = req.body;
-  console.log(req.body);
   try {
     const user = await User.create({name,surname,email,password});
     const token = createToken(user._id);

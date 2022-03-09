@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const embController = require('../controllers/embController');
-const { checkAuth } = require('../middleware/authMiddleware');
+const { checkUser } = require('../middleware/authMiddleware');
 
 const router = Router();
 

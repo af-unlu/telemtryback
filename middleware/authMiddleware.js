@@ -4,19 +4,20 @@ const User = require('../models/User');
 //ard arda çağırdığında boşu boşuna iki defa jwt decode ediliyor
 
 
-const checkAuth = (req, res, next) => {
+
+// check current user
+const checkUser = (req, res, next) => {
   const token =req.get("authtoken");
-  // check json web token exists & is verified
   if (token) {
-    jwt.verify(token, process.env.JWT_KEY, (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_KEY, async (err, decodedToken) => {
       if (err) {
-        res.locals.myStatus =400;
         res.locals.user = null;
+        res.locals.myStatus =400;
         next();
       } else {
         let user = await User.findById(decodedToken.id);
-        res.locals.user = user;
         res.locals.myStatus =200;
+        res.locals.user = user;
         next();
       }
     });
@@ -28,4 +29,4 @@ const checkAuth = (req, res, next) => {
 };
 
 
-module.exports = { checkAuth };
+module.exports = { checkUser };

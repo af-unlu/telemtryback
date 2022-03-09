@@ -53,7 +53,6 @@ module.exports.addDummy = async (req, res) => {
 module.exports.secretDummy = async (req, res) => {
     if (res.locals.myStatus == 200) {
         if (res.locals.user) {
-            console.log("test");
            res.status(201).json("Hos geldin amk");
         }
     }
