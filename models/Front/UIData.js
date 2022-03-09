@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 
-const frDataSchema = new mongoose.Schema({
+const uiDataSchema = new mongoose.Schema({
     name:{
       type: String,
       required: [true, 'Please enter a name'],
@@ -22,15 +22,15 @@ const frDataSchema = new mongoose.Schema({
   });
 
 //the action before saving
-frDataSchema.pre('save', async function(next) {
+uiDataSchema.pre('save', async function(next) {
    
   });
   
 //a static function for the model
-frDataSchema.statics.login = async function(param1, param2) {
+uiDataSchema.statics.login = async function(param1, param2) {
     console.log(this.name);
-  };
+};
 
-const FrData = mongoose.model('fr_data', frDataSchema);
+const UIData = mongoose.model('ui_data', uiDataSchema);
 
-module.exports = FrData;
+module.exports = UIData;

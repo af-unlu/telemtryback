@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-//belki ileride bu fonksiyonları değiştiririm
-//ard arda çağırdığında boşu boşuna iki defa jwt decode ediliyor
-
-
 
 // check current user
+//Authentication: Who you are.
+//Authorization : Where can you acces.
 const checkUser = (req, res, next) => {
   const token =req.get("authtoken");
   if (token) {
@@ -27,6 +25,5 @@ const checkUser = (req, res, next) => {
     next();
   }
 };
-
 
 module.exports = { checkUser };
