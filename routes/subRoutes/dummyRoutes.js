@@ -4,9 +4,14 @@ const { checkUser } = require('../middleware/authMiddleware');
 
 const router = Router();
 
-//Gömülü hardconfigi isteyecek
-router.get('/api/dummy/hardconfig/:apikey', dummyController.hardconfig_get);
-router.post('/api/dummy/add/',checkUser, dummyController.addDummy);
-router.get("/api/dummy/secretpage",checkUser, dummyController.secretDummy);
-                                                                                                       
+//dummy hardconfigi isteyecek
+router.route("/dummyconfig/:apikey")
+.get(dummyController.hardconfig_get);
+
+router.route("/")
+.post(checkUser,dummyController.addDummy);
+
+router.route("/secretpage")
+.get(checkUser,dummyController.secretDummy);
+                                                                                            
 module.exports = router;

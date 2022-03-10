@@ -4,10 +4,21 @@ const { checkUser} = require('../../middleware/authMiddleware');
 
 const router = Router();
 
-router.get('/api/signup', checkUser ,authController.signup_get);
-router.post('/api/signup', checkUser ,authController.signup_post);
-router.get('/api/login', checkUser ,authController.login_get);
-router.post('/api/login',checkUser ,authController.login_post);
-router.get('/api/logout',checkUser ,authController.logout_get);
-                                                                                                       
+//#region middleWares
+router.use(checkUser);
+
+
+//#endregion
+
+router.route('/signup')
+.get(authController.login_get)
+.post(authController.login_post);
+
+router.route('/login')
+.get(authController.login_get)
+.post(authController.login_post);
+
+router.route('/logout')
+.get(authController.logout_get);
+
 module.exports = router;
