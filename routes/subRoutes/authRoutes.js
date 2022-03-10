@@ -11,8 +11,8 @@ router.use(checkUser);
 //#endregion
 
 router.route('/signup')
-.get(authController.login_get)
-.post(authController.login_post);
+.get(authController.signup_get)
+.post(authController.signup_post);
 
 router.route('/login')
 .get(authController.login_get)
