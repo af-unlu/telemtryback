@@ -21,16 +21,6 @@ const embDataSchema = new mongoose.Schema({
     }
   });
 
-//the action before saving
-embDataSchema.pre('save', async function(next) {
-   
-  });
-  
-//a static function for the model
-embDataSchema.statics.login = async function(param1, param2) {
-    
-  };
-
 const EmbData = mongoose.model('em_data', embDataSchema);
 
 module.exports = EmbData;

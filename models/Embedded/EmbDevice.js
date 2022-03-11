@@ -11,18 +11,9 @@ const embDeviceSchema = new mongoose.Schema({
         type:Number,
         required: [true, 'Error Message']
     },
-    can:[EmbCan],
-    uart:[EmbUart]
+    can:[EmbCan.schema],
+    uart:[EmbUart.schema]
 });
-
-embDeviceSchema.pre('save', async function(next) {
-   
-});
-
-//a static function for the model
-embDeviceSchema.statics.login = async function(param1, param2) {
-  
-};
 
 const EmbDevice = mongoose.model('emb_device', embDeviceSchema);
 

@@ -11,19 +11,9 @@ const embUartSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[EmbData],
+  data:[EmbData.schema],
 
 });
-
-//the action before saving
-embUartSchema.pre('save', async function(next) {
-   
-});
-
-//a static function for the model
-embUartSchema.statics.login = async function(param1, param2) {
-  
-};
 
 const EmbUart = mongoose.model('emb_uart', embUartSchema);
 

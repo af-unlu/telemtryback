@@ -21,15 +21,6 @@ const uiDataSchema = new mongoose.Schema({
     }
   });
 
-//the action before saving
-uiDataSchema.pre('save', async function(next) {
-   
-  });
-  
-//a static function for the model
-uiDataSchema.statics.login = async function(param1, param2) {
-    console.log(this.name);
-};
 
 const UIData = mongoose.model('ui_data', uiDataSchema);
 

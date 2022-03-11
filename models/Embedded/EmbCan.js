@@ -6,17 +6,8 @@ const embCanSchema = new mongoose.Schema({
         type:Number,
         required: [true, 'Error Message']
     },
-    msgs:[EmbCanMessage]
+    msgs:[EmbCanMessage.schema]
 });
-
-embCanSchema.pre('save', async function(next) {
-   
-});
-
-//a static function for the model
-embCanSchema.statics.login = async function(param1, param2) {
- 
-};
 
 const EmbCan = mongoose.model('emb_can', embCanSchema);
 
