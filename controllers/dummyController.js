@@ -6,7 +6,18 @@ require('dotenv').config();
 
 module.exports.hardconfig_get = async (req, res) => {
 
-    //returns dummy
+    User.findOne({ "dummies.apikey": req.params.apikey }, { "dummies.$": 1, "_id": 0 }, (err, found) => {
+        if (err) { 
+            res.status(400).json({"Message":"Error"});
+         }
+        else {
+            if(found){
+                res.status(200).json({ "name": found.dummies[0].name });
+            }else{
+                res.status(404).json({ "message": "Dummy Not Found" });
+            }
+        }
+    });
 
 }
 const generateDummyKey = () => {
