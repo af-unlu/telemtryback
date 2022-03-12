@@ -6,7 +6,7 @@ const router = Router();
 
 //Gömülü hardconfigi isteyecek
 router.route('/hardconfig/:apikey')
-.get(embController.hardconfig_get);
+.get(Controller.hardconfig_get);
 
 router.route('/test')
 .get(async (req, res) => {
