@@ -13,26 +13,18 @@ router.route('/test')
 
 //uis of an user
 router.route('/user=:userId')
-//gets all of them R
-.get(Controller.get_all)              
-//Add a new one C        
+.get(Controller.get_all)                     
 .post(Controller.create_one)
-//bulk update  U
 .put(Controller.update_all)
-//Delete all D
 .delete(Controller.delete_all);
 
 //specific ui of an user
 router.route('/user=:userId/ui=:uiId')
-//gets one
 .get(Controller.get_one)              
-//not allowed 405 
 .post(async (req, res) => {
     res.status(405).json({ "Message":"Forbidden" });
 })
-//updates it
 .put(Controller.update_one)
-//deletes
 .delete(Controller.delete_one);
 
 module.exports = router;

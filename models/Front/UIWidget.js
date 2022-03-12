@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const UIData = require("./UIData");
+const uiDataSchema = require("./UIData");
 
 const uiWidgetSchema = new mongoose.Schema({
     //probs yoksa default renderlasın o yüzden required değil
@@ -11,12 +11,10 @@ const uiWidgetSchema = new mongoose.Schema({
         required: [true, 'Error Message']
     },
     data:{
-        type:UIData.schema,
+        type:uiDataSchema,
         required: [true, 'Error Message']
     }
 
 });
 
-const UIWidget = mongoose.model('ui_widget', uiWidgetSchema);
-
-module.exports = UIWidget;
+module.exports = uiWidgetSchema;

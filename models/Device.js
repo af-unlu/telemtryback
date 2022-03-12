@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const UIDevice = require("./Front/UIDevice");
-const EmbDevice = require("./Embedded/EmbDevice");
+const uiDeviceSchema = require("./Front/UIDevice");
+const embDeviceSchema = require("./Embedded/EmbDevice");
 
 
 
@@ -24,14 +24,11 @@ const deviceSchema = new mongoose.Schema({
         type:Date
     },
     Ui:{
-        type:UIDevice.schema
+        type:uiDeviceSchema
     },
     Emb:{
-        type:EmbDevice.schema
+        type:embDeviceSchema
     }
 });
 
-
-const Device = mongoose.model('device', deviceSchema);
-
-module.exports = Device;
+module.exports = deviceSchema;

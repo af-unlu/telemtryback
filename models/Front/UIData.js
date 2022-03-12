@@ -21,7 +21,4 @@ const uiDataSchema = new mongoose.Schema({
     }
   });
 
-
-const UIData = mongoose.model('ui_data', uiDataSchema);
-
-module.exports = UIData;
+module.exports = uiDataSchema;

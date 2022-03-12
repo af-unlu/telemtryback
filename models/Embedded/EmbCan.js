@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
-const EmbCanMessage = require('./EmbCanMessage');
+const embCanMessageSchema = require('./EmbCanMessage');
 
 const embCanSchema = new mongoose.Schema({
     count :{
         type:Number,
         required: [true, 'Error Message']
     },
-    msgs:[EmbCanMessage.schema]
+    msgs:[embCanMessageSchema]
 });
 
-const EmbCan = mongoose.model('emb_can', embCanSchema);
-
-module.exports = EmbCan;
+module.exports = embCanSchema;

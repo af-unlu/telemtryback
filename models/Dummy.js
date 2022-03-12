@@ -6,8 +6,4 @@ const dummySchema = new mongoose.Schema({
     apikey:String
 });
 
-
-
-const Dummy = mongoose.model('dummy', dummySchema);
-
-module.exports = Dummy;
+module.exports = dummySchema;

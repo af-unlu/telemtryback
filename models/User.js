@@ -3,7 +3,7 @@ const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
 const Dummy = require("./Dummy");
-const Device = require("./Device");
+const deviceSchema = require("./Device");
 
 const userSchema = new mongoose.Schema({
   name:{
@@ -26,8 +26,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please enter a password'],
     minlength: [6, 'Minimum password length is 6 characters'],
   },
-  devices:[Device.schema],
-  dummies:[Dummy.schema]
+  devices:[deviceSchema],
+  dummies:[dummySchema]
 });
 
 

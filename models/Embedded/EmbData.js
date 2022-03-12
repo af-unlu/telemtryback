@@ -21,6 +21,4 @@ const embDataSchema = new mongoose.Schema({
     }
   });
 
-const EmbData = mongoose.model('em_data', embDataSchema);
-
-module.exports = EmbData;
+module.exports = embDataSchema;
