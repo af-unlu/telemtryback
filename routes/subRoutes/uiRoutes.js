@@ -1,20 +1,15 @@
 const { Router } = require('express');
-const Controller = require('../../controllers/embController');
+const Controller = require('../../controllers/uiController');
 const { checkUser } = require('../../middleware/authMiddleware');
 
 const router = Router();
 
-//Gömülü hardconfigi isteyecek
-router.route('/hardconfig/:apikey')
-.get(embController.hardconfig_get);
+router.use(checkUser);
 
 router.route('/test')
 .get(async (req, res) => {
-    res.status(200).json({ "Message":"Test Route" });
+    res.status(200).json({ "Message":"Ui Test Route" });
 });
-
-
-router.use(checkUser);
 
 //uis of an user
 router.route('/user=:userId')
@@ -28,7 +23,7 @@ router.route('/user=:userId')
 .delete(Controller.delete_all);
 
 //specific ui of an user
-router.route('/user=:userId/emb=:uiId')
+router.route('/user=:userId/ui=:uiId')
 //gets one
 .get(Controller.get_one)              
 //not allowed 405 

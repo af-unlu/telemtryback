@@ -3,6 +3,7 @@ const generateApiKey = require('generate-api-key');
 
 require('dotenv').config();
 
+
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){
         if(res.locals.user._id.toString() == req.params.userId){
@@ -17,10 +18,6 @@ const taskToDo= (req,res,task)=>{
         res.status(401).json({"message":"401 Unauthorized"});
     }
 }  
-
-module.exports.hardconfig_get = async (req, res) => {
-    res.status(200).json({ "ApiKey":req.params.apikey });
-}
 
 /*
 checkUser => Logged User 

@@ -7,7 +7,7 @@ const uiWidgetSchema = new mongoose.Schema({
         type:Object,
     },
     w_type:{
-        type:number,
+        type:Number,
         required: [true, 'Error Message']
     },
     data:{
