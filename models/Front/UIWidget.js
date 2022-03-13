@@ -13,8 +13,10 @@ const uiWidgetSchema = new mongoose.Schema({
     data:{
         type:uiDataSchema,
         required: [true, 'Error Message']
+    },
+    is_hidden:{
+        type: Boolean
     }
-
 });
 
 module.exports = uiWidgetSchema;

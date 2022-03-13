@@ -12,8 +12,8 @@ const embDeviceSchema = new mongoose.Schema({
         type:Number,
         required: [true, 'Error Message']
     },
-    can:[embCanMessageSchema],
-    uart:[embUartSchema]
+    can:embCanMessageSchema,
+    uart:embUartSchema
 });
 
 

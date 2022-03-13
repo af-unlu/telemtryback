@@ -26,10 +26,10 @@ router.route('/user=:userId')
 //specific ui of an user
 router.route('/user=:userId/emb=:uiId')
 .get(Controller.get_one)              
-.post(async (req, res) => {
-    res.status(405).json({ "Message":"Forbidden" });
-})
+.post(async (req, res) => {res.status(405).json({ "Message":"Forbidden" });})
 .put(Controller.update_one)
 .delete(Controller.delete_one);
+
+
 
 module.exports = router;
