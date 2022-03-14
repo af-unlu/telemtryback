@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const embCanMessageSchema = require('./EmbCan');
+const embCanMessageSchema = require('./EmbCanMessage');
 const embUartSchema = require('./EmbUart');
 
 
@@ -12,8 +12,14 @@ const embDeviceSchema = new mongoose.Schema({
         type:Number,
         required: [true, 'Error Message']
     },
-    can:embCanMessageSchema,
-    uart:embUartSchema
+    uart:embUartSchema,
+    can:{
+        count :{
+            type:Number,
+            required: [true, 'Error Message']
+        },
+        msgs:[embCanMessageSchema]
+    }
 });
 
 
