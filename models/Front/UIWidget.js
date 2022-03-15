@@ -19,4 +19,5 @@ const uiWidgetSchema = new mongoose.Schema({
     }
 });
 
-module.exports = uiWidgetSchema;
+
+module.exports =  mongoose.model('UiWidget', uiWidgetSchema);

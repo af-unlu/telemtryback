@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const embCanMessageSchema = require('./EmbCanMessage');
-const embUartSchema = require('./EmbUart');
+
 
 
 const embDeviceSchema = new mongoose.Schema({
@@ -12,15 +11,15 @@ const embDeviceSchema = new mongoose.Schema({
         type:Number,
         required: [true, 'Error Message']
     },
-    uart:embUartSchema,
+    uart:{ type: mongoose.Types.ObjectId, ref: 'EmbUart' },
     can:{
         count :{
             type:Number,
             required: [true, 'Error Message']
         },
-        msgs:[embCanMessageSchema]
+        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCan' }]
     }
 });
 
 
-module.exports = embDeviceSchema;
+module.exports = mongoose.model('EmbDevice', embDeviceSchema);

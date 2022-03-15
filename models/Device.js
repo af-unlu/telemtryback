@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const uiDeviceSchema = require("./Front/UIDevice");
-const embDeviceSchema = require("./Embedded/EmbDevice");
-
-
 
 const deviceSchema = new mongoose.Schema({
     name:{
@@ -24,11 +20,11 @@ const deviceSchema = new mongoose.Schema({
         type:Date
     },
     Ui:{
-        type:uiDeviceSchema
+        type:{ type: mongoose.Types.ObjectId, ref: 'UiDevice' }
     },
     Emb:{
-        type:embDeviceSchema
+        type:{ type: mongoose.Types.ObjectId, ref: 'EmbDevice' }
     }
 });
 
-module.exports = deviceSchema;
+module.exports = mongoose.model('Device', uiWidgetSchema);;

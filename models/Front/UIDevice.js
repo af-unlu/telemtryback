@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uiWidgetSchema = require("./UIWidget");
 
 const uiDeviceSchema = new mongoose.Schema({
     name:{
@@ -7,9 +6,9 @@ const uiDeviceSchema = new mongoose.Schema({
         required: [true, 'Please enter a name'],
     },
     widgets:{
-        type:[uiWidgetSchema]
+        type:[{ type: mongoose.Types.ObjectId, ref: 'UiWidget' }]
     }
 });
 
 
-module.exports = uiDeviceSchema;
+module.exports = mongoose.model('UiDevice', uiDeviceSchema);;

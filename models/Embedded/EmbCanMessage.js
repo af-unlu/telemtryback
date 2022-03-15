@@ -1,6 +1,5 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
-const embDataSchema = require('./EmbData');
 
 const embCanMessageSchema = new mongoose.Schema({
   isEx: {
@@ -15,8 +14,8 @@ const embCanMessageSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[embDataSchema],
+  data:[{ type: mongoose.Types.ObjectId, ref: 'EmbData' }],
 
 });
 
-module.exports = embCanMessageSchema;
+module.exports = mongoose.model('EmbCan', embCanMessageSchema);

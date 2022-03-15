@@ -25,27 +25,28 @@ checkUser => Logged User
 URL Params : UserId
 Logged UserID and UserID  must match 
 */
-//GET return all of ui pages of the user
+//GET
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
+        User
         res.status(200).json({"Page":"Get","userId":req.params.userId });
-    })
+    });
 }
-//PUT replaces all of ui's with request body if valid
+//PUT
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(201).json({"Page":"Put","userId":req.params.userId });
-    })
+    });
 }
-//DELETE deletes all of 
+//DELETE
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(200).json({"Page":"Delete","userId":req.params.userId });
-    })
+    });
 }
-//POST add one ui page created from request body if valid
+//POST
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(201).json({"Page":"Post","userId":req.params.userId });
-    })
+    });
 }

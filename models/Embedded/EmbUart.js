@@ -1,6 +1,5 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
-const embDataSchema = require('./EmbData');
 
 const embUartSchema = new mongoose.Schema({
   count:{
@@ -11,8 +10,8 @@ const embUartSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[embDataSchema],
+  data:[{ type: mongoose.Types.ObjectId, ref: 'EmbData' }],
 
 });
 
-module.exports = embUartSchema;
+module.exports = mongoose.model('EmbUart', embUartSchema);

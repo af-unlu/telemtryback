@@ -5,7 +5,7 @@ const User = require('../models/User');
 //Authentication: Who you are.
 //Authorization : Where can you acces.
 const checkUser = (req, res, next) => {
-  const token =req.get("authtoken");
+  const token =req.get("Authorization");
   if (token) {
     jwt.verify(token, process.env.JWT_KEY, async (err, decodedToken) => {
       if (err) {
