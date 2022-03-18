@@ -17,5 +17,5 @@ const uiDeviceSchema = new mongoose.Schema({
     }
 });
 
-
-module.exports = mongoose.model('UiDevice', uiDeviceSchema);;
+const UiDevice = mongoose.model('UiDevice', uiDeviceSchema);
+module.exports = UiDevice;

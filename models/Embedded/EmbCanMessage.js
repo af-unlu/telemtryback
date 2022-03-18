@@ -22,11 +22,10 @@ const embCanMessageSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  data: [{
-    type:,
-
-  }],
+  data:{
+    type:[EmbData.schema]
+  }
 
 });
-
-module.exports = mongoose.model('EmbCan', embCanMessageSchema);
+const EmbCan = mongoose.model('EmbCan', embCanMessageSchema);
+module.exports = EmbCan;

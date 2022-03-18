@@ -26,5 +26,5 @@ const embDeviceSchema = new mongoose.Schema({
     }
 });
 
-
-module.exports = mongoose.model('EmbDevice', embDeviceSchema);
+const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
+module.exports = EmbDevice;
