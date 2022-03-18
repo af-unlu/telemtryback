@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const deviceSchema = new mongoose.Schema({
+    userId:{
+        type:{ type: mongoose.Types.ObjectId, ref: 'User' },
+        required: [true, 'Please enter a UserId'],
+    },
     name:{
         type: String,
         required: [true, 'Please enter a name'],

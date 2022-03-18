@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 
-
-
 const embDeviceSchema = new mongoose.Schema({
+    userId:{
+        type:{ type: mongoose.Types.ObjectId, ref: 'User' },
+        required: [true, 'Please enter a UserId'],
+    },
+    deviceId:{
+        type:{ type: mongoose.Types.ObjectId, ref: 'Device' }
+    },
     api_key :{
         type:String,
         required: [true, 'Error Message']

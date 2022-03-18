@@ -1,7 +1,15 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
+const EmbData = require('./EmbData');
 
 const embCanMessageSchema = new mongoose.Schema({
+  userId: {
+    type: { type: mongoose.Types.ObjectId, ref: 'User' },
+    required: [true, 'Please enter a UserId'],
+  },
+  embId: {
+    type: { type: mongoose.Types.ObjectId, ref: 'EmbDevice' }
+  },
   isEx: {
     type: Boolean,
     required: [true, 'Error Message']
@@ -10,11 +18,14 @@ const embCanMessageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Error Message']
   },
-  dlc:{
+  dlc: {
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[{ type: mongoose.Types.ObjectId, ref: 'EmbData' }],
+  data: [{
+    type:,
+
+  }],
 
 });
 

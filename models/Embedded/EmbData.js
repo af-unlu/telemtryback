@@ -1,7 +1,6 @@
 //bir paket içerisinde bulunan bir veri, örn bir sıcaklık verisi
 const mongoose = require('mongoose');
 
-
 const embDataSchema = new mongoose.Schema({
     name:{
       type: String,
