@@ -5,7 +5,7 @@ const embRoutes = require('./embRoutes');
 const uiRoutes = require('./uiRoutes');
 
 const deviceController = require('../../controllers/deviceController');
-
+const deviceIdController = require('../../controllers/deviceIdController');
 
 
 const router = Router({mergeParams:true});
@@ -25,10 +25,10 @@ router.route('/')
 .post(deviceController.create_child);//creates device
 
 router.route('/Id=:deviceId')
-.get(deviceController.get)          //get that device
-.put(deviceController.update)       //replace that device
-.delete(deviceController.delete)    //deletes that device
-.post(deviceController.create_child);//Not Allowed
+.get(deviceIdController.get)          //get that device
+.put(deviceIdController.update)       //replace that device
+.delete(deviceIdController.delete)    //deletes that device
+.post(deviceIdController.create_child);//Not Allowed
 
 router.use("/:deviceId/emb",embRoutes);
 router.use("/:deviceId/ui",uiRoutes);
