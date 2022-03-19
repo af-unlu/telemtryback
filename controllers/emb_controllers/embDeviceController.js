@@ -31,27 +31,9 @@ module.exports.get = async (req, res) => {
         res.status(200).json({"Page":"Get","userId":req.params.userId });
     })
 }
-//PUT replaces all of ui's with request body if valid
-module.exports.update = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
-    })
-}
-//DELETE deletes all of 
-module.exports.delete = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Delete","userId":req.params.userId });
-    })
-}
-//POST add one ui page created from request body if valid
+
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(201).json({"Page":"Post","userId":req.params.userId });
-    })
-}
-
-module.exports.hardconfig_get = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Get","userId":req.params.userId });
     })
 }

@@ -1,8 +1,8 @@
 //#region depends
-const User = require("../../models/User");
 const generateApiKey = require('generate-api-key');
-
 require('dotenv').config();
+const User = require("../models/User");
+
 
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){

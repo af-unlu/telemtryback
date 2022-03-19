@@ -8,6 +8,10 @@ const router = Router();
 
 router.use("/auth",authRoutes);
 router.use("/user=:userId/device",deviceRoutes);
+/*
+router.route('/hardconfig/:apikey')
+.get();*/
+
 
 
 module.exports = router;

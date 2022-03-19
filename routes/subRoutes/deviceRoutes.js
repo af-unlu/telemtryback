@@ -1,27 +1,30 @@
 const { Router } = require('express');
-const embRoutes = require('./embRoutes');
-const uiRoutes = require('./uiRoutes');
-const deviceController = require('../../controllers/deviceController');
-
 const { checkUser } = require('../../middleware/authMiddleware');
 
-const router = Router();
+const embRoutes = require('./embRoutes');
+const uiRoutes = require('./uiRoutes');
+
+const deviceController = require('../../controllers/deviceController');
+
+
+
+const router = Router({mergeParams:true});
 
 router.use(checkUser);
 
 router.route('/test')
 .get(async (req, res) => {
-    res.status(200).json({ "Message":"Device Test Route" });
+    res.status(200).json({ "Message":"Device Test Route","User":req.params.userId});
 });
 
 //devices of a user
-router.route('/user=:userId')
+router.route('/')
 .get(deviceController.get)          //get all devices
 .put(deviceController.update)       //replace all devices
 .delete(deviceController.delete)    //deletes all devices
 .post(deviceController.create_child);//creates device
 
-router.route('/user=:userId/device=:deviceId')
+router.route('/Id=:deviceId')
 .get(deviceController.get)          //get that device
 .put(deviceController.update)       //replace that device
 .delete(deviceController.delete)    //deletes that device
