@@ -1,11 +1,11 @@
 const { Router } = require('express');
+const { checkUser } = require('../../middleware/authMiddleware');
+
 const embController = require('../../controllers/emb_controllers/embController');
-const embDeviceController = require('../../controllers/emb_controllers/embDeviceController');
 const embCanController = require('../../controllers/emb_controllers/embCanController');
 const embCanMessageController = require('../../controllers/emb_controllers/embCanMessageController');
 const embUartController = require('../../controllers/emb_controllers/embUartController');
 const embUartMessageController = require('../../controllers/emb_controllers/embUartMessageController');
-const { checkUser } = require('../../middleware/authMiddleware');
 
 const router = Router();
 
@@ -13,49 +13,41 @@ const router = Router();
 router.route('/hardconfig/:apikey')
 .get(embDeviceController.hardconfig_get);
 
-router.route('/test')
-.get(async (req, res) => {
-    res.status(200).json({ "Message":"Test Route" });
-});
-
-
 router.use(checkUser);
 
-//embs of an user
-router.route('/user=:userId')
-.get(embController.get)       //gets all embs      
-.put(embController.update)    //replaces all embs  
-.patch(embController.patch)   //replaces only one prop
-.delete(embController.delete) //deletes all embs
-.post(embController.create_child);  //creates one emb
+//Emb of specific Device of The User
+router.route('/')
+.get(embController.get)     //Returns That Emb if exist 
+.post(embController.create_child);   //Creates empty - emb returns ID 
 
-//specific emb of an user
-router.route('/user=:userId/emb=:embId')
-.get(embDeviceController.get)       //get that emb       
-.put(embDeviceController.update)    //replace that emb
-.delete(embDeviceController.delete) //delete that emb
-.post(embDeviceController.create_child);//because there is 2 childs and these childs are not array its not allowed
 
-router.route('/user=:userId/emb=:embId/can')
+router.route('/emb=:embId')
+.get(embDeviceController.get)       //return emb object  - populate or deep populate    
+.put(embDeviceController.update)    //replace emb object 
+.delete(embDeviceController.delete) //delete - emty can object
+.post(embDeviceController.create_child);//create can message
+
+
+router.route('/emb=:embId/can')
 .get(embCanController.get)       //return can object       
 .put(embCanController.update)    //replace can object 
 .delete(embCanController.delete) //delete - emty can object
 .post(embCanController.create_child);//create can message
 
-router.route('/user=:userId/emb=:embId/can/canmessage=messageId')
+router.route('/emb=:embId/can/canmessage=messageId')
 .get(embCanMessageController.get)       //get that can message       
 .put(embCanMessageController.update)    //replace that can message
 .delete(embCanMessageController.delete) //delete that can message
 .post(embCanMessageController.create_child);//not allowed
 
 
-router.route('/user=:userId/emb=:embId/uart')
+router.route('/emb=:embId/uart')
 .get(embUartController.get)      //return uart object        
 .put(embUartController.update)   //replace uart object
 .delete(embUartController.delete)//delete - empty 
 .post(embUartController.create_child);//create new message-data  
 
-router.route('/user=:userId/emb=:embId/uart/data=dataId')
+router.route('/emb=:embId/uart/data=dataId')
 .get(embUartMessageController.get)     //get that message         
 .put(embUartMessageController.update)  //replace that message 
 .delete(embUartMessageController.delete)//delete that message - maybe we need to adjust indexses again? 

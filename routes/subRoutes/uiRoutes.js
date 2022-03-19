@@ -11,27 +11,19 @@ const router = Router();
 
 router.use(checkUser);
 
-router.route('/test')
-.get(async (req, res) => {
-    res.status(200).json({ "Message":"Ui Test Route" });
-});
-
-//uis of an user
-router.route('/user=:userId')
-.get(uiController.get)          //get all pages
-.put(uiController.update)       //replace all pages
-.delete(uiController.delete)    //deletes all pages
-.post(uiController.create_child);//creates new page
+router.route('/')
+.get(uiController.get)//get the page if exist 
+.post(uiController.create_child);//Create The Empty Page & Return ID
 
 //specific ui of an user
-router.route('/user=:userId/ui=:uiId')
-.get(uiPageController.get)           //gets that page           
-.put(uiPageController.update)        //replaces that page
-.delete(uiPageController.delete)     //deletes that page
+router.route('/ui=:uiId')
+.get(uiPageController.get)           //gets that page - Populate Widgets          
+.put(uiPageController.update)        //replaces that page -
+.delete(uiPageController.delete)     //deletes that page -
 .post(uiPageController.create_child);//creates a child inside a page
 
 //widget of a specific page
-router.route('/user=:userId/ui=:uiId/widget=:widgetId')
+router.route('/ui=:uiId/widget=:widgetId')
 .get(uiWidgetController.get)           //gets that widget             
 .put(uiWidgetController.update)        //replaces that widget
 .delete(uiWidgetController.delete)     //deletes that widget

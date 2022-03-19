@@ -1,14 +1,13 @@
 const { Router } = require('express');
 
 const authRoutes = require('./subRoutes/authRoutes');
-const embRoutes = require('./subRoutes/embRoutes');
-const uiRoutes = require('./subRoutes/uiRoutes');
+const deviceRoutes = require('./subRoutes/deviceRoutes')
+
 
 const router = Router();
 
 router.use("/auth",authRoutes);
-router.use("/emb",embRoutes);
-router.use("/ui",uiRoutes);
+router.use("/user=:userId/device",deviceRoutes);
 
 
 module.exports = router;

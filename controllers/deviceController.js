@@ -1,11 +1,5 @@
 //#region depends
 const User = require("../../models/User");
-const Device = require("../../models/Device");
-const EmbDevice = require("../../models/Embedded/EmbDevice");
-const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
-const EmbUart =require("../../models/Embedded/EmbUart");
-//const EmbData = require("../../models/Embedded/EmbData");
-
 const generateApiKey = require('generate-api-key');
 
 require('dotenv').config();
@@ -31,41 +25,27 @@ checkUser => Logged User
 URL Params : UserId
 Logged UserID and UserID  must match 
 */
-//GET
+//GET return all of ui pages of the user
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        EmbDevice.find({"userId":req.params.userId},(err,found)=>{
-            if(err){
-                res.status(400).json({"Message":"Error"});
-            }
-            if(found){
-                res.status(200).json(found);
-            }else{
-                res.status(404).json({"Message":"Doesnt Exist"});
-            }
-        });
-    });
+        res.status(200).json({"Page":"Get","userId":req.params.userId });
+    })
 }
-//PUT
+//PUT replaces all of ui's with request body if valid
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(201).json({"Page":"Put","userId":req.params.userId });
-    });
+    })
 }
-module.exports.patch = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
-    });
-}
-//DELETE
+//DELETE deletes all of 
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(200).json({"Page":"Delete","userId":req.params.userId });
-    });
+    })
 }
-//POST
+//POST add one ui page created from request body if valid
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(401).json({"Message":"Not Allowed","userId":req.params.userId });
-    });
+        res.status(201).json({"Page":"Post","userId":req.params.userId });
+    })
 }
