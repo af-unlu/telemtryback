@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const uiDataSchema = require("./UIData");
+
 
 const uiWidgetSchema = new mongoose.Schema({
     userId: {

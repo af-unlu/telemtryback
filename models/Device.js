@@ -18,19 +18,14 @@ const deviceSchema = new mongoose.Schema({
         required: [true, 'Error Message'],
     },
     //bunların default işlemleri vardı, otomatik update vs edildiğinde kendi yazıyordu
-    dateCR: {
-        type: Date
-    },
-    dateUp: {
-        type: Date
-    },
     Ui: {
         type: { type: mongoose.Types.ObjectId, ref: 'UiDevice' }
     },
     Emb: {
         type: { type: mongoose.Types.ObjectId, ref: 'EmbDevice' }
-    }
-});
+    },
+},
+{ timestamps: true });
 
-const Device = mongoose.model('Device', deviceSchema);;
+const Device = mongoose.model('Device', deviceSchema);
 module.exports = Device;

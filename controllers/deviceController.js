@@ -2,6 +2,7 @@
 const generateApiKey = require('generate-api-key');
 require('dotenv').config();
 const User = require("../models/User");
+const Device = require("../models/Device")
 
 
 const taskToDo= (req,res,task)=>{
@@ -18,12 +19,27 @@ const taskToDo= (req,res,task)=>{
         res.status(401).json({"message":"401 Unauthorized"});
     }
 }  
+
+const generateHardKey = ()=>{
+    return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+'});
+}
+
 //#endregion
 
-
+//Get All Devices
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Get","userId":req.params.userId });
+        Device.find({"userId":req.params.userId},
+        (err,found)=>{
+            if(err){
+                res.status(400).json({
+                    "Message":"Error"
+                });
+            }
+            else{
+                res.status(200).json(found);
+            }
+        })
     })
 }
 
@@ -38,21 +54,30 @@ module.exports.delete = async (req, res) => {
     })
 }
 
+//Create a device
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        /*const story = new Story({
-            title: '1984',
+        const { name, props } = req.body;
+        const newDevice = Device({
+            userId:req.params.userId,
+            name:name,
+            props:props,
+            apikey:generateHardKey(),
+            Ui:null,
+            Emb:null
         });
-        story.save();
-        Person.updateOne({ "name": "Ian Fleming" }, { "$push": { stories: story } },(err)=>{
+        newDevice.save();
+        User.updateOne({"_id":req.params.userId},
+        { "$push": { devices: newDevice } },
+        (err)=>{
             if(err){
-                console.log("You Suck");
+                res.status(400).json({
+                    "Message":"Bad Request"
+                });
             }
             else{
-                console.log("Added");
+                res.status(201).json(newDevice);
             }
-        })*/
-        
-    
+        });
     })
 }

@@ -65,7 +65,7 @@ module.exports.signup_post = async (req, res) => {
     const user = await User.create({name,surname,email,password});
     const token = createToken(user._id);
 
-    res.status(201).json({ user: user._id ,AuthToken:token});
+    res.status(201).json({ "user": user._id ,"Authorization":token});
   }
   catch(err) {
     const errors = handleErrors(err);
@@ -81,7 +81,7 @@ module.exports.login_post = async (req, res) => {
       const user = await User.login(email, password);
       const token = createToken(user._id);
       
-      res.status(201).json({ user: user._id ,AuthToken:token});
+      res.status(201).json({ "user": user._id ,"Authorization":token});
 
     } catch (err) {
       const errors = handleErrors(err);

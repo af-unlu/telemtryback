@@ -18,7 +18,8 @@ const uiDeviceSchema = new mongoose.Schema({
     widgets:{
         type:[{ type: mongoose.Types.ObjectId, ref: 'UiWidget' }]
     }
-});
+},{ timestamps: true }
+);
 
 const UiDevice = mongoose.model('UiDevice', uiDeviceSchema);
 module.exports = UiDevice;
