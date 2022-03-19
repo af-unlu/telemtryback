@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const uiDataSchema = require("./UIData");
 
 const uiWidgetSchema = new mongoose.Schema({
-    userId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'User' },
-        required: [true, 'Please enter a UserId'],
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Error Message'],
     },
-    uiId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'UiDevice' },
-        required: [true, 'Please enter a UiDeviceId'],
+    uiId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'UiDevice',
+        required: [true, 'Please enter a UiDeviceId']
     },
     props: {
         type: Object,

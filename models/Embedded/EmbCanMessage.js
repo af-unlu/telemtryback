@@ -4,11 +4,14 @@ const EmbData = require('./EmbData');
 
 const embCanMessageSchema = new mongoose.Schema({
   userId: {
-    type: { type: mongoose.Types.ObjectId, ref: 'User' },
-    required: [true, 'Please enter a UserId'],
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Error Message'],
   },
   embId: {
-    type: { type: mongoose.Types.ObjectId, ref: 'EmbDevice' }
+    type: mongoose.Types.ObjectId,
+    ref: 'EmbDevice',
+    required: [true, 'Error Message'],
   },
   isEx: {
     type: Boolean,
@@ -22,10 +25,10 @@ const embCanMessageSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  data:{
-    type:[EmbData.schema]
+  data: {
+    type: [EmbData.schema]
   }
 
 });
-const EmbCan = mongoose.model('EmbCan', embCanMessageSchema);
-module.exports = EmbCan;
+const EmbCanMessage = mongoose.model('EmbCanMessage', embCanMessageSchema);
+module.exports = EmbCanMessage;

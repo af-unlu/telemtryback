@@ -25,6 +25,7 @@ router.use(checkUser);
 router.route('/user=:userId')
 .get(embController.get)       //gets all embs      
 .put(embController.update)    //replaces all embs  
+.patch(embController.patch)   //replaces only one prop
 .delete(embController.delete) //deletes all embs
 .post(embController.create_child);  //creates one emb
 

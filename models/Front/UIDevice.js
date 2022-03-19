@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 const uiDeviceSchema = new mongoose.Schema({
-    userId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'User' },
-        required: [true, 'Please enter a UserId'],
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Error Message'],
     },
     deviceId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'Device' }
+        type: mongoose.Types.ObjectId, 
+        ref: 'Device' ,
+        required: [true, 'Error Message'],
     },
     name:{
         type: String,

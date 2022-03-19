@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 const embDeviceSchema = new mongoose.Schema({
-    userId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'User' },
-        required: [true, 'Please enter a UserId'],
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Error Message'],
     },
     deviceId:{
-        type:{ type: mongoose.Types.ObjectId, ref: 'Device' }
+        type: mongoose.Types.ObjectId, 
+        ref: 'Device' ,
+        required: [true, 'Error Message'],
     },
     api_key :{
         type:String,
@@ -14,6 +17,7 @@ const embDeviceSchema = new mongoose.Schema({
     },
     log_ms:{
         type:Number,
+        default: 1000,
         required: [true, 'Error Message']
     },
     uart:{ type: mongoose.Types.ObjectId, ref: 'EmbUart' },
@@ -22,7 +26,7 @@ const embDeviceSchema = new mongoose.Schema({
             type:Number,
             required: [true, 'Error Message']
         },
-        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCan' }]
+        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
 });
 

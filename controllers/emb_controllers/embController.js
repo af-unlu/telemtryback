@@ -1,5 +1,11 @@
 //#region depends
 const User = require("../../models/User");
+const Device = require("../../models/Device");
+const EmbDevice = require("../../models/Embedded/EmbDevice");
+const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
+const EmbUart =require("../../models/Embedded/EmbUart");
+//const EmbData = require("../../models/Embedded/EmbData");
+
 const generateApiKey = require('generate-api-key');
 
 require('dotenv').config();
@@ -28,12 +34,25 @@ Logged UserID and UserID  must match
 //GET
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        User
-        res.status(200).json({"Page":"Get","userId":req.params.userId });
+        EmbDevice.find({"userId":req.params.userId},(err,found)=>{
+            if(err){
+                res.status(400).json({"Message":"Error"});
+            }
+            if(found){
+                res.status(200).json(found);
+            }else{
+                res.status(404).json({"Message":"Doesnt Exist"});
+            }
+        });
     });
 }
 //PUT
 module.exports.update = async (req, res) => {
+    taskToDo(req,res,()=>{
+        res.status(201).json({"Page":"Put","userId":req.params.userId });
+    });
+}
+module.exports.patch = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(201).json({"Page":"Put","userId":req.params.userId });
     });
@@ -47,6 +66,31 @@ module.exports.delete = async (req, res) => {
 //POST
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Post","userId":req.params.userId });
+
+        const {name,surname,email,password} = req.body;
+
+        const uartObject = new EmbUart({
+
+        });
+        const embDev = new EmbDevice({
+
+        });
+        embDev.save();
+        const device = new Device({
+
+        });
+        device.save();
+
+        User.updateOne(
+            { "_id": req.params.userId }, 
+            { "$push": { devices: device } },
+            (err)=>{
+                if(err){
+                    res.status(400).json({"Message":"Error"})
+                }else{
+                    res.status(201).json({"Message":"Item Added"})
+                }
+            }
+        );
     });
 }
