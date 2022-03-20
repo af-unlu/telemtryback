@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { checkUser } = require('../../middleware/authMiddleware');
 
 const embRoutes = require('./embRoutes');
 const uiRoutes = require('./uiRoutes');
@@ -10,7 +9,6 @@ const deviceIdController = require('../../controllers/deviceIdController');
 
 const router = Router({mergeParams:true});
 
-router.use(checkUser);
 
 router.route('/test')
 .get(async (req, res) => {

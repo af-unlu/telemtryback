@@ -8,6 +8,11 @@ const embCanMessageSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'Error Message'],
   },
+  deviceId:{
+    type: mongoose.Types.ObjectId, 
+    ref: 'Device' ,
+    required: [true, 'Error Message'],
+  },
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',

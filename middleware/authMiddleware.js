@@ -14,8 +14,12 @@ const checkUser = (req, res, next) => {
         next();
       } else {
         let user = await User.findById(decodedToken.id);
-        res.locals.myStatus =200;
-        res.locals.user = user;
+        if(user){
+          res.locals.myStatus =200;
+          res.locals.user = user;
+        }else{
+          res.locals.myStatus = 404;
+        }
         next();
       }
     });

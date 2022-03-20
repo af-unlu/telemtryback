@@ -5,11 +5,9 @@ const uiPageController = require('../../controllers/ui_controllers/uiPageControl
 const uiWidgetController = require('../../controllers/ui_controllers/uiWidgetController');
 
 
-const { checkUser } = require('../../middleware/authMiddleware');
+
 
 const router = Router({mergeParams:true});
-
-router.use(checkUser);
 
 router.route('/')
 .get(uiController.get)//get the page if exist 

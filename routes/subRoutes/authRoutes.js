@@ -1,12 +1,9 @@
 const { Router } = require('express');
 const authController = require('../../controllers/authController');
-const { checkUser} = require('../../middleware/authMiddleware');
 
 const router = Router({mergeParams:true});
 
 //#region middleWares
-router.use(checkUser);
-
 
 //#endregion
 

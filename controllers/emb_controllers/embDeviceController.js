@@ -24,14 +24,11 @@ const taskToDo= (req,res,task)=>{
 const generateHardKey = ()=>{
     return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+'});
 }
+
+const notSelected = ["-_id","-userId" ,"-deviceId"];
 //#endregion
 
-/*
-checkUser => Logged User 
-URL Params : UserId
-Logged UserID and UserID  must match 
-*/
-//GET return all of ui pages of the user
+
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         /*EmbDevice.findOne({"deviceId":req.params.deviceId},
@@ -49,7 +46,7 @@ module.exports.get = async (req, res) => {
 }
 
 module.exports.hardConfigGet = async (req, res) => {
-    EmbDevice.findOne({"api_key":req.params.apikey},(err,found)=>{
+    EmbDevice.findOne({"api_key":req.params.apikey}).select(notSelected).exec((err,found)=>{
         if(err){
             res.status(400).json({
                 "Message":"Bad Request"
@@ -62,7 +59,7 @@ module.exports.hardConfigGet = async (req, res) => {
                 res.status(404).json({"Message":"404 Not Found"});
             }
         }
-    })
+    });
 }
 
 module.exports.create_child = async (req, res) => {

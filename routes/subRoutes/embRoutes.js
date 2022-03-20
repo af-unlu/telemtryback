@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { checkUser } = require('../../middleware/authMiddleware');
 
 const embDeviceController = require('../../controllers/emb_controllers/embDeviceController');
 const embController = require('../../controllers/emb_controllers/embController');
@@ -18,8 +17,6 @@ router.route('/test')
 });
 
 
-router.use(checkUser);
-
 //Emb of specific Device of The User
 router.route('/')
 .get(embDeviceController.get)     //Returns That Emb if exist 
@@ -29,7 +26,7 @@ router.route('/')
 router.route('/Id=:embId')
 .get(embController.get)       //return emb object  - populate or deep populate    
 .put(embController.update)    //replace emb object 
-.delete(embController.delete) //delete - emty can object
+.delete(embController.delete) //delete
 .post(embController.create_child);//create can message
 
 
