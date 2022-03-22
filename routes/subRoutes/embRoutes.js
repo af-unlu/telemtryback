@@ -19,15 +19,15 @@ router.route('/test')
 
 //Emb of specific Device of The User
 router.route('/')
-.get(embDeviceController.get)     //Returns That Emb if exist 
+.get(embDeviceController.get)    //Returns That Emb if exist - no populate
 .post(embDeviceController.create_child);   //Creates empty - emb returns ID 
 
 
 router.route('/Id=:embId')
-.get(embController.get)       //return emb object  - populate or deep populate    
-.put(embController.update)    //replace emb object 
-.delete(embController.delete) //delete
-.post(embController.create_child);//create can message
+.get(embController.get)           //return emb object  - populate 
+.put(embController.update)        //replace emb object 
+.delete(embController.delete)     //delete
+.post(embController.create_child);//Not Allowed - child created at can or uart endpoints
 
 
 router.route('/:embId/can')

@@ -17,17 +17,17 @@ router.route('/test')
 
 //devices of a user
 router.route('/')
-.get(deviceController.get)          //get all devices
+.get(deviceController.get)          //get all devices*
 .put(deviceController.update)       //replace all devices
-.delete(deviceController.delete)    //deletes all devices
-.post(deviceController.create_child);//creates device
+.delete(deviceController.delete)    //deletes all devices*
+.post(deviceController.create_child);//creates device*
 
 router.route('/Id=:deviceId')
-.get(deviceIdController.get)          //get that device
+.get(deviceIdController.get)          //get that device*
 .put(deviceIdController.update)       //replace that device
 //.patch()
 .delete(deviceIdController.delete)    //deletes that device
-.post(deviceIdController.create_child);//Not Allowed
+.post(deviceIdController.create_child);//Not Allowed*
 
 
 router.use("/:deviceId/emb",embRoutes);

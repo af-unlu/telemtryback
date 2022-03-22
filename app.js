@@ -1,6 +1,8 @@
 //#region Init
 require('dotenv').config()
 const express = require("express");
+const logger = require('morgan');
+var errorhandler = require('errorhandler')
 const mongoose = require('mongoose');
 const { checkUser} = require('./middleware/authMiddleware');
 const ApiRoutes = require('./routes/mainRouter');
@@ -14,6 +16,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+app.use(logger);
+if (process.env.NODE_ENV === 'development') {
+    // only use in development
+    app.use(errorhandler())
+}
+
 
 mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then((result) => {
