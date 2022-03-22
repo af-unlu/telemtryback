@@ -33,12 +33,14 @@ router.route('/Id=:embId')
 router.route('/:embId/can')
 .get(embCanController.get)       //return can object       
 .put(embCanController.update)    //replace can object 
+//.patch()
 .delete(embCanController.delete) //delete - emty can object
 .post(embCanController.create_child);//create can message
 
 router.route('/:embId/can/msg=:messageId')
 .get(embCanMessageController.get)       //get that can message       
 .put(embCanMessageController.update)    //replace that can message
+//.patch()
 .delete(embCanMessageController.delete) //delete that can message
 .post(embCanMessageController.create_child);//not allowed
 
@@ -46,6 +48,7 @@ router.route('/:embId/can/msg=:messageId')
 router.route('/:embId/uart')
 .get(embUartController.get)      //return uart object        
 .put(embUartController.update)   //replace uart object
+//.patch()
 .delete(embUartController.delete)//delete - empty 
 .post(embUartController.create_child);//create new message-data  
 

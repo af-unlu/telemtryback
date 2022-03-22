@@ -5,7 +5,7 @@ const uiPageController = require('../../controllers/ui_controllers/uiPageControl
 const uiWidgetController = require('../../controllers/ui_controllers/uiWidgetController');
 
 
-
+// Params : deviceId & userId
 
 const router = Router({mergeParams:true});
 

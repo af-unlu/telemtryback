@@ -11,6 +11,8 @@ const router = Router();
 router.route('/hardconfig/:apikey').get(hardConfigGet);
 
 router.use(checkUser);
+//auth middleware works below
+
 router.use("/auth",authRoutes);
 router.use("/user=:userId/device",deviceRoutes);
 

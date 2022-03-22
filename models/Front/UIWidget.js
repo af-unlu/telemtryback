@@ -38,7 +38,8 @@ const uiWidgetSchema = new mongoose.Schema({
         }
     },
     is_hidden: {
-        type: Boolean
+        type: Boolean,
+        default:true
     },
 });
 

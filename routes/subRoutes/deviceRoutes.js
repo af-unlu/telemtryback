@@ -25,8 +25,10 @@ router.route('/')
 router.route('/Id=:deviceId')
 .get(deviceIdController.get)          //get that device
 .put(deviceIdController.update)       //replace that device
+//.patch()
 .delete(deviceIdController.delete)    //deletes that device
 .post(deviceIdController.create_child);//Not Allowed
+
 
 router.use("/:deviceId/emb",embRoutes);
 router.use("/:deviceId/ui",uiRoutes);
