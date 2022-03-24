@@ -51,6 +51,9 @@ userSchema.statics.login = async function (email, password) {
   throw Error('incorrect email');
 };
 
+
+//Add Device ?
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

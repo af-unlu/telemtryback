@@ -9,7 +9,7 @@ const deviceIdController = require('../../controllers/deviceIdController');
 
 const router = Router({mergeParams:true});
 
-
+// /api/user=:userId/device
 router.route('/test')
 .get(async (req, res) => {
     res.status(200).json({ "Message":"Device Test Route","User":req.params.userId});
@@ -17,10 +17,10 @@ router.route('/test')
 
 //devices of a user
 router.route('/')
-.get(deviceController.get)          //get all devices*
+.get(deviceController.get)          //get all devices - done
 .put(deviceController.update)       //replace all devices
-.delete(deviceController.delete)    //deletes all devices*
-.post(deviceController.create_child);//creates device*
+.delete(deviceController.delete)    //deletes all devices
+.post(deviceController.create_child);//creates device - done
 
 router.route('/Id=:deviceId')
 .get(deviceIdController.get)          //get that device*

@@ -4,7 +4,7 @@ const uiController = require('../../controllers/ui_controllers/uiController');
 const uiPageController = require('../../controllers/ui_controllers/uiPageController');
 const uiWidgetController = require('../../controllers/ui_controllers/uiWidgetController');
 
-
+// /api/user=:userId/device/ui
 // Params : deviceId & userId
 
 const router = Router({mergeParams:true});

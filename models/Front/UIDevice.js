@@ -21,5 +21,9 @@ const uiDeviceSchema = new mongoose.Schema({
 },{ timestamps: true }
 );
 
+//Add Widget
+//Query by UserID & Device ID etc
+//What to do when delete
+
 const UiDevice = mongoose.model('UiDevice', uiDeviceSchema);
 module.exports = UiDevice;

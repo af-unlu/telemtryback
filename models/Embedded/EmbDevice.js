@@ -29,6 +29,11 @@ const embDeviceSchema = new mongoose.Schema({
         msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
 });
+//Query by UserID DeviceID and API Key
+//What to do when delete
+//Add uart & can
+//Add Can Message
+//Delete and Replace ID of a specific can massage
 
 const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
 module.exports = EmbDevice;

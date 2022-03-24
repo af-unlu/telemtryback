@@ -27,5 +27,11 @@ const deviceSchema = new mongoose.Schema({
 },
 { timestamps: true });
 
+
+//Add Ui
+//Add Emb
+//Query by UserID
+//What to Do when Delete
+
 const Device = mongoose.model('Device', deviceSchema);
 module.exports = Device;

@@ -9,12 +9,16 @@ const embUartMessageController = require('../../controllers/emb_controllers/embU
 
 const router = Router({mergeParams:true});
 
+// /api/user=:userId/device/emb
+// Params : deviceId & userId
+
 router.route('/test')
 .get(async (req, res) => {
     res.status(200).json({ "Message":"Emb Test Route",
     "User":req.params.userId,
     "Device":req.params.deviceId});
 });
+
 
 
 //Emb of specific Device of The User

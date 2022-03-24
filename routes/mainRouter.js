@@ -13,6 +13,7 @@ router.route('/hardconfig/:apikey').get(hardConfigGet);
 router.use(checkUser);
 //auth middleware works below
 
+// /api
 router.use("/auth",authRoutes);
 router.use("/user=:userId/device",deviceRoutes);
 

@@ -35,5 +35,9 @@ const embCanMessageSchema = new mongoose.Schema({
   }
 
 });
+
+//Add Data
+//Get by Id etc
+
 const EmbCanMessage = mongoose.model('EmbCanMessage', embCanMessageSchema);
 module.exports = EmbCanMessage;
