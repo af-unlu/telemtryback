@@ -1,7 +1,8 @@
 //#region Init
 require('dotenv').config()
 const express = require("express");
-const logger = require('morgan');
+const helmet = require('helmet');
+//const logger = require('morgan');
 var errorhandler = require('errorhandler')
 const mongoose = require('mongoose');
 const { checkUser} = require('./middleware/authMiddleware');
@@ -13,10 +14,11 @@ var cors = require("cors");
 const app = express();
 
 //Middleware
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-app.use(logger);
+//app.use(logger);
 if (process.env.NODE_ENV === 'development') {
     // only use in development
     app.use(errorhandler())
