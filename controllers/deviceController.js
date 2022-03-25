@@ -54,47 +54,55 @@ module.exports.update = async (req, res) => {
 //delete all of childs also but its next to do
 module.exports.delete = async (req, res) => {
     taskToDo(req, res, () => {
-        const userId = req.params.userId;
-        Device.deleteMany({ "userId": req.params.userId },(err)=>{
-            if(err){
-                res.status(400).json({"Message": "Bad Here"});
-            }else{
-                User.updateOne({ "_id": userId }, { "$set": { devices: [] } }, (err) => {
-                    if (err) {
-                        res.status(400).json({"Message": "Bad Request"});
-                    }else
-                    {
-                        res.status(201).json({"Message": "Succes"});
-                    }
-                })
-            }
-        })
-
+        try {
+            Device.DeleteManyByUserId(req.params.userId,(err)=>{
+                if(!err){
+                    res.status(200).json({
+                        "User":req.params.userId,
+                        "Message":"Devices of The User has been deleted"
+                    })
+                }
+            })
+        } catch (error) {
+            res.status(400).json(err.message);
+        }
     })
 }
 
-//Create a device
+//Create a device and push to Device Array of The User
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         const { name, props } = req.body;
+        const userId = req.params.userId;
         const newDevice = Device({
-            userId: req.params.userId,
+            userId: userId,
             name: name,
             props: props,
             apikey: generateHardKey(),
             Ui: null,
             Emb: null
         });
-        newDevice.save();
-        User.updateOne({ "_id": req.params.userId },
-            { "$push": { devices: newDevice } },
-            (err) => {
-                if (err) {
-                    res.status(400).json({"Message": "Bad Request"});
-                }
-                else {
-                    res.status(201).json(newDevice);
-                }
-            });
+        newDevice.save((err)=>{
+            if(err){
+                res.status(400).json({"Message":"Invalid Device"});
+            }
+            else
+            {
+                User.CreateNewDevice(userId,newDevice,(err)=>{
+                    if(err){
+                        res.status(400).json({"Message":"Bad Request"});
+                    }
+                    else
+                    {
+                        res.status(200).json(
+                            {
+                            "Message":"New Device Added",
+                            "Device":newDevice
+                            }
+                        )
+                    }
+                })
+            }
+        });
     })
 }

@@ -6,10 +6,10 @@ const helmet = require('helmet');
 var errorhandler = require('errorhandler')
 const mongoose = require('mongoose');
 const { checkUser} = require('./middleware/authMiddleware');
-const ApiRoutes = require('./routes/mainRouter');
 
 const cookieParser = require('cookie-parser');
 var cors = require("cors");
+const User = require('./models/User');
 
 const app = express();
 
@@ -35,8 +35,7 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 //#endregion
 
 
-app.use("/api",ApiRoutes);
-
+app.use("/api",require('./routes/mainRouter'));
 
 
 //#region 404

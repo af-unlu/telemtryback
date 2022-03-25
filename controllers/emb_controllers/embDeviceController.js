@@ -30,7 +30,7 @@ const notSelected = ["-_id", "-userId", "-deviceId"];
 
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        /*EmbDevice.findOne({"deviceId":req.params.deviceId},
+        EmbDevice.findOne({"deviceId":req.params.deviceId},
         (err,found)=>{
             if(err){
                 res.status(400).json({
@@ -38,9 +38,14 @@ module.exports.get = async (req, res) => {
                 });
             }
             else{
-                res.status(200).json(found);
+                if(found){
+                    res.status(200).json(found)
+                }
+                else{
+                    res.status(404).json(found)
+                }
             }
-        })*/
+        })
     })
 }
 

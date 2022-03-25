@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
+const Device = require("../models/Device");
 
 
 const userSchema = new mongoose.Schema({
@@ -52,7 +53,35 @@ userSchema.statics.login = async function (email, password) {
 };
 
 
-//Add Device ?
+//#region Delete
+
+//Deleting the User - Parent
+//Also deletes Devices of the User
+userSchema.statics.DeleteById = async function(userId,cb){
+  Device.DeleteManyByUserId(userId,(err)=>{
+    if(err){
+      throw Error('Failed to delete Devices of the User');
+    }else{
+      this.deleteOne({"_id":userId},cb);
+    }
+  });
+};
+
+//Just Deleting Devices of User - Child
+userSchema.statics.DeleteDevices = async function(userId,cb){
+  Device.DeleteManyByUserId(userId,(err)=>{
+    if(err){
+      throw Error('Failed to delete Devices of the User');
+    }else{
+      this.updateOne({ "_id": userId},{ "$set": { devices:[]}},cb);
+    }
+  });
+};
+//#endregion
+
+userSchema.statics.CreateNewDevice = async function(userId,newDevice,cb){
+  this.updateOne({ "_id": userId },{ "$push": { devices: newDevice }},cb);
+}
 
 const User = mongoose.model('User', userSchema);
 
