@@ -32,13 +32,16 @@ const deviceSchema = new mongoose.Schema({
 
 
 deviceSchema.pre('remove',async function (next) {
+    console.log("Device Delete");
     EmbDevice.find({"deviceId":this._id},(err,found)=>{
       if(err){
         throw Error('Delete : Error finding Emb of the Device');
       }
       else{
           if(found){
-            found.remove();
+            found.forEach((item)=>{
+              item.remove();
+            })
           }
       }
     })
@@ -48,7 +51,9 @@ deviceSchema.pre('remove',async function (next) {
         }
         else{
             if(found){
-              found.remove();
+              found.forEach((item)=>{
+                item.remove();
+              })
             }
         }
       })
