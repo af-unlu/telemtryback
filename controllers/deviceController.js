@@ -53,20 +53,7 @@ module.exports.update = async (req, res) => {
 //deleting all devices of a user
 //delete all of childs also but its next to do
 module.exports.delete = async (req, res) => {
-    taskToDo(req, res, () => {
-        try {
-            Device.DeleteManyByUserId(req.params.userId,(err)=>{
-                if(!err){
-                    res.status(200).json({
-                        "User":req.params.userId,
-                        "Message":"Devices of The User has been deleted"
-                    })
-                }
-            })
-        } catch (error) {
-            res.status(400).json(err.message);
-        }
-    })
+
 }
 
 //Create a device and push to Device Array of The User
