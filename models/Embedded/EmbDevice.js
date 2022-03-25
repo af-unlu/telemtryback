@@ -35,5 +35,22 @@ const embDeviceSchema = new mongoose.Schema({
 //Add Can Message
 //Delete and Replace ID of a specific can massage
 
+embDeviceSchema.pre('remove',async function (next) {
+    /*Device.find({"userId":this._id},(err,found)=>{
+      if(err){
+        throw Error('Delete : Error finding devices of the user');
+      }
+      else{
+        if(found){
+          found.forEach((item)=>{
+            item.remove();
+          })
+        }
+      }
+    })*/
+    console.log("Emb Deleted");
+    next();
+  });
+
 const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
 module.exports = EmbDevice;

@@ -37,6 +37,26 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 
 app.use("/api",require('./routes/mainRouter'));
 
+app.use("/delete=:userId",(req,res)=>{
+    User.findOne({"_id":req.params.userId},(err,found)=>{
+        if(err){
+            res.status(400).json({"Message":"Bad Request"});
+        }else{
+            if(found){
+                found.remove((err)=>{
+                    if(err){
+                        res.status(400).json({"Message":"Bad Request"});
+                    }
+                    else{
+                        res.status(200).json({"Message":"User Silindi"});
+                    }
+                });
+            }else{
+                res.status(404).json({"Message":"Not Found"});
+            }
+        }
+    })
+})
 
 //#region 404
 app.get('*', checkUser,(req,res)=>{

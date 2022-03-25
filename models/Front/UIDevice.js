@@ -25,5 +25,22 @@ const uiDeviceSchema = new mongoose.Schema({
 //Query by UserID & Device ID etc
 //What to do when delete
 
+uiDeviceSchema.pre('remove',async function (next) {
+    /*Device.find({"userId":this._id},(err,found)=>{
+      if(err){
+        throw Error('Delete : Error finding devices of the user');
+      }
+      else{
+        if(found){
+          found.forEach((item)=>{
+            item.remove();
+          })
+        }
+      }
+    })*/
+    console.log("Ui Deleted");
+    next();
+  });
+
 const UiDevice = mongoose.model('UiDevice', uiDeviceSchema);
 module.exports = UiDevice;

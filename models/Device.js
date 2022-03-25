@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const EmbDevice = require("./Embedded/EmbDevice");
+const UiDevice = require("./Front/UIDevice");
+
 const deviceSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
@@ -28,7 +31,29 @@ const deviceSchema = new mongoose.Schema({
 { timestamps: true });
 
 
-
+deviceSchema.pre('remove',async function (next) {
+    EmbDevice.find({"deviceId":this._id},(err,found)=>{
+      if(err){
+        throw Error('Delete : Error finding Emb of the Device');
+      }
+      else{
+          if(found){
+            found.remove();
+          }
+      }
+    })
+    UiDevice.find({"deviceId":this._id},(err,found)=>{
+        if(err){
+          throw Error('Delete : Error finding Ui of the Device');
+        }
+        else{
+            if(found){
+              found.remove();
+            }
+        }
+      })
+    next();
+});
 
 const Device = mongoose.model('Device', deviceSchema);
 module.exports = Device;

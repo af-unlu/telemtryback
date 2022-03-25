@@ -39,6 +39,22 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('remove',async function (next) {
+  Device.find({"userId":this._id},(err,found)=>{
+    if(err){
+      throw Error('Delete : Error finding devices of the user');
+    }
+    else{
+      if(found){
+        found.forEach((item)=>{
+          item.remove();
+        })
+      }
+    }
+  })
+  next();
+});
+
 // static method to login user
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });

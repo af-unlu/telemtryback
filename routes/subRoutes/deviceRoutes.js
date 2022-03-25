@@ -1,8 +1,5 @@
 const { Router } = require('express');
 
-const embRoutes = require('./embRoutes');
-const uiRoutes = require('./uiRoutes');
-
 const deviceController = require('../../controllers/deviceController');
 const deviceIdController = require('../../controllers/deviceIdController');
 
@@ -30,7 +27,7 @@ router.route('/Id=:deviceId')
 .post(deviceIdController.create_child);//Not Allowed - done
 
 
-router.use("/:deviceId/emb",embRoutes);
-router.use("/:deviceId/ui",uiRoutes);
+router.use("/:deviceId/emb",require('./embRoutes'));
+router.use("/:deviceId/ui",require('./uiRoutes'));
 
 module.exports = router;
