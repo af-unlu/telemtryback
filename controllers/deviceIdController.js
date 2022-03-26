@@ -30,7 +30,7 @@ module.exports.get = async (req, res) => {
                     "Message": "Error"
                 });
             }
-            else {
+            else{
                 res.status(200).json(found);
             }
         });

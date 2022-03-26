@@ -38,12 +38,7 @@ module.exports.get = async (req, res) => {
                 });
             }
             else{
-                if(found){
-                    res.status(200).json(found)
-                }
-                else{
-                    res.status(404).json(found)
-                }
+                res.status(200).json(found);
             }
         })
     })
@@ -57,11 +52,7 @@ module.exports.hardConfigGet = async (req, res) => {
             });
         }
         else {
-            if (found) {
-                res.status(200).json(found);
-            } else {
-                res.status(404).json({ "Message": "404 Not Found" });
-            }
+            res.status(200).json(found);
         }
     });
 }

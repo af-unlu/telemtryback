@@ -37,11 +37,7 @@ module.exports.get = async (req, res) => {
                 res.status(400).json({ "Message": "Bad Request" });
             }else
             {
-                if(found){
-                    res.status(200).json(found);
-                }else{
-                    res.status(404).json({ "Message": "Not Found" });
-                }
+                res.status(200).json(found);
             }
         });
     })

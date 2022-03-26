@@ -24,25 +24,14 @@ const taskToDo= (req,res,task)=>{
         res.status(401).json({"message":"401 Unauthorized"});
     }
 }  
-//#endregion
 
-/*
-checkUser => Logged User 
-URL Params : UserId
-Logged UserID and UserID  must match 
-*/
-//GET
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         EmbDevice.find({"userId":req.params.userId},(err,found)=>{
             if(err){
                 res.status(400).json({"Message":"Error"});
             }
-            if(found){
-                res.status(200).json(found);
-            }else{
-                res.status(404).json({"Message":"Doesnt Exist"});
-            }
+            res.status(200).json(found);
         });
     });
 }
