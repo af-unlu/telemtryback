@@ -51,9 +51,32 @@ module.exports.update = async (req, res) => {
 
 
 //deleting all devices of a user
-//delete all of childs also but its next to do
 module.exports.delete = async (req, res) => {
-
+    
+    Device.find({"userId":req.params.userId},(err,found)=>{
+        if(err){res.status(400).json({"Message":"Bad Request"});}
+        else{
+            if(found){
+                let erro;
+                found.forEach((item)=>{
+                    item.remove((err)=>{
+                        if(err){
+                            erro=err;
+                        }
+                    });
+                })
+                if(erro){
+                    res.status(400).json({"Message":"Bad Request"});
+                }
+                else{
+                    res.status(200).json({"Message":"Succes"});
+                }
+            }
+            else{
+                res.status(400).json({"Message":"Bad Request"});
+            }
+        }
+    });
 }
 
 //Create a device and push to Device Array of The User

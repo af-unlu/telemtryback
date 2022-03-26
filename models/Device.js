@@ -32,7 +32,13 @@ const deviceSchema = new mongoose.Schema({
 
 
 deviceSchema.pre('remove',async function (next) {
-    console.log("Device Delete");
+    mongoose.model('User').updateOne({"_id":this.userId},
+    {$pull:{devices:this._id}},
+    (err)=>{
+      if(err){
+        throw Error('Delete : Error emptying reference array');
+      }
+    });
     EmbDevice.find({"deviceId":this._id},(err,found)=>{
       if(err){
         throw Error('Delete : Error finding Emb of the Device');
