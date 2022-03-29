@@ -9,7 +9,7 @@ router.route('/hardconfig/:apikey').get(hardConfigGet);
 
 router.use(checkUser);
 
-router.use("/auth",require('./subRoutes/authRoutes'));
+router.use("/auth",require('./subRoutes/authRoutes')); // done
 router.use("/user=:userId/device",require('./subRoutes/deviceRoutes'));
 
 module.exports = router;

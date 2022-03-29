@@ -16,7 +16,7 @@ router.route('/test')
 router.route('/')
 .get(deviceController.get)          //get all devices - done
 .put(deviceController.update)       //replace all devices
-.delete(deviceController.delete)    //deletes all devices 
+.delete(deviceController.delete)    //deletes all devices - done
 .post(deviceController.create_child);//creates device - done
 
 router.route('/Id=:deviceId')

@@ -52,7 +52,6 @@ module.exports.update = async (req, res) => {
 
 //deleting all devices of a user
 module.exports.delete = async (req, res) => {
-    
     Device.find({"userId":req.params.userId},(err,found)=>{
         if(err){res.status(400).json({"Message":"Bad Request"});}
         else{

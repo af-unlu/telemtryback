@@ -23,8 +23,8 @@ router.route('/test')
 
 //Emb of specific Device of The User
 router.route('/')
-.get(embDeviceController.get)    //Returns That Emb if exist - no populate
-.post(embDeviceController.create_child);   //Creates empty - emb returns ID 
+.get(embDeviceController.get)    //Returns That Emb if exist - no populate - done
+.post(embDeviceController.create_child);   //Creates empty - emb returns ID - need to revised
 
 
 router.route('/Id=:embId')
