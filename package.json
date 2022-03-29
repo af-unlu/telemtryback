@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start" : "node app.js"
   },
   "repository": {
     "type": "git",
@@ -23,13 +23,10 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "errorhandler": "^1.5.1",
     "express": "^4.17.3",
     "generate-api-key": "^1.0.0",
-    "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.8",
-    "morgan": "^1.10.0",
+    "mongoose": "^6.2.2",
     "validator": "^13.7.0"
   }
 }
