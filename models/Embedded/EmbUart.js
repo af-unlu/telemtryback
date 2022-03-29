@@ -1,30 +1,35 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
 const EmbData = require('./EmbData');
-
 const embUartSchema = new mongoose.Schema({
-  count:{
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Error Message'],
+  },
+  deviceId:{
+    type: mongoose.Types.ObjectId, 
+    ref: 'Device' ,
+    required: [true, 'Error Message'],
+  },
+  embId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'EmbDevice',
+    required: [true, 'Error Message'],
+  },
+
+  count: {
     type: Number,
     required: [true, 'Error Message']
   },
-  byteCount:{
+  byteCount: {
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[EmbData],
+  data: {
+    type: [EmbData.schema]
+  }
 
 });
-
-//the action before saving
-embUartSchema.pre('save', async function(next) {
-   
-});
-
-//a static function for the model
-embUartSchema.statics.login = async function(param1, param2) {
-  
-};
-
-const EmbUart = mongoose.model('emb_uart', embUartSchema);
-
+const EmbUart = mongoose.model('EmbUart', embUartSchema);
 module.exports = EmbUart;

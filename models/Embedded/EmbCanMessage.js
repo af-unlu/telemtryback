@@ -3,6 +3,21 @@ const mongoose = require('mongoose');
 const EmbData = require('./EmbData');
 
 const embCanMessageSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'Error Message'],
+  },
+  deviceId:{
+    type: mongoose.Types.ObjectId, 
+    ref: 'Device' ,
+    required: [true, 'Error Message'],
+  },
+  embId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'EmbDevice',
+    required: [true, 'Error Message'],
+  },
   isEx: {
     type: Boolean,
     required: [true, 'Error Message']
@@ -11,24 +26,18 @@ const embCanMessageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Error Message']
   },
-  dlc:{
+  dlc: {
     type: Number,
     required: [true, 'Error Message']
   },
-  data:[EmbData],
+  data: {
+    type: [EmbData.schema]
+  }
 
 });
 
-//the action before saving
-embCanMessageSchema.pre('save', async function(next) {
-   
-});
+//Add Data
+//Get by Id etc
 
-//a static function for the model
-embCanMessageSchema.statics.login = async function(param1, param2) {
-  console.log(this.name);
-};
-
-const EmbCanMessage = mongoose.model('emb_can_message', embCanMessageSchema);
-
+const EmbCanMessage = mongoose.model('EmbCanMessage', embCanMessageSchema);
 module.exports = EmbCanMessage;

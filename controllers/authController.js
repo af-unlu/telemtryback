@@ -46,7 +46,6 @@ module.exports.signup_get = (req, res) => {
     
     res.status(200).json({ "page":"SignUp Page" });
   }else{
-    console.log(res.locals.user._id.toString());
     res.status(200).json({"message":"You are already logged in","usermail":res.locals.user.email});
   }
   
@@ -65,8 +64,8 @@ module.exports.signup_post = async (req, res) => {
   try {
     const user = await User.create({name,surname,email,password});
     const token = createToken(user._id);
-    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+
+    res.status(201).json({ "user": user._id ,"Authorization":token});
   }
   catch(err) {
     const errors = handleErrors(err);
@@ -81,13 +80,12 @@ module.exports.login_post = async (req, res) => {
     try {
       const user = await User.login(email, password);
       const token = createToken(user._id);
-      res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
       
-      res.status(200).json({ user: user._id });
+      res.status(201).json({ "user": user._id ,"Authorization":token});
 
     } catch (err) {
-      console.log(err);
-      const errors = handleErrors(err);res.status(400).json({ errors });
+      const errors = handleErrors(err);
+      res.status(400).json({ errors });
     }
   }else{
     res.status(200).json({"message":"You are already logged in","usermail":res.locals.user.email});
@@ -100,9 +98,7 @@ module.exports.logout_get = (req, res) => {
   if(res.locals.user===null){
     res.status(200).json({ "message":"You are not even logged in" });
   }else{
-    res.cookie('jwt', '', { maxAge: 1 });
+    res.headers("AuthToken",'',{ maxAge: 1 });
     res.status(200).json({ "message":"Logget Out" });
   }
-
-
 }

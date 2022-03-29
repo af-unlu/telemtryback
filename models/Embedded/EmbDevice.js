@@ -1,29 +1,56 @@
 const mongoose = require('mongoose');
-const EmbUart = require('./EmbUart');
-const EmbCan = require('./EmbCan');
 
 const embDeviceSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Error Message'],
+    },
+    deviceId:{
+        type: mongoose.Types.ObjectId, 
+        ref: 'Device' ,
+        required: [true, 'Error Message'],
+    },
     api_key :{
         type:String,
         required: [true, 'Error Message']
     },
     log_ms:{
         type:Number,
+        default: 1000,
         required: [true, 'Error Message']
     },
-    can:[EmbCan],
-    uart:[EmbUart]
+    uart:{ type: mongoose.Types.ObjectId, ref: 'EmbUart' },
+    can:{
+        count :{
+            type:Number,
+            required: [true, 'Error Message']
+        },
+        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
+    }
 });
+//Query by UserID DeviceID and API Key
+//What to do when delete
+//Add uart & can
+//Add Can Message
+//Delete and Replace ID of a specific can massage
 
-embDeviceSchema.pre('save', async function(next) {
-   
-});
+embDeviceSchema.pre('remove',async function (next) {
+    /*Device.find({"userId":this._id},(err,found)=>{
+      if(err){
+        throw Error('Delete : Error finding devices of the user');
+      }
+      else{
+        if(found){
+          found.forEach((item)=>{
+            item.remove();
+          })
+        }
+      }
+    })*/
+    console.log("Emb Deleted");
+    next();
+  });
 
-//a static function for the model
-embDeviceSchema.statics.login = async function(param1, param2) {
-  
-};
-
-const EmbDevice = mongoose.model('emb_device', embDeviceSchema);
-
+const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
 module.exports = EmbDevice;

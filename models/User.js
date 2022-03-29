@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 const bcrypt = require('bcrypt');
 
-const Dummy = require("./Dummy");
+const Device = require("../models/Device");
 
 
 const userSchema = new mongoose.Schema({
-  name:{
+  name: {
     type: String,
     required: [true, 'Please enter a name'],
   },
-  surname:{
+  surname: {
     type: String,
     required: [true, 'Please enter a surname'],
   },
@@ -26,19 +26,38 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please enter a password'],
     minlength: [6, 'Minimum password length is 6 characters'],
   },
-  dummies:[Dummy.schema]
-});
+  devices: [{ type: mongoose.Types.ObjectId, ref: 'Device' }],
+},
+  { timestamps: true }
+);
 
 
 // fire a function before doc saved to db
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
+userSchema.pre('remove',async function (next) {
+  console.log("User Delete")
+  Device.find({"userId":this._id},(err,found)=>{
+    if(err){
+      throw Error('Delete : Error finding devices of the user');
+    }
+    else{
+      if(found){
+        found.forEach((item)=>{
+          item.remove();
+        })
+      }
+    }
+  })
+  next();
+});
+
 // static method to login user
-userSchema.statics.login = async function(email, password) {
+userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
@@ -50,6 +69,14 @@ userSchema.statics.login = async function(email, password) {
   throw Error('incorrect email');
 };
 
-const User = mongoose.model('user', userSchema);
+
+
+
+
+userSchema.statics.CreateNewDevice = async function(userId,newDevice,cb){
+  this.updateOne({ "_id": userId },{ "$push": { devices: newDevice }},cb);
+}
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
