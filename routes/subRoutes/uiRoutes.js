@@ -14,14 +14,14 @@ router.route('/')
 .post(uiController.create_child);//Create The Empty Page & Return ID
 
 //specific ui of an user
-router.route('/Id=:uiId')
+router.route('/:uiId')
 .get(uiPageController.get)           //gets that page - Populate Widgets          
 .put(uiPageController.update)        //replaces that page -
 .delete(uiPageController.delete)     //deletes that page -
 .post(uiPageController.create_child);//creates a child inside a page
 
 //widget of a specific page
-router.route('/Id=:uiId/widget=:widgetId')
+router.route('/:uiId/:widgetId')
 .get(uiWidgetController.get)           //gets that widget             
 .put(uiWidgetController.update)        //replaces that widget
 .delete(uiWidgetController.delete)     //deletes that widget

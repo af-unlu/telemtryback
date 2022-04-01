@@ -65,7 +65,7 @@ module.exports.create_child = async (req, res) => {
             api_key: generateHardKey(),
             can: {
                 count: 0,
-                msgs: null
+                msgs: []
             },
             uart: null
         });

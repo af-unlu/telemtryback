@@ -61,7 +61,7 @@ module.exports.update = async (req, res) => {
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         const deviceId = req.params.deviceId;
-       Device.find({"_id":deviceId},
+       Device.findOne({"_id":deviceId},
        (err, doc) => {
         if (err) {
             res.status(400).json({
@@ -70,10 +70,6 @@ module.exports.delete = async (req, res) => {
         }
         else{
             if(doc){
-                res.status(404).json({
-                    "Message": "404 Not Exist"
-                });
-            }else{
                 doc.remove((err)=>{
                     if(err){
                         res.status(400).json({
@@ -87,6 +83,10 @@ module.exports.delete = async (req, res) => {
                         });
                     }
                 })
+            }else{
+                res.status(404).json({
+                    "Message": "404 Not Exist"
+                });
             }
         }
     })

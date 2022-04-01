@@ -25,6 +25,7 @@ const taskToDo= (req,res,task)=>{
     }
 }  
 
+//gonna do deep populate
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         EmbDevice.find({"userId":req.params.userId},(err,found)=>{
@@ -35,26 +36,35 @@ module.exports.get = async (req, res) => {
         });
     });
 }
-//PUT
+
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
+        const {log_ms} = req.body;
+        const embId = req.params.embId;
+        EmbDevice.updateOne({"_id":embId},
+        { "$set": { log_ms:log_ms}},
+        (err, doc) => {
+            if (err) {
+                res.status(400).json({
+                    "Message": "Error"
+                });
+            }
+            else{
+                res.status(200).json(doc);
+            }
+        })
     });
 }
-module.exports.patch = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
-    });
-}
-//DELETE
+
+
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(200).json({"Page":"Delete","userId":req.params.userId });
     });
 }
-//POST
+
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(401).json({"Message":"Not Allowed","userId":req.params.userId });
+        res.status(401).json({"Message":"Not Allowed"});
     });
 }
