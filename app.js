@@ -62,4 +62,5 @@ app.use("/delete=:userId",(req,res)=>{
 app.use(function(req, res, next) {
     res.status(404);
     res.json({ error: 'Not found' });
+    next();
 });
