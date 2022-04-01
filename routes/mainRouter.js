@@ -13,3 +13,4 @@ router.use("/auth",require('./subRoutes/authRoutes')); // done
 router.use("/user=:userId/device",require('./subRoutes/deviceRoutes'));
 
 module.exports = router;
+

@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 //app.use(logger);
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV == 'development') {
     // only use in development
     app.use(errorhandler())
 }
@@ -58,11 +58,8 @@ app.use("/delete=:userId",(req,res)=>{
     })
 })
 
-//#region 404
-app.get('*', checkUser,(req,res)=>{
-    res.status(404).json({"message":"The Get route you wanted to acces is not exist"});
+
+app.use(function(req, res, next) {
+    res.status(404);
+    res.json({ error: 'Not found' });
 });
-app.post('*' ,checkUser,(req,res)=>{
-    res.status(404).json({"message":"The Post route you wanted to acces is not exist"});
-});
-//#endregion
