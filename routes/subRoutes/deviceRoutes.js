@@ -15,14 +15,12 @@ router.route('/test')
 //devices of a user
 router.route('/')
 .get(deviceController.get)          //get all devices - done
-.put(deviceController.update)       //replace all devices
 .delete(deviceController.delete)    //deletes all devices - done
 .post(deviceController.create_child);//creates device - done
 
 router.route('/Id=:deviceId')
 .get(deviceIdController.get)          //get that device - done
-.put(deviceIdController.update)       //replace that device
-//.patch()
+.path(deviceIdController.update)      //Patch that device
 .delete(deviceIdController.delete)    //deletes that device - done
 .post(deviceIdController.create_child);//Not Allowed - done
 

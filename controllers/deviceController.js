@@ -20,7 +20,7 @@ const taskToDo = (req, res, task) => {
 }
 
 const generateHardKey = () => {
-    return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+' });
+    return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_&+-' });
 }
 
 //#endregion
@@ -39,13 +39,6 @@ module.exports.get = async (req, res) => {
                     res.status(200).json(found);
                 }
             })
-    })
-}
-
-//nope its bulk update
-module.exports.update = async (req, res) => {
-    taskToDo(req, res, () => {
-        res.status(201).json({ "Page": "Put", "userId": req.params.userId });
     })
 }
 

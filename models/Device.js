@@ -46,7 +46,11 @@ deviceSchema.pre('remove',async function (next) {
       else{
           if(found){
             found.forEach((item)=>{
-              item.remove();
+              item.remove((err)=>{
+                if(err){
+                  throw Error('Delete : Error deleting EmbDevice');
+                }
+              });
             })
           }
       }
@@ -58,7 +62,11 @@ deviceSchema.pre('remove',async function (next) {
         else{
             if(found){
               found.forEach((item)=>{
-                item.remove();
+                item.remove((err)=>{
+                  if(err){
+                    throw Error('Delete : Error Deleting UiDevice');
+                  }
+                });
               })
             }
         }

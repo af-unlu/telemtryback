@@ -24,39 +24,42 @@ const taskToDo= (req,res,task)=>{
 // /user=:userId/device/Id=:deviceId
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        Device.findOne({"_id":req.params.deviceId},(err, found) => {
+        Device.findOne({"_id":req.params.deviceId},(err, doc) => {
             if (err) {
                 res.status(400).json({
                     "Message": "Error"
                 });
             }
             else{
-                res.status(200).json(found);
+                res.status(200).json(doc);
             }
         });
     })
 }
 
+
+//Req Body'de istenenler 
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
+        const {name,props} = req.body;
+        Device.updateOne({"_id":req.params.deviceId},
+        { "$set": { name:name,props:props}},
+        (err, doc) => {
+            if (err) {
+                res.status(400).json({
+                    "Message": "Error"
+                });
+            }
+            else{
+                res.status(200).json(doc);
+            }
+        })
     })
 }
 
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
-        try {
-            Device.DeleteDevice(req.params.deviceId,(err)=>{
-                if(!err){
-                    res.status(200).json({
-                        "Device":req.params.deviceId,
-                        "Message":"The Device has been deleted"
-                    })
-                }
-            })
-        } catch (error) {
-            res.status(400).json(err.message);
-        }
+       //find and remove
     })
 }
 

@@ -2,6 +2,7 @@
 require('dotenv').config()
 const express = require("express");
 const helmet = require('helmet');
+//const mongoSanitize = require('express-mongo-sanitize');
 //const logger = require('morgan');
 var errorhandler = require('errorhandler')
 const mongoose = require('mongoose');
@@ -36,7 +37,8 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 
 
 app.use("/api",require('./routes/mainRouter'));
-
+/*
+//Maybe in future
 app.use("/delete=:userId",(req,res)=>{
     User.findOne({"_id":req.params.userId},(err,found)=>{
         if(err){
@@ -57,20 +59,8 @@ app.use("/delete=:userId",(req,res)=>{
         }
     })
 })
-
-<<<<<<< HEAD
-
+*/
 app.use(function(req, res, next) {
     res.status(404);
     res.json({ error: 'Not found' });
-    next();
-=======
-//#region 404
-app.get('*', checkUser,(req,res)=>{
-    res.status(404).json({"message":"The Get route you wanted to acces is not exist"});
 });
-app.post('*' ,checkUser,(req,res)=>{
-    res.status(404).json({"message":"The Post route you wanted to acces is not exist"});
->>>>>>> parent of deffc22 (New 404 Middleware)
-});
-//#endregion
