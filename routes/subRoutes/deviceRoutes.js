@@ -20,7 +20,7 @@ router.route('/')
 
 router.route('/Id=:deviceId')
 .get(deviceIdController.get)          //get that device - done
-.path(deviceIdController.update)      //Patch that device
+.patch(deviceIdController.update)      //Patch that device -done
 .delete(deviceIdController.delete)    //deletes that device - done
 .post(deviceIdController.create_child);//Not Allowed - done
 
