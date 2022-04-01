@@ -42,7 +42,8 @@ module.exports.get = async (req, res) => {
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         const {name,props} = req.body;
-        Device.updateOne({"_id":req.params.deviceId},
+        const deviceId = req.params.deviceId;
+        Device.updateOne({"_id":deviceId},
         { "$set": { name:name,props:props}},
         (err, doc) => {
             if (err) {
@@ -59,7 +60,36 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
-       //find and remove
+        const deviceId = req.params.deviceId;
+       Device.find({"_id":deviceId},
+       (err, doc) => {
+        if (err) {
+            res.status(400).json({
+                "Message": "Error"
+            });
+        }
+        else{
+            if(doc){
+                res.status(404).json({
+                    "Message": "404 Not Exist"
+                });
+            }else{
+                doc.remove((err)=>{
+                    if(err){
+                        res.status(400).json({
+                            "Message": "Error"
+                        });
+                    }
+                    else{
+                        res.status(200).json({
+                            "Message": "Deleted",
+                            "DeviceId":deviceId
+                        });
+                    }
+                })
+            }
+        }
+    })
     })
 }
 
