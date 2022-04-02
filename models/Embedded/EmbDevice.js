@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const EmbCanMessage = require("./EmbCanMessage");
+const EmbUart = require("./EmbUart");
+
 const embDeviceSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
@@ -29,28 +32,47 @@ const embDeviceSchema = new mongoose.Schema({
         msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
 });
-//Query by UserID DeviceID and API Key
-//What to do when delete
-//Add uart & can
-//Add Can Message
-//Delete and Replace ID of a specific can massage
 
 embDeviceSchema.pre('remove',async function (next) {
-    /*Device.find({"userId":this._id},(err,found)=>{
+  mongoose.model('Device').updateOne({"_id":this.deviceId},
+  {$set:null},
+    (err)=>{
       if(err){
-        throw Error('Delete : Error finding devices of the user');
+        throw Error('Delete : Error emptying reference');
       }
-      else{
-        if(found){
-          found.forEach((item)=>{
-            item.remove();
+    });  
+  EmbCanMessage.find({"embId":this._id},(err,doc)=>{
+    if(err){
+      throw Error('Find : Error Finding Child EmbCanMessage');
+    }
+    else{
+      if(doc){
+        doc.forEach(element => {
+          element.remove((err)=>{
+            if(err){
+              throw Error('Delete : Error Delete Child EmbCanMessage');
+            }
           })
-        }
+        });
       }
-    })*/
-    console.log("Emb Deleted");
-    next();
+    }
   });
+  EmbUart.findOne({"embId":this._id},(err,doc)=>{
+    if(err){
+      throw Error('Find : Error Finding Child EmbUart');
+    }
+    else{
+      if(doc){
+        doc.remove((err)=>{
+          if(err){
+            throw Error('Delete : Error Delete Child EmbUart');
+          }
+        })
+      }
+    }
+  });
+  next();
+});
 
 const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
 module.exports = EmbDevice;

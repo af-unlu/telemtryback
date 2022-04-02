@@ -21,7 +21,7 @@ router.route('/')
 router.route('/:embId')
 .get(embController.get)           //return emb object  - deeppopulatesini şimdilik salla
 .patch(embController.update)      //patch emb object 
-.delete(embController.delete)     //delete - need removehandlers
+.delete(embController.delete)     //delete - 
 .post(embController.create_child);//Not Allowed - child created at can or uart endpoints - done
 
 

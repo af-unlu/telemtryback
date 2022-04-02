@@ -40,7 +40,6 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.pre('remove',async function (next) {
-  console.log("User Delete")
   Device.find({"userId":this._id},(err,found)=>{
     if(err){
       throw Error('Delete : Error finding devices of the user');

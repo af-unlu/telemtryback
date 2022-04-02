@@ -36,8 +36,18 @@ const embCanMessageSchema = new mongoose.Schema({
 
 });
 
-//Add Data
-//Get by Id etc
+embCanMessageSchema.pre('remove',async function (next) {
+  mongoose.model('EmbDevice').updateOne({"_id":this.deviceId},
+  {$pull:{can:{msgs:this._id}},
+  $inc:{can:{count:-1}}},
+    (err)=>{
+      if(err){
+        throw Error('Delete : Error emptying reference');
+      }
+    });  
+  next();
+});
+
 
 const EmbCanMessage = mongoose.model('EmbCanMessage', embCanMessageSchema);
 module.exports = EmbCanMessage;
