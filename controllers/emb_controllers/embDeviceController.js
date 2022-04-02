@@ -45,7 +45,22 @@ module.exports.get = async (req, res) => {
 }
 
 module.exports.hardConfigGet = async (req, res) => {
-    EmbDevice.findOne({ "api_key": req.params.apikey }).select(notSelected).exec((err, found) => {
+    EmbDevice.findOne({ "api_key": req.params.apikey })
+    .select(notSelected)
+    .populate([
+        {
+            path:'uart',
+            model:'EmbUart'
+        },
+        {
+            path:"can",
+            populate:{
+                path: 'msgs',
+                model: 'EmbCanMessage'
+            }
+        }
+    ])
+    .exec((err, found) => {
         if (err) {
             res.status(400).json({
                 "Message": "Bad Request"
@@ -74,7 +89,7 @@ module.exports.create_child = async (req, res) => {
                 res.status(400).json({ "Message": "Bad Request 1" });
             } else {
                 Device.updateOne({ "_id": req.params.deviceId },
-                    { "$set": { Emb: newEmbDev._id } },
+                    { $set: { Emb: newEmbDev._id } },
                     (err) => {
                         if (err) {
                             res.status(400).json({ "Message": "Bad Request 2" });

@@ -28,28 +28,20 @@ router.route('/:embId')
 router.route('/:embId/can')
 .get(embCanController.get)          //return can object - populate and select -done    
 .patch(embCanController.update)     //not allowed -done
-.delete(embCanController.delete)     //delete - emty can object -done
-.post(embCanController.create_child);//create can message
+.delete(embCanController.delete)     //delete  -done
+.post(embCanController.create_child);//create can message - done
 
 router.route('/:embId/can/:messageId')
 .get(embCanMessageController.get)       //get that can message       
 .put(embCanMessageController.update)    //replace that can message
-//.patch()
 .delete(embCanMessageController.delete) //delete that can message
-.post(embCanMessageController.create_child);//not allowed
+.post(embCanMessageController.create_child);// not allowed
 
 
 router.route('/:embId/uart')
 .get(embUartController.get)      //return uart object        
-.patch(embUartController.update)   //update uart object 
+.put(embUartController.update)   //update uart object 
 .delete(embUartController.delete)//delete - empty 
-.post(embUartController.create_child);//create new message-data  
-
-router.route('/:embId/uart/:dataId')
-.get(embUartMessageController.get)     //get that message         
-.put(embUartMessageController.update)  //replace that message 
-.delete(embUartMessageController.delete)//delete that message - maybe we need to adjust indexses again? 
-.post(embUartMessageController.create_child);//not allowed  
-
+.post(embUartController.create_child);//not allowed
 
 module.exports = router;

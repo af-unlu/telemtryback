@@ -31,15 +31,13 @@ const embCanMessageSchema = new mongoose.Schema({
     required: [true, 'Error Message']
   },
   data: {
-    type: [EmbData.schema]
+    type: [EmbData]
   }
-
 });
 
 embCanMessageSchema.pre('remove',async function (next) {
   mongoose.model('EmbDevice').updateOne({"_id":this.deviceId},
-  {$pull:{can:{msgs:this._id}},
-  $inc:{can:{count:-1}}},
+  {$pull:{"can.msgs":this._id},$inc:{"can.count":1}},
     (err)=>{
       if(err){
         throw Error('Delete : Error emptying reference');

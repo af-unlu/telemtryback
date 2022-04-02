@@ -87,60 +87,37 @@ module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         const {isEx,mId,dlc,data} = req.body;
         const {userId,deviceId,embId} = req.params;
-        
-        let canData =[];
-        let error;
-        data.forEach(element => {
-            const item = EmbData({
-                name:element.name,
-                dataType:element.dataType,
-                index:element.index,
-                isLog:element.isLog,
-            });
-            item.save((err)=>{
-                if(err){
-                    error=err;
-                }
-                else{
-                    canData.push(item);
-                }
-            })
-        });
-        if(error){
-            res.status(400).json({"Message":"Bad Request"});
-        }
-        else{
-            const newCanMessage = EmbCanMessage({
-                userId:userId,
-                deviceId:deviceId,
-                embId:embId,
-                isEx:isEx,
-                mId:mId,
-                dlc:dlc
-            })
-            newCanMessage.save((err)=>{
-                if(err){
-                    res.status(400).json({"Message":"Bad Request"});
-                }
-                else{
-                    EmbDevice.updateOne({"_id":deviceId},
-                    {$push:{can:{msgs:this._id}},
-                    $inc:{can:{count:1}}},
-                    (err,doc)=>{
-                        if(err){
-                            res.status(400).json({"Message":"Bad Request : Updating Parent"});
+
+        const newCanMessage = EmbCanMessage({
+            userId:userId,
+            deviceId:deviceId,
+            embId:embId,
+            isEx:isEx,
+            mId:mId,
+            dlc:dlc,
+            data:data
+        })
+        newCanMessage.save((err)=>{
+            if(err){
+                res.status(400).json({"Message":"Bad Request"});
+            }
+            else{
+                EmbDevice.updateOne({"_id":deviceId},
+                {$push:{"can.msgs":this._id},$inc:{"can.count":1}},
+                (err,doc)=>{
+                    if(err){
+                        res.status(400).json({"Message":"Bad Request : Updating Parent"});
+                    }
+                    else{
+                        if(doc){
+                            res.status(201).json(doc);
                         }
                         else{
-                            if(doc){
-                                res.status(201).json(doc);
-                            }
-                            else{
-                                res.status(404).json({"Message":"Not Exist"});
-                            }
+                            res.status(404).json({"Message":"Not Exist"});
                         }
-                    });  
-                }
-            })
-        }
+                    }
+                });  
+            }
+        })
     })
 }

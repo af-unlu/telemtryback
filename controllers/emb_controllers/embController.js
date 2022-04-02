@@ -4,7 +4,6 @@ const Device = require("../../models/Device");
 const EmbDevice = require("../../models/Embedded/EmbDevice");
 const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
 const EmbUart =require("../../models/Embedded/EmbUart");
-const EmbData = require("../../models/Embedded/EmbData");
 
 const generateApiKey = require('generate-api-key');
 
@@ -32,7 +31,8 @@ module.exports.get = async (req, res) => {
         EmbDevice.findOne({"_id":req.params.embId})
         .populate([
             {
-                path:'uart'
+                path:'uart',
+                model:'EmbUart'
             },
             {
                 path:"can",
@@ -106,57 +106,36 @@ module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         const {count, byteCount,data} = req.body;
         const {userId,deviceId,embId} = req.params;
-        let uartData =[];
-        let error;
-        data.forEach(element => {
-            const item = EmbData({
-                name:element.name,
-                dataType:element.dataType,
-                index:element.index,
-                isLog:element.isLog,
-            });
-            item.save((err)=>{
-                if(err){
-                    error=err;
-                }
-                else{
-                    uartData.push(item);
-                }
-            })
+
+        const embUart = EmbUart({
+            userId:userId,
+            deviceId:deviceId,
+            embId:embId,
+            count:count,
+            byteCount:byteCount,
+            data:data
         });
-        if(error){
-            res.status(400).json({"Message":"Bad Request"});
-        }
-        else{
-            const embUart = EmbUart({
-                userId:userId,
-                deviceId:deviceId,
-                embId:embId,
-                count:count,
-                byteCount:byteCount,
-                data:uartData
-            });
-            embUart.save((err)=>{
-                if(err){
-                    res.status(400).json({"Message":"Bad Request"});
-                }
-                else{
-                    EmbDevice.updateOne({"_id":embId},
-                    {$set:{uart:embUart}},(err,doc)=>{
-                        if(err){
-                            res.status(400).json({"Message":"Bad Request"});
+        
+        embUart.save((err)=>{
+            if(err){
+                res.status(400).json({"Message":"Bad Request"});
+            }
+            else{
+                EmbDevice.updateOne({"_id":embId},
+                {$set:{uart:embUart}},(err,doc)=>{
+                    if(err){
+                        res.status(400).json({"Message":"Bad Request"});
+                    }
+                    else{
+                        if(doc){
+                            res.status(201).json(doc);
                         }
                         else{
-                            if(doc){
-                                res.status(201).json(doc);
-                            }
-                            else{
-                                res.status(404).json({"Message":"Not Exist"});
-                            }
+                            res.status(404).json({"Message":"Not Exist"});
                         }
-                    })
-                } 
-            })
-        }
+                    }
+                })
+            } 
+        })
     });
 }

@@ -18,6 +18,7 @@ const embDataSchema = new mongoose.Schema({
     type: Boolean,
     // == true der geçeriz required olmasına gerek yok??
   }
-});
-const EmbData = mongoose.model('EmbData', embDataSchema);
+},{ _id : false });
+
+const EmbData = embDataSchema;
 module.exports = EmbData;

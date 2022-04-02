@@ -69,9 +69,6 @@ userSchema.statics.login = async function (email, password) {
 };
 
 
-
-
-
 userSchema.statics.CreateNewDevice = async function(userId,newDevice,cb){
   this.updateOne({ "_id": userId },{ "$push": { devices: newDevice }},cb);
 }

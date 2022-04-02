@@ -17,7 +17,6 @@ const embUartSchema = new mongoose.Schema({
     ref: 'EmbDevice',
     required: [true, 'Error Message'],
   },
-
   count: {
     type: Number,
     required: [true, 'Error Message']
@@ -27,7 +26,7 @@ const embUartSchema = new mongoose.Schema({
     required: [true, 'Error Message']
   },
   data: {
-    type: [EmbData.schema]
+    type: [EmbData]
   }
 
 });
