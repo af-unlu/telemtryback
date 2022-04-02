@@ -4,7 +4,7 @@ const Device = require("../../models/Device");
 const EmbDevice = require("../../models/Embedded/EmbDevice");
 const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
 const EmbUart =require("../../models/Embedded/EmbUart");
-//const EmbData = require("../../models/Embedded/EmbData");
+const EmbData = require("../../models/Embedded/EmbData");
 
 const generateApiKey = require('generate-api-key');
 
@@ -25,15 +25,36 @@ const taskToDo= (req,res,task)=>{
     }
 }  
 
-//gonna do deep populate
+
+//Populated Message, hope it works
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        EmbDevice.find({"userId":req.params.userId},(err,found)=>{
-            if(err){
-                res.status(400).json({"Message":"Error"});
+        EmbDevice.findOne({"_id":req.params.embId})
+        .populate([
+            {
+                path:'uart'
+            },
+            {
+                path:"can",
+                populate:{
+                    path: 'msgs',
+                    model: 'EmbCanMessage'
+                }
             }
-            res.status(200).json(found);
-        });
+        ])
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                if(doc){
+                    res.status(200).json(doc);
+                }
+                else{
+                    res.status(404).json({"Message":"Not Found"});
+                }
+            }
+        })
     });
 }
 
@@ -83,6 +104,59 @@ module.exports.delete = async (req, res) => {
 
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(401).json({"Message":"Not Allowed"});
+        const {count, byteCount,data} = req.body;
+        const {userId,deviceId,embId} = req.params;
+        let uartData =[];
+        let error;
+        data.forEach(element => {
+            const item = EmbData({
+                name:element.name,
+                dataType:element.dataType,
+                index:element.index,
+                isLog:element.isLog,
+            });
+            item.save((err)=>{
+                if(err){
+                    error=err;
+                }
+                else{
+                    uartData.push(item);
+                }
+            })
+        });
+        if(error){
+            res.status(400).json({"Message":"Bad Request"});
+        }
+        else{
+            const embUart = EmbUart({
+                userId:userId,
+                deviceId:deviceId,
+                embId:embId,
+                count:count,
+                byteCount:byteCount,
+                data:uartData
+            });
+            embUart.save((err)=>{
+                if(err){
+                    res.status(400).json({"Message":"Bad Request"});
+                }
+                else{
+                    EmbDevice.updateOne({"_id":embId},
+                    {$set:{uart:embUart}},(err,doc)=>{
+                        if(err){
+                            res.status(400).json({"Message":"Bad Request"});
+                        }
+                        else{
+                            if(doc){
+                                res.status(201).json(doc);
+                            }
+                            else{
+                                res.status(404).json({"Message":"Not Exist"});
+                            }
+                        }
+                    })
+                } 
+            })
+        }
     });
 }

@@ -10,11 +10,11 @@ const embDataSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter the type of data'],
   },
-  Index: {
+  index: {
     type: Number,
     required: [true, 'Please enter the index of data']
   },
-  IsLog: {
+  isLog: {
     type: Boolean,
     // == true der geçeriz required olmasına gerek yok??
   }

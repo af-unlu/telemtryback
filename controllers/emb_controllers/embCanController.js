@@ -1,8 +1,6 @@
 //#region depends
-const User = require("../../models/User");
-const generateApiKey = require('generate-api-key');
-
-require('dotenv').config();
+const EmbDevice = require("../../models/Embedded/EmbDevice");
+const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
 
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){
@@ -19,33 +17,130 @@ const taskToDo= (req,res,task)=>{
     }
 }  
 //#endregion
-
-/*
-checkUser => Logged User 
-URL Params : UserId
-Logged UserID and UserID  must match 
-*/
-//GET return all of ui pages of the user
+//const notSelected = ["-_id", "-userId", "-deviceId"];
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Get","userId":req.params.userId });
+        EmbDevice.findOne({"_id":req.params.embId})
+        .populate([
+            {
+                path:"can",
+                populate:{
+                    path: 'msgs',
+                    model: 'EmbCanMessage'
+                }
+            }
+        ])
+        .select(["can"])
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                if(doc){
+                    res.status(200).json(doc);
+                }
+                else{
+                    res.status(404).json({"Message":"Not Found"});
+                }
+            }
+        })
     })
 }
-//PUT replaces all of ui's with request body if valid
+
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
+        res.status(405).json({"Message":"Not Allowed"});
     })
 }
-//DELETE deletes all of 
+
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Delete","userId":req.params.userId });
+        EmbCanMessage.find({"embId":req.params.embId},
+        (err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                if(doc){
+                    let error;
+                    doc.forEach(element => {
+                        element.remove((err)=>{
+                            error=err;
+                        })
+                        if(error){
+                            res.status(400).json({"Message":"Error Deleting Childs : Can Messages"});
+                        }
+                        else{
+                            es.status(200).json({"Message":"Succes"});
+                        }
+                    });
+                }
+                else{
+                    res.status(404).json({"Message":"Not Found"});
+                }
+            }
+        });
     })
 }
-//POST add one ui page created from request body if valid
+
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Post","userId":req.params.userId });
+        const {isEx,mId,dlc,data} = req.body;
+        const {userId,deviceId,embId} = req.params;
+        
+        let canData =[];
+        let error;
+        data.forEach(element => {
+            const item = EmbData({
+                name:element.name,
+                dataType:element.dataType,
+                index:element.index,
+                isLog:element.isLog,
+            });
+            item.save((err)=>{
+                if(err){
+                    error=err;
+                }
+                else{
+                    canData.push(item);
+                }
+            })
+        });
+        if(error){
+            res.status(400).json({"Message":"Bad Request"});
+        }
+        else{
+            const newCanMessage = EmbCanMessage({
+                userId:userId,
+                deviceId:deviceId,
+                embId:embId,
+                isEx:isEx,
+                mId:mId,
+                dlc:dlc
+            })
+            newCanMessage.save((err)=>{
+                if(err){
+                    res.status(400).json({"Message":"Bad Request"});
+                }
+                else{
+                    EmbDevice.updateOne({"_id":deviceId},
+                    {$push:{can:{msgs:this._id}},
+                    $inc:{can:{count:1}}},
+                    (err,doc)=>{
+                        if(err){
+                            res.status(400).json({"Message":"Bad Request : Updating Parent"});
+                        }
+                        else{
+                            if(doc){
+                                res.status(201).json(doc);
+                            }
+                            else{
+                                res.status(404).json({"Message":"Not Exist"});
+                            }
+                        }
+                    });  
+                }
+            })
+        }
     })
 }

@@ -19,16 +19,16 @@ router.route('/')
 
 
 router.route('/:embId')
-.get(embController.get)           //return emb object  - deeppopulatesini şimdilik salla
-.patch(embController.update)      //patch emb object 
-.delete(embController.delete)     //delete - 
-.post(embController.create_child);//Not Allowed - child created at can or uart endpoints - done
+.get(embController.get)           //Return emb object - Just Populate -done 
+.patch(embController.update)      //Patch emb object                  -done
+.delete(embController.delete)     //Delete - Done                     -done
+.post(embController.create_child);//Create Uart Object - Done         -done
 
 
 router.route('/:embId/can')
-.get(embCanController.get)       //return can object       
-.patch(embCanController.update)    //replace can object 
-.delete(embCanController.delete) //delete - emty can object
+.get(embCanController.get)          //return can object - populate and select -done    
+.patch(embCanController.update)     //not allowed -done
+.delete(embCanController.delete)     //delete - emty can object -done
 .post(embCanController.create_child);//create can message
 
 router.route('/:embId/can/:messageId')
@@ -41,8 +41,7 @@ router.route('/:embId/can/:messageId')
 
 router.route('/:embId/uart')
 .get(embUartController.get)      //return uart object        
-.put(embUartController.update)   //replace uart object - also create for it
-//.patch()
+.patch(embUartController.update)   //update uart object 
 .delete(embUartController.delete)//delete - empty 
 .post(embUartController.create_child);//create new message-data  
 
