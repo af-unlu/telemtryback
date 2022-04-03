@@ -30,5 +30,17 @@ const embUartSchema = new mongoose.Schema({
   }
 
 });
+
+embUartSchema.pre('remove',async function (next) {
+  mongoose.model('EmbDevice').updateOne({"_id":this.embId},
+  {$set:{"uart":null}},
+    (err)=>{
+      if(err){
+        throw Error('Delete : Error emptying reference');
+      }
+    });  
+  next();
+});
+
 const EmbUart = mongoose.model('EmbUart', embUartSchema);
 module.exports = EmbUart;

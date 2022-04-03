@@ -74,5 +74,7 @@ embDeviceSchema.pre('remove',async function (next) {
   next();
 });
 
+
+
 const EmbDevice =mongoose.model('EmbDevice', embDeviceSchema);
 module.exports = EmbDevice;
