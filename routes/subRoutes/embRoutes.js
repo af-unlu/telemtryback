@@ -32,10 +32,10 @@ router.route('/:embId/can')
 .post(embCanController.create_child);//create can message - done
 
 router.route('/:embId/can/:messageId')
-.get(embCanMessageController.get)       //get that can message       
-.put(embCanMessageController.update)    //replace that can message
-.delete(embCanMessageController.delete) //delete that can message
-.post(embCanMessageController.create_child);// not allowed
+.get(embCanMessageController.get)       //get that can message -done       
+.put(embCanMessageController.update)    //replace that can message 
+.delete(embCanMessageController.delete) //delete that can message -done 
+.post(embCanMessageController.create_child);// not allowed  -done
 
 
 router.route('/:embId/uart')
