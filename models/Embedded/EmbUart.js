@@ -28,7 +28,6 @@ const embUartSchema = new mongoose.Schema({
   data: {
     type: [EmbData]
   }
-
 });
 
 embUartSchema.pre('remove',async function (next) {

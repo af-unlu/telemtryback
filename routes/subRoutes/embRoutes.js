@@ -35,13 +35,13 @@ router.route('/:embId/can/:messageId')
 .get(embCanMessageController.get)       //get that can message         -done       
 .put(embCanMessageController.update)    //replace that can message     -done
 .delete(embCanMessageController.delete) //delete that can message      -done 
-.post(embCanMessageController.create_child);// not allowed                      -done
+.post(embCanMessageController.create_child);// not allowed             -done
 
 
 router.route('/:embId/uart')
-.get(embUartController.get)      //return uart object        
-.put(embUartController.update)   //update uart object 
-.delete(embUartController.delete)//delete - empty 
-.post(embUartController.create_child);//not allowed
+.get(embUartController.get)      //return uart object       -done
+.put(embUartController.update)   //update uart object       -done
+.delete(embUartController.delete)//delete - empty           -done
+.post(embUartController.create_child);//not allowed         -done
 
 module.exports = router;

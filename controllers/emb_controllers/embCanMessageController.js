@@ -1,7 +1,6 @@
 //#region depends
 
 const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
-const EmbDevice = require("../../models/Embedded/EmbDevice");
 
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){

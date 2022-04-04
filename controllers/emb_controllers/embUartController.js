@@ -1,8 +1,6 @@
 //#region depends
-const User = require("../../models/User");
-const generateApiKey = require('generate-api-key');
+const EmbUart = require("../../models/Embedded/EmbUart");
 
-require('dotenv').config();
 
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){
@@ -20,32 +18,82 @@ const taskToDo= (req,res,task)=>{
 }  
 //#endregion
 
-/*
-checkUser => Logged User 
-URL Params : UserId
-Logged UserID and UserID  must match 
-*/
-//GET return all of ui pages of the user
+//router.use("/user/:userId/device",
+//require('./subRoutes/deviceRoutes'));
+//router.route('/:embId/uart')
+
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Get","userId":req.params.userId });
+        const {embId} = req.params;
+        EmbUart.findOne({"embId":embId})
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                if(doc){
+                    res.status(200).json(doc);
+                }
+                else{
+                    res.status(404).json({"Message":"Not Found"});
+                }
+            }
+        });
     })
 }
-//PUT replaces all of ui's with request body if valid
+
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
+        const{count,byteCount,data} = req.body;
+        const {embId} = req.params;
+        EmbCanMessage.updateOne({"embId":embId},
+        {
+            $set:{
+                "count":count,
+                "byteCount":byteCount,
+                "data":data
+            }
+        })
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                res.status(200).json(doc);
+            }
+        });
     })
 }
-//DELETE deletes all of 
+
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(200).json({"Page":"Delete","userId":req.params.userId });
+        const {embId} = req.params;
+        EmbUart.findOne({"embId":embId})
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                if(doc){
+                    doc.remove((err)=>{
+                        if(err){
+                            res.status(400).json({"Message":"Error : Delete Error"});
+                        }
+                        else{
+                            res.status(200).json({"Message":"Item Deleted"});
+                        }
+                    })
+                }
+                else{
+                    res.status(404).json({"Message":"Not Found"});
+                }
+            }
+        });
     })
 }
-//POST add one ui page created from request body if valid
+
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Post","userId":req.params.userId });
+        res.status(405).json({"Message":"Not Allowed"});
     })
 }
