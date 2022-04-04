@@ -26,16 +26,16 @@ router.route('/:embId')
 
 
 router.route('/:embId/can')
-.get(embCanController.get)          //return can object - populate and select -done    
-.patch(embCanController.update)     //not allowed -done
-.delete(embCanController.delete)     //delete  -done
-.post(embCanController.create_child);//create can message - done
+.get(embCanController.get)          //return can object - populate and select   -done    
+.patch(embCanController.update)     //not allowed                               -done
+.delete(embCanController.delete)     //delete                                   -done
+.post(embCanController.create_child);//create can message                       -done
 
 router.route('/:embId/can/:messageId')
-.get(embCanMessageController.get)       //get that can message -done       
-.put(embCanMessageController.update)    //replace that can message 
-.delete(embCanMessageController.delete) //delete that can message -done 
-.post(embCanMessageController.create_child);// not allowed  -done
+.get(embCanMessageController.get)       //get that can message         -done       
+.put(embCanMessageController.update)    //replace that can message     -done
+.delete(embCanMessageController.delete) //delete that can message      -done 
+.post(embCanMessageController.create_child);// not allowed                      -done
 
 
 router.route('/:embId/uart')

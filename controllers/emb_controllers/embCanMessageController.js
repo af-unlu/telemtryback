@@ -46,7 +46,25 @@ module.exports.get = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        res.status(201).json({"Page":"Put","userId":req.params.userId });
+        const{isEx,mId,dlc,data} = req.body;
+        const{messageId} = req.params;
+        EmbCanMessage.updateOne({"_id":messageId},
+        {
+            $set:{
+                "isEx":isEx,
+                "mId":mId,
+                "dlc":dlc,
+                "data":data
+            }
+        })
+        .exec((err,doc)=>{
+            if(err){
+                res.status(400).json({"Message":"Error : Bad Request"});
+            }
+            else{
+                res.status(200).json(doc);
+            }
+        });
     })
 }
 
