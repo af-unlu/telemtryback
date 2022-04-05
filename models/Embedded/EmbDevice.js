@@ -35,7 +35,7 @@ const embDeviceSchema = new mongoose.Schema({
 
 embDeviceSchema.pre('remove',async function (next) {
   mongoose.model('Device').updateOne({"_id":this.deviceId},
-  {$set:null},
+  {$set:{Emb:null}},
     (err)=>{
       if(err){
         console.log("here X");

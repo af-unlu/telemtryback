@@ -31,12 +31,7 @@ module.exports.get = async (req, res) => {
                 res.status(400).json({"Message":"Error : Bad Request"});
             }
             else{
-                if(doc){
-                    res.status(200).json(doc);
-                }
-                else{
-                    res.status(404).json({"Message":"Not Found"});
-                }
+                res.status(200).json(doc);
             }
         });
     })
@@ -85,7 +80,7 @@ module.exports.delete = async (req, res) => {
                     })
                 }
                 else{
-                    res.status(404).json({"Message":"Not Found"});
+                    res.status(404).json({"Message":"The Item you wanted to delete is not exist"});
                 }
             }
         });
