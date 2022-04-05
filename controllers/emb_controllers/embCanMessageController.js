@@ -24,7 +24,7 @@ const taskToDo= (req,res,task)=>{
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         const {messageId} = req.params.messageId;
-
+        console.log(messageId);
         EmbCanMessage.findOne({"_id":messageId})
         .exec((err,doc)=>{
             if(err){

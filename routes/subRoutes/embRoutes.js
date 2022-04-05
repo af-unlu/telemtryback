@@ -31,11 +31,13 @@ router.route('/:embId/can')
 .post(embCanController.create_child);//create can message                       -done
 
 router.route('/:embId/can/:messageId')
-.get(embCanMessageController.get)       //get that can message         -done       
+.get((req,res)=>{
+    res.send(req.params.messageId);
+})       //get that can message         -done       - req.params returns undefined?? inside function - fix that
 .put(embCanMessageController.update)    //replace that can message     -done
 .delete(embCanMessageController.delete) //delete that can message      -done 
 .post(embCanMessageController.create_child);// not allowed             -done
-
+//embCanMessageController.get
 
 router.route('/:embId/uart')
 .get(embUartController.get)      //return uart object       -done

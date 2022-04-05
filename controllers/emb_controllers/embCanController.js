@@ -30,7 +30,7 @@ module.exports.get = async (req, res) => {
                 }
             }
         ])
-        .select(["can"])
+        .select(["can","-_id"])
         .exec((err,doc)=>{
             if(err){
                 res.status(400).json({"Message":"Error : Bad Request"});
@@ -67,13 +67,13 @@ module.exports.delete = async (req, res) => {
                         element.remove((err)=>{
                             error=err;
                         })
-                        if(error){
-                            res.status(400).json({"Message":"Error Deleting Childs : Can Messages"});
-                        }
-                        else{
-                            es.status(200).json({"Message":"Succes"});
-                        }
                     });
+                    if(error){
+                        res.status(400).json({"Message":"Error Deleting Childs : Can Messages"});
+                    }
+                    else{
+                        res.status(200).json({"Message":"Succes"});
+                    }
                 }
                 else{
                     res.status(404).json({"Message":"Not Found"});
@@ -102,15 +102,15 @@ module.exports.create_child = async (req, res) => {
                 res.status(400).json({"Message":"Bad Request"});
             }
             else{
-                EmbDevice.updateOne({"_id":deviceId},
-                {$push:{"can.msgs":this._id},$inc:{"can.count":1}},
+                EmbDevice.updateOne({"_id":embId},
+                {$push:{"can.msgs":newCanMessage._id},$inc:{"can.count":1}},
                 (err,doc)=>{
                     if(err){
                         res.status(400).json({"Message":"Bad Request : Updating Parent"});
                     }
                     else{
                         if(doc){
-                            res.status(201).json(doc);
+                            res.status(201).json(newCanMessage);
                         }
                         else{
                             res.status(404).json({"Message":"Not Exist"});
