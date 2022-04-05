@@ -23,8 +23,7 @@ const taskToDo= (req,res,task)=>{
 
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
-        const {messageId} = req.params.messageId;
-        console.log(messageId);
+        const {messageId} = req.params;
         EmbCanMessage.findOne({"_id":messageId})
         .exec((err,doc)=>{
             if(err){
@@ -41,7 +40,7 @@ module.exports.get = async (req, res) => {
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         const{isEx,mId,dlc,data} = req.body;
-        const{messageId} = req.params;
+        const {messageId} = req.params;
         EmbCanMessage.updateOne({"_id":messageId},
         {
             $set:{
@@ -65,6 +64,7 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
+        const {messageId} = req.params;
         EmbCanMessage.findOne({"_id":messageId})
         .exec((err,doc)=>{
             if(err){

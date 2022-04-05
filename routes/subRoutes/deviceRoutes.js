@@ -8,15 +8,15 @@ const router = Router({mergeParams:true});
 
 //devices of a user
 router.route('/')
-.get(deviceController.get)          //get all devices - done - tested
-.delete(deviceController.delete)    //deletes all devices - done -tested
-.post(deviceController.create_child);//creates device - done -tested
+.get(deviceController.get)          //get all devices
+.delete(deviceController.delete)    //deletes all devices
+.post(deviceController.create_child);//creates device
 
 router.route('/:deviceId')
-.get(deviceIdController.get)          //get that device - done -tested
-.patch(deviceIdController.update)      //Patch that device -done -tested
-.delete(deviceIdController.delete)    //deletes that device - done -tested
-.post(deviceIdController.create_child);//Not Allowed - done
+.get(deviceIdController.get)          //get that device
+.patch(deviceIdController.update)      //Patch that device
+.delete(deviceIdController.delete)    //deletes that device
+.post(deviceIdController.create_child);//Not Allowed
 
 
 router.use("/:deviceId/emb",require('./embRoutes'));

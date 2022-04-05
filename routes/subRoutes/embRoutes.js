@@ -13,36 +13,33 @@ const router = Router({mergeParams:true});
 
 //Emb of specific Device of The User
 router.route('/')
-.get(embDeviceController.get)    //Returns That Emb if exist - no populate - done
-.post(embDeviceController.create_child);   //Creates empty - emb returns ID - need to revised
+.get(embDeviceController.get)    //Returns That Emb if exist
+.post(embDeviceController.create_child);   //Creates empty 
 
 
 router.route('/:embId')
-.get(embController.get)           //Return emb object - Just Populate -done  -uart populate done - can not yet
-.patch(embController.update)      //Patch emb object                  -done  -tested
-.delete(embController.delete)     //Delete - Done                     -done  -tested
+.get(embController.get)           //Return emb object - Just Populate -done  
+.patch(embController.update)      //Patch emb object                  -done  
+.delete(embController.delete)     //Delete - Done                     -done  
 .post(embController.create_child);//Create Uart Object - Done         -done  
 
 
 router.route('/:embId/can')
-.get(embCanController.get)          //return can object - populate and select   -done    
-.patch(embCanController.update)     //not allowed                               -done
-.delete(embCanController.delete)     //delete                                   -done
-.post(embCanController.create_child);//create can message                       -done
+.get(embCanController.get)          //return can object - populate and select      
+.patch(embCanController.update)     //not allowed                              
+.delete(embCanController.delete)     //delete                                  
+.post(embCanController.create_child);//create can message                      
 
 router.route('/:embId/can/:messageId')
-.get((req,res)=>{
-    res.send(req.params.messageId);
-})       //get that can message         -done       - req.params returns undefined?? inside function - fix that
-.put(embCanMessageController.update)    //replace that can message     -done
-.delete(embCanMessageController.delete) //delete that can message      -done 
-.post(embCanMessageController.create_child);// not allowed             -done
+.get(embCanMessageController.get)       //get that can message 
+.put(embCanMessageController.update)    //replace that can message   
+.delete(embCanMessageController.delete) //delete that can message    
+.post(embCanMessageController.create_child);// not allowed           
 //embCanMessageController.get
 
 router.route('/:embId/uart')
-.get(embUartController.get)      //return uart object       -done
-.put(embUartController.update)   //update uart object       -done
-.delete(embUartController.delete)//delete - empty           -done
-.post(embUartController.create_child);//not allowed         -done
-
+.get(embUartController.get)      //return uart object     
+.put(embUartController.update)   //update uart object     
+.delete(embUartController.delete)//delete - empty
+.post(embUartController.create_child);//not allowed    
 module.exports = router;
