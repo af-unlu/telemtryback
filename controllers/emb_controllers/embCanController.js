@@ -61,7 +61,7 @@ module.exports.delete = async (req, res) => {
                 res.status(400).json({"Message":"Error : Bad Request"});
             }
             else{
-                if(doc){
+                if(doc !=null){
                     let error;
                     doc.forEach(element => {
                         element.remove((err)=>{

@@ -69,7 +69,7 @@ module.exports.delete = async (req, res) => {
                 res.status(400).json({"Message":"Error : Bad Request"});
             }
             else{
-                if(doc){
+                if(doc !=null){
                     doc.remove((err)=>{
                         if(err){
                             res.status(400).json({"Message":"Error : Delete Error"});
