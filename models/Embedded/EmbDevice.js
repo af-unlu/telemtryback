@@ -38,6 +38,7 @@ embDeviceSchema.pre('remove',async function (next) {
   {$set:null},
     (err)=>{
       if(err){
+        console.log("here X");
         throw Error('Delete : Error emptying reference');
       }
     });  

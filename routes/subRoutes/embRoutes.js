@@ -5,7 +5,6 @@ const embController = require('../../controllers/emb_controllers/embController')
 const embCanController = require('../../controllers/emb_controllers/embCanController');
 const embCanMessageController = require('../../controllers/emb_controllers/embCanMessageController');
 const embUartController = require('../../controllers/emb_controllers/embUartController');
-const embUartMessageController = require('../../controllers/emb_controllers/embUartMessageController');
 
 const router = Router({mergeParams:true});
 

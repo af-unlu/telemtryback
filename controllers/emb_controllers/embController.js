@@ -44,7 +44,7 @@ module.exports.get = async (req, res) => {
         ])
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Something went wrong","Error":err});
             }
             else{
                 if(doc){
@@ -66,7 +66,7 @@ module.exports.update = async (req, res) => {
         { "$set": { log_ms:log_ms}},
         (err, doc) => {
             if (err) {
-                res.status(400).json({"Message": "Error"});
+                res.status(400).json({"Message":"Something went wrong","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -81,13 +81,13 @@ module.exports.delete = async (req, res) => {
         const embId = req.params.embId;
         EmbDevice.findOne({"_id":embId},(err,doc)=>{
             if(err){
-                res.status(400).json({"Message": "Error"});
+                res.status(400).json({"Message":"Something went wrong","Error":err});
             }
             else{
                 if(doc){
                     doc.remove((err)=>{
                         if(err){
-                            res.status(400).json({"Message": "Error"});
+                            res.status(400).json({"Message":"Something went wrong","Error":err});
                         }
                         else{
                             res.status(200).json({"Message": "Deleted","embId":embId});
@@ -95,7 +95,7 @@ module.exports.delete = async (req, res) => {
                     })
                 }else
                 {
-                    res.status(400).json({"Message": "Error"});
+                    res.status(400).json({"Message":"Something went wrong","Error":err});
                 }
             }
         })
@@ -106,36 +106,56 @@ module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         const {count, byteCount,data} = req.body;
         const {userId,deviceId,embId} = req.params;
-
-        const embUart = EmbUart({
-            userId:userId,
-            deviceId:deviceId,
-            embId:embId,
-            count:count,
-            byteCount:byteCount,
-            data:data
-        });
-        
-        embUart.save((err)=>{
+        let error;
+        EmbUart.findOne({"embId":embId})
+        .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Bad Request"});
+                error=err;
             }
             else{
-                EmbDevice.updateOne({"_id":embId},
-                {$set:{uart:embUart}},(err,doc)=>{
-                    if(err){
-                        res.status(400).json({"Message":"Bad Request"});
-                    }
-                    else{
-                        if(doc){
-                            res.status(201).json(doc);
+                if(doc){
+                    doc.remove((err)=>{
+                        if(err){
+                            error=err;
+                        }
+                    })
+                }
+            }
+        })
+        if(error){
+            res.status(400).json({"Message":"Something went wrong","Error":error});
+        }
+        else{
+            const embUart = EmbUart({
+                userId:userId,
+                deviceId:deviceId,
+                embId:embId,
+                count:count,
+                byteCount:byteCount,
+                data:data
+            });
+            
+            embUart.save((err)=>{
+                if(err){
+                    res.status(400).json({"Message":"Bad Request","Error":err});
+                }
+                else{
+                    EmbDevice.updateOne({"_id":embId},
+                    {$set:{uart:embUart}},(err,doc)=>{
+                        if(err){
+                            res.status(400).json({"Message":"Bad Request","Error":err});
                         }
                         else{
-                            res.status(404).json({"Message":"Not Exist"});
+                            if(doc){
+                                res.status(201).json(embUart);
+                            }
+                            else{
+                                res.status(404).json({"Message":"Not Exist"});
+                            }
                         }
-                    }
-                })
-            } 
-        })
+                    })
+                } 
+            })
+        }
     });
 }

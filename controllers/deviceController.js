@@ -81,8 +81,6 @@ module.exports.create_child = async (req, res) => {
             name: name,
             props: props,
             apikey: generateHardKey(),
-            Ui: null,
-            Emb: null
         });
         newDevice.save((err)=>{
             if(err){
@@ -96,12 +94,7 @@ module.exports.create_child = async (req, res) => {
                     }
                     else
                     {
-                        res.status(200).json(
-                            {
-                            "Message":"New Device Added",
-                            "Device":newDevice
-                            }
-                        )
+                        res.status(200).json(newDevice)
                     }
                 })
             }

@@ -74,31 +74,54 @@ module.exports.hardConfigGet = async (req, res) => {
 
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
-        const newEmbDev = EmbDevice({
-            userId: req.params.userId,
-            deviceId: req.params.deviceId,
-            api_key: generateHardKey(),
-            can: {
-                count: 0,
-                msgs: []
-            },
-            uart: null
-        });
-        newEmbDev.save((err) => {
-            if (err) {
-                res.status(400).json({ "Message": "Bad Request 1" });
-            } else {
-                Device.updateOne({ "_id": req.params.deviceId },
-                    { $set: { Emb: newEmbDev._id } },
-                    (err) => {
-                        if (err) {
-                            res.status(400).json({ "Message": "Bad Request 2" });
-                        }
-                        else {
-                            res.status(201).json(newEmbDev);
-                        }
-                    });
+        //check if this device has embd exist?
+        const {userId,deviceId}=req.params;
+        let error;
+        EmbDevice.findOne({"deviceId":deviceId})
+        .exec((err,doc)=>{
+            if(err){
+                error=err;
             }
-        });
+            else{
+                if(doc){
+                    doc.remove((err)=>{
+                        if(err){
+                            error=err;
+                        }
+                    })
+                }
+            }
+        })
+        if(error){
+            res.status(400).json({ "Message": "Something went wrong" });
+        }
+        else{
+            const newEmbDev = EmbDevice({
+                userId: userId,
+                deviceId: deviceId,
+                api_key: generateHardKey(),
+                can: {
+                    count: 0,
+                    msgs: []
+                },
+                uart: null
+            });
+            newEmbDev.save((err) => {
+                if (err) {
+                    res.status(400).json({ "Message": "Bad Request 1" });
+                } else {
+                    Device.updateOne({ "_id": deviceId },
+                        { $set: { Emb: newEmbDev._id } },
+                        (err,doc) => {
+                            if (err) {
+                                res.status(400).json({ "Message": "Bad Request 2" });
+                            }
+                            else {
+                                res.status(201).json(newEmbDev);
+                            }
+                        });
+                }
+            });
+        }
     })
 }
