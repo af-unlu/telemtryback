@@ -92,8 +92,8 @@ module.exports.create_child = async (req, res) => {
             }
             else{
                 UiDevice.updateOne({ "_id": uiId},
-                { push: { widgets: newWidget._id } },
-                (err) => {
+                { $push: { widgets: newWidget._id } },
+                (err,doc) => {
                     if (err) {
                         res.status(400).json({ "Message": "Bad Request 2" , "Error": err});
                     }
