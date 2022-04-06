@@ -19,14 +19,14 @@ router.route('/')
 
 router.route('/:embId')
 .get(embController.get)           //Return emb object - Just Populate -done  
-.patch(embController.update)      //Patch emb object                  -done  
+.put(embController.update)      //Patch emb object                  -done  
 .delete(embController.delete)     //Delete - Done                     -done  
 .post(embController.create_child);//Create Uart Object - Done         -done  
 
 
 router.route('/:embId/can')
 .get(embCanController.get)          //return can object - populate and select      
-.patch(embCanController.update)     //not allowed                              
+.put(embCanController.update)     //not allowed                              
 .delete(embCanController.delete)     //delete                                  
 .post(embCanController.create_child);//create can message                      
 
