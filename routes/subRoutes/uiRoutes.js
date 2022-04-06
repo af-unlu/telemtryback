@@ -16,7 +16,7 @@ router.route('/')
 //specific ui of an user
 router.route('/:uiId')
 .get(uiPageController.get)           //gets that page - Populate Widgets          
-.put(uiPageController.update)        //replaces that page -
+.put(uiPageController.update)        //Not Allowed
 .delete(uiPageController.delete)     //deletes that page -
 .post(uiPageController.create_child);//creates a child inside a page
 

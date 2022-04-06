@@ -104,17 +104,12 @@ module.exports.create_child = async (req, res) => {
             else{
                 EmbDevice.updateOne({"_id":embId},
                 {$push:{"can.msgs":newCanMessage._id},$inc:{"can.count":1}},
-                (err,doc)=>{
+                (err)=>{
                     if(err){
                         res.status(400).json({"Message":"Bad Request : Updating Parent"});
                     }
                     else{
-                        if(doc){
-                            res.status(201).json(newCanMessage);
-                        }
-                        else{
-                            res.status(404).json({"Message":"Not Exist"});
-                        }
+                         res.status(201).json(newCanMessage);
                     }
                 });  
             }

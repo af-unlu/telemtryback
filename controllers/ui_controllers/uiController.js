@@ -1,6 +1,4 @@
 //#region depends
-const generateApiKey = require('generate-api-key');
-const User = require("../../models/User");
 const UiDevice = require("../../models/Front/UIDevice");
 const Device = require("../../models/Device");
 
@@ -28,10 +26,11 @@ const taskToDo = (req, res, task) => {
 //Not populated
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        UiDevice.findOne({ "deviceId": req.params.deviceId }, (err, found) => {
+        const { deviceId } = req.params.deviceId;
+        UiDevice.findOne({ "deviceId": deviceId }, (err, found) => {
             if (err) {
                 res.status(400).json({ "Message": "Bad Request" });
-            } 
+            }
             else {
                 res.status(200).json(found);
             }
@@ -39,28 +38,44 @@ module.exports.get = async (req, res) => {
     })
 }
 
-//creates a ui page to a device 
-//also if there is already a page exist for that device it will overtite and create a new one
-// its not a bug its a feature
+
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
-        const { name } = req.body;
-        const newUiDev = UiDevice({
-            userId: req.params.userId,
-            deviceId: req.params.deviceId,
-            name: name,
-            widgets: []
-        });
-        newUiDev.save();
-        Device.updateOne({ "_id": req.params.deviceId },
-            { "$set": { Ui: newUiDev._id } },
-            (err) => {
+        //check if this device has ui exist?
+        const { userId, deviceId } = req.params;
+        UiDevice.findOne({ "deviceId": deviceId })
+            .exec((err, doc) => {
                 if (err) {
-                    res.status(400).json({ "Message": "Bad Request" });
+                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
                 }
                 else {
-                    res.status(201).json(newUiDev);
+                    if (doc != null) {
+                        res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
+                    }
+                    else {
+                        const newUiDev = UiDevice({
+                            userId: userId,
+                            deviceId: deviceId,
+                            widgets: []
+                        });
+                        newUiDev.save((err) => {
+                            if (err) {
+                                res.status(400).json({ "Message": "Bad Request 1", "Error": err });
+                            } else {
+                                Device.updateOne({ "_id": deviceId },
+                                    { $set: { Ui: newUiDev._id } },
+                                    (err) => {
+                                        if (err) {
+                                            res.status(400).json({ "Message": "Bad Request 2", "Error": err });
+                                        }
+                                        else {
+                                            res.status(201).json(newUiDev);
+                                        }
+                                    });
+                            }
+                        });
+                    }
                 }
-            });
+            })
     })
 }

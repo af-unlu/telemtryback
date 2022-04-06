@@ -7,6 +7,11 @@ const uiWidgetSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Error Message'],
     },
+    deviceId:{
+        type: mongoose.Types.ObjectId, 
+        ref: 'Device' ,
+        required: [true, 'Error Message'],
+    },
     uiId: {
         type: mongoose.Types.ObjectId,
         ref: 'UiDevice',
@@ -42,6 +47,18 @@ const uiWidgetSchema = new mongoose.Schema({
         default:true
     },
 });
+
+//pre delete 
+uiWidgetSchema.pre('remove',async function (next) {
+    mongoose.model('UiDevice').updateOne({"_id":this.uiId},
+    {$pull:{widgets:this._id}},
+      (err)=>{
+        if(err){
+          throw Error('Delete : Error emptying reference');
+        }
+      });  
+      next();
+    });
 
 const UiWidget = mongoose.model('UiWidget', uiWidgetSchema);
 module.exports = UiWidget;

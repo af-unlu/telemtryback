@@ -27,7 +27,8 @@ const taskToDo = (req, res, task) => {
 //Populated Message, hope it works
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        EmbDevice.findOne({ "_id": req.params.embId })
+        const {embId} = req.params;
+        EmbDevice.findOne({ "_id": embId })
             .populate([
                 {
                     path: 'uart',
@@ -55,7 +56,7 @@ module.exports.get = async (req, res) => {
 module.exports.update = async (req, res) => {
     taskToDo(req, res, () => {
         const { log_ms } = req.body;
-        const embId = req.params.embId;
+        const {embId} = req.params;
         EmbDevice.updateOne({ "_id": embId },
             { "$set": { log_ms: log_ms } },
             (err, doc) => {

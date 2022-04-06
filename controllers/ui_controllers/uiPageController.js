@@ -1,6 +1,4 @@
 //#region depends
-const generateApiKey = require('generate-api-key');
-const User = require("../../models/User");
 
 const UiWidget = require('../../models/Front/UIWidget');
 const UiDevice = require('../../models/Front/UIDevice');
@@ -28,39 +26,61 @@ const taskToDo = (req, res, task) => {
 //get the page with widgets populated
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        UiDevice.findOne({"_id":req.params.uiId})
+        const {uiId} = req.params;
+        UiDevice.findOne({"_id":uiId})
         .populate({
             path: 'widgets'
         })
-        .exec(function (err, found) {
-            if(err){
-                res.status(400).json({ "Message": "Bad Request" });
-            }else
-            {
-                res.status(200).json(found);
+        .exec((err, doc) => {
+            if (err) {
+                res.status(400).json({ "Message": "Something went wrong", "Error": err });
             }
-        });
+            else {
+                res.status(200).json(doc);
+            }
+        })
     })
 }
 
 module.exports.update = async (req, res) => {
     taskToDo(req, res, () => {
-        res.status(201).json({ "Page": "Put", "userId": req.params.userId });
-    })
+        res.status(405).json({"Message":"Not Allowed"});
+    });
 }
 
 module.exports.delete = async (req, res) => {
     taskToDo(req, res, () => {
-        res.status(200).json({ "Page": "Delete", "userId": req.params.userId });
-    })
+        const {uiId} = req.params;
+        UiDevice.findOne({ "_id": uiId }, (err, doc) => {
+            if (err) {
+                res.status(400).json({ "Message": "Something went wrong", "Error": err });
+            }
+            else {
+                if (doc) {
+                    doc.remove((err) => {
+                        if (err) {
+                            res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                        }
+                        else {
+                            res.status(200).json({ "Message": "Deleted", "uiId": uiId });
+                        }
+                    })
+                } else {
+                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                }
+            }
+        })
+    });
 }
 
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         const { props, w_type, data, is_hidden } = req.body;
+        const {userId,deviceId,uiId} = req.params;
         const newWidget = UiWidget({
-            userId: req.params.userId,
-            uiId: req.params.uiId,
+            userId: userId,
+            deviceId:deviceId,
+            uiId: uiId,
             props: props,
             w_type: w_type,
             data: data,
@@ -68,14 +88,14 @@ module.exports.create_child = async (req, res) => {
         });
         newWidget.save((err)=>{
             if(err){
-                res.status(400).json({ "Message": "Bad Request 1" });
+                res.status(400).json({ "Message": "Bad Request 1" , "Error": err});
             }
             else{
-                UiDevice.updateOne({ "_id": req.params.uiId },
-                { "$push": { widgets: newWidget } },
+                UiDevice.updateOne({ "_id": uiId},
+                { push: { widgets: newWidget._id } },
                 (err) => {
                     if (err) {
-                        res.status(400).json({ "Message": "Bad Request 2" });
+                        res.status(400).json({ "Message": "Bad Request 2" , "Error": err});
                     }
                     else {
                         res.status(201).json(newWidget);

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UiWidget = require("./UIWidget");
 
 const uiDeviceSchema = new mongoose.Schema({
     userId: {
@@ -11,34 +12,36 @@ const uiDeviceSchema = new mongoose.Schema({
         ref: 'Device' ,
         required: [true, 'Error Message'],
     },
-    name:{
-        type: String,
-        required: [true, 'Please enter a name'],
-    },
     widgets:{
         type:[{ type: mongoose.Types.ObjectId, ref: 'UiWidget' }]
     }
-},{ timestamps: true }
-);
+});
 
-//Add Widget
-//Query by UserID & Device ID etc
-//What to do when delete
 
 uiDeviceSchema.pre('remove',async function (next) {
-    /*Device.find({"userId":this._id},(err,found)=>{
+  mongoose.model('Device').updateOne({"_id":this.deviceId},
+  {$set:{Ui:null}},
+    (err)=>{
       if(err){
-        throw Error('Delete : Error finding devices of the user');
+        throw Error('Delete : Error emptying reference');
+      }
+    });  
+    UiWidget.find({"uiId":this._id},(err,doc)=>{
+      if(err){
+        throw Error('Find : Error Finding Child EmbCanMessage');
       }
       else{
-        if(found){
-          found.forEach((item)=>{
-            item.remove();
-          })
+        if(doc){
+          doc.forEach(element => {
+            element.remove((err)=>{
+              if(err){
+                throw Error('Delete : Error Delete Child EmbCanMessage');
+              }
+            })
+          });
         }
       }
-    })*/
-    console.log("Ui Deleted");
+    });
     next();
   });
 
