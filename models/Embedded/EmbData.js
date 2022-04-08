@@ -15,7 +15,7 @@ const embDataSchema = new mongoose.Schema({
     required: [true, 'Please enter the index of data']
   },
   isLog: {
-    type: Boolean,
+    type: Number,
     // == true der geçeriz required olmasına gerek yok??
   }
 },{ _id : false ,versionKey: false});

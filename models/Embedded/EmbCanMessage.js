@@ -9,7 +9,7 @@ const embCanMessageSchema = new mongoose.Schema({
     required: [true, 'Error Message'],
   },
   isEx: {
-    type: Boolean,
+    type: Number,
     required: [true, 'Error Message']
   },
   mId: {
