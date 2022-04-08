@@ -25,6 +25,7 @@ const generateHardKey = () => {
 }
 
 const notSelected = ["-_id", "-userId", "-deviceId"];
+const populateNotSelected = { '_id': 0,'embId':0};
 //#endregion
 
 
@@ -43,20 +44,24 @@ module.exports.get = async (req, res) => {
     })
 }
 
+
+
 module.exports.hardConfigGet = async (req, res) => {
     EmbDevice.findOne({ "api_key": req.params.apikey })
         .select(notSelected)
         .populate([
             {
                 path: 'uart',
-                model: 'EmbUart'
+                model: 'EmbUart',
+                select: populateNotSelected,
             },
             {
                 path: "can",
                 populate: {
                     path: 'msgs',
-                    model: 'EmbCanMessage'
-                }
+                    model: 'EmbCanMessage',
+                    select: populateNotSelected,
+                },
             }
         ])
         .exec((err, found) => {
