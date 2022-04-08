@@ -26,7 +26,7 @@ const embDeviceSchema = new mongoose.Schema({
         },
         msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
-});
+},{versionKey: false});
 
 embDeviceSchema.pre('remove',async function (next) {
   mongoose.model('Device').updateOne({"_id":this.deviceId},

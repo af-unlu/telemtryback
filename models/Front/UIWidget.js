@@ -36,7 +36,7 @@ const uiWidgetSchema = new mongoose.Schema({
         type: Boolean,
         default:true
     },
-});
+},{versionKey: false});
 
 //pre delete 
 uiWidgetSchema.pre('remove',async function (next) {

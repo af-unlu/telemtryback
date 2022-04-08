@@ -18,7 +18,7 @@ const embDataSchema = new mongoose.Schema({
     type: Boolean,
     // == true der geçeriz required olmasına gerek yok??
   }
-},{ _id : false });
+},{ _id : false ,versionKey: false});
 
 const EmbData = embDataSchema;
 module.exports = EmbData;

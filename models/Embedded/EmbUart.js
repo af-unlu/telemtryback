@@ -18,7 +18,7 @@ const embUartSchema = new mongoose.Schema({
   data: {
     type: [EmbData]
   }
-});
+},{versionKey: false});
 
 embUartSchema.pre('remove',async function (next) {
   mongoose.model('EmbDevice').updateOne({"_id":this.embId},

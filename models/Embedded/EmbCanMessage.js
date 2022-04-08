@@ -23,7 +23,7 @@ const embCanMessageSchema = new mongoose.Schema({
   data: {
     type: [EmbData]
   }
-});
+},{versionKey: false});
 
 embCanMessageSchema.pre('remove',async function (next) {
   mongoose.model('EmbDevice').updateOne({"_id":this.embId},
