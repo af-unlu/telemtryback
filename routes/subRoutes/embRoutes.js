@@ -41,5 +41,5 @@ router.route('/:embId/uart')
 .get(embUartController.get)      //return uart object     
 .put(embUartController.update)   //update uart object     
 .delete(embUartController.delete)//delete - empty
-.post(embUartController.create_child);//not allowed    
+.post(embUartController.create_child);//not allowed  - can change actually
 module.exports = router;

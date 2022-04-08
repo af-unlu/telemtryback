@@ -42,7 +42,7 @@ module.exports.get = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         //check if this device has ui exist?
-        const { userId, deviceId } = req.params;
+        const {deviceId } = req.params;
         UiDevice.findOne({ "deviceId": deviceId })
             .exec((err, doc) => {
                 if (err) {
@@ -54,7 +54,6 @@ module.exports.create_child = async (req, res) => {
                     }
                     else {
                         const newUiDev = UiDevice({
-                            userId: userId,
                             deviceId: deviceId,
                             widgets: []
                         });

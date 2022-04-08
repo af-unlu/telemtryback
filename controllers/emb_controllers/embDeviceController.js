@@ -30,7 +30,7 @@ const notSelected = ["-_id", "-userId", "-deviceId"];
 
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        const { deviceId } = req.params.deviceId;
+        const { deviceId } = req.params;
         EmbDevice.findOne({ "deviceId": deviceId },
             (err, found) => {
                 if (err) {
@@ -74,7 +74,7 @@ module.exports.hardConfigGet = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         //check if this device has embd exist?
-        const { userId, deviceId } = req.params;
+        const {deviceId } = req.params;
         EmbDevice.findOne({ "deviceId": deviceId })
             .exec((err, doc) => {
                 if (err) {
@@ -86,7 +86,6 @@ module.exports.create_child = async (req, res) => {
                     }
                     else{
                         const newEmbDev = EmbDevice({
-                            userId: userId,
                             deviceId: deviceId,
                             api_key: generateHardKey(),
                             can: {

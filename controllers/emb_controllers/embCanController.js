@@ -86,11 +86,9 @@ module.exports.delete = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         const {isEx,mId,dlc,data} = req.body;
-        const {userId,deviceId,embId} = req.params;
+        const {embId} = req.params;
 
         const newCanMessage = EmbCanMessage({
-            userId:userId,
-            deviceId:deviceId,
             embId:embId,
             isEx:isEx,
             mId:mId,

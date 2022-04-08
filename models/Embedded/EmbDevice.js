@@ -4,11 +4,6 @@ const EmbCanMessage = require("./EmbCanMessage");
 const EmbUart = require("./EmbUart");
 
 const embDeviceSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Error Message'],
-    },
     deviceId:{
         type: mongoose.Types.ObjectId, 
         ref: 'Device' ,

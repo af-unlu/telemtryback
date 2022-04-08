@@ -2,16 +2,6 @@ const mongoose = require('mongoose');
 
 
 const uiWidgetSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Error Message'],
-    },
-    deviceId:{
-        type: mongoose.Types.ObjectId, 
-        ref: 'Device' ,
-        required: [true, 'Error Message'],
-    },
     uiId: {
         type: mongoose.Types.ObjectId,
         ref: 'UiDevice',
