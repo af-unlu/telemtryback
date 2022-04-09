@@ -24,7 +24,7 @@ const generateHardKey = () => {
     return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+' });
 }
 
-
+const HardConfigOrder = [""]
 const OrderedJson = (doc,fields)=>{
     return JSON.parse(JSON.stringify( doc, fields));
 };

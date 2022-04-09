@@ -1,6 +1,6 @@
 //#region depends
-const EmbUart = require("../../models/Embedded/EmbUart");
-
+const EmbSerial = require("../../models/Embedded/EmbSerial");
+const EmbDevice = require("../../models/Embedded/EmbDevice");
 
 const taskToDo= (req,res,task)=>{
     if(res.locals.myStatus === 200){
@@ -18,14 +18,10 @@ const taskToDo= (req,res,task)=>{
 }  
 //#endregion
 
-//router.use("/user/:userId/device",
-//require('./subRoutes/deviceRoutes'));
-//router.route('/:embId/uart')
-
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         const {embId} = req.params;
-        EmbUart.findOne({"embId":embId})
+        EmbSerial.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
                 res.status(400).json({"Message":"Error : Bad Request"});
@@ -41,7 +37,7 @@ module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         const{count,byteCount,data} = req.body;
         const {embId} = req.params;
-        EmbCanMessage.updateOne({"embId":embId},
+        EmbSerial.updateOne({"embId":embId},
         {
             $set:{
                 "count":count,
@@ -63,7 +59,7 @@ module.exports.update = async (req, res) => {
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         const {embId} = req.params;
-        EmbUart.findOne({"embId":embId})
+        EmbSerial.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
                 res.status(400).json({"Message":"Error : Bad Request"});
@@ -86,7 +82,6 @@ module.exports.delete = async (req, res) => {
         });
     })
 }
-
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
         res.status(405).json({"Message":"Not Allowed"});

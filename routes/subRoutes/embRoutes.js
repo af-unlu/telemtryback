@@ -4,7 +4,7 @@ const embDeviceController = require('../../controllers/emb_controllers/embDevice
 const embController = require('../../controllers/emb_controllers/embController');
 const embCanController = require('../../controllers/emb_controllers/embCanController');
 const embCanMessageController = require('../../controllers/emb_controllers/embCanMessageController');
-const embUartController = require('../../controllers/emb_controllers/embUartController');
+const embSerialController = require('../../controllers/emb_controllers/embSerialController');
 
 const router = Router({mergeParams:true});
 
@@ -18,10 +18,10 @@ router.route('/')
 
 
 router.route('/:embId')
-.get(embController.get)           //Return emb object - Just Populate -done  
-.put(embController.update)      //Patch emb object                  -done  
-.delete(embController.delete)     //Delete - Done                     -done  
-.post(embController.create_child);//Create Uart Object - Done         -done  
+.get(embController.get)           //Return emb object - Just Populate
+.put(embController.update)      //Patch emb object                 
+.delete(embController.delete)     //Delete                
+.post(embController.create_child);//Create serial object and insert to specific field , so you need to send that field name to 
 
 
 router.route('/:embId/can')
@@ -35,11 +35,13 @@ router.route('/:embId/can/:messageId')
 .put(embCanMessageController.update)    //replace that can message   
 .delete(embCanMessageController.delete) //delete that can message    
 .post(embCanMessageController.create_child);// not allowed           
-//embCanMessageController.get
 
-router.route('/:embId/uart')
-.get(embUartController.get)      //return uart object     
-.put(embUartController.update)   //update uart object     
-.delete(embUartController.delete)//delete - empty
-.post(embUartController.create_child);//not allowed  - can change actually
+router.route('/:embId/serial')
+.get(embSerialController.get)            //return serial object     
+.put(embSerialController.update)         //update serial object     
+.delete(embSerialController.delete)      //delete - empty
+.post(embSerialController.create_child); //c not allowed
+
+
+
 module.exports = router;
