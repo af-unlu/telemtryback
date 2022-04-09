@@ -8,16 +8,20 @@ const embCanMessageSchema = new mongoose.Schema({
     ref: 'EmbDevice',
     required: [true, 'Error Message'],
   },
-  isEx: {
+  is_ex: {
     type: Number,
     required: [true, 'Error Message']
   },
-  mId: {
+  id: {
     type: Number,
     required: [true, 'Error Message']
   },
   dlc: {
     type: Number,
+    required: [true, 'Error Message']
+  },
+  data_count:{
+    type:Number,
     required: [true, 'Error Message']
   },
   data: {

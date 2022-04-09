@@ -24,7 +24,7 @@ const embDeviceSchema = new mongoose.Schema({
             type:Number,
             required: [true, 'Error Message']
         },
-        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
+        messages:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
 },{versionKey: false});
 

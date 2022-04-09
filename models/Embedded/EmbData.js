@@ -2,21 +2,20 @@
 const mongoose = require('mongoose');
 
 const embDataSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: [true, 'Please enter the type of data'],
+  },
   name: {
     type: String,
     required: [true, 'Please enter a name'],
-  },
-  dataType: {
-    type: String,
-    required: [true, 'Please enter the type of data'],
   },
   index: {
     type: Number,
     required: [true, 'Please enter the index of data']
   },
-  isLog: {
+  log: {
     type: Number,
-    // == true der geçeriz required olmasına gerek yok??
   }
 },{ _id : false ,versionKey: false});
 

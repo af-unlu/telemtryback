@@ -24,6 +24,11 @@ const generateHardKey = () => {
     return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+' });
 }
 
+
+const OrderedJson = (doc,fields)=>{
+    return JSON.parse(JSON.stringify( doc, fields));
+};
+
 const notSelected = ["-_id", "-userId", "-deviceId"];
 const populateNotSelected = { '_id': 0,'embId':0};
 //#endregion
