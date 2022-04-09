@@ -4,11 +4,6 @@ const EmbCanMessage = require("./EmbCanMessage");
 const EmbUart = require("./EmbUart");
 
 const embDeviceSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Error Message'],
-    },
     deviceId:{
         type: mongoose.Types.ObjectId, 
         ref: 'Device' ,
@@ -29,9 +24,9 @@ const embDeviceSchema = new mongoose.Schema({
             type:Number,
             required: [true, 'Error Message']
         },
-        msgs:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
+        messages:[{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
     }
-});
+},{versionKey: false});
 
 embDeviceSchema.pre('remove',async function (next) {
   mongoose.model('Device').updateOne({"_id":this.deviceId},

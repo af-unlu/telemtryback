@@ -28,7 +28,7 @@ const deviceSchema = new mongoose.Schema({
         type: { type: mongoose.Types.ObjectId, ref: 'EmbDevice' }
     },
 },
-{ timestamps: true });
+{ timestamps: true ,versionKey: false});
 
 
 deviceSchema.pre('remove',async function (next) {

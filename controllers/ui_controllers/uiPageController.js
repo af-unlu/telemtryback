@@ -76,10 +76,8 @@ module.exports.delete = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         const { props, w_type, data, is_hidden } = req.body;
-        const {userId,deviceId,uiId} = req.params;
+        const {uiId} = req.params;
         const newWidget = UiWidget({
-            userId: userId,
-            deviceId:deviceId,
             uiId: uiId,
             props: props,
             w_type: w_type,

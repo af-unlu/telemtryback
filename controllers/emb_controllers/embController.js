@@ -99,7 +99,7 @@ module.exports.delete = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         const { count, byteCount, data } = req.body;
-        const { userId, deviceId, embId } = req.params;
+        const { embId } = req.params;
 
         EmbUart.findOne({ "embId": embId })
             .exec((err, doc) => {
@@ -112,8 +112,6 @@ module.exports.create_child = async (req, res) => {
                     }
                     else {
                         const embUart = EmbUart({
-                            userId: userId,
-                            deviceId: deviceId,
                             embId: embId,
                             count: count,
                             byteCount: byteCount,

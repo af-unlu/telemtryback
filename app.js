@@ -1,30 +1,27 @@
 //#region Init
-require('dotenv').config()
+
+require('dotenv').config();
 const express = require("express");
 const helmet = require('helmet');
-//const mongoSanitize = require('express-mongo-sanitize');
 //const logger = require('morgan');
-var errorhandler = require('errorhandler')
+var errorhandler = require('errorhandler');
 const mongoose = require('mongoose');
-const { checkUser} = require('./middleware/authMiddleware');
-
 const cookieParser = require('cookie-parser');
 var cors = require("cors");
-const User = require('./models/User');
+//#endregion
 
 const app = express();
 
-//Middleware
+//#region MiddleWare
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 //app.use(logger);
 if (process.env.NODE_ENV === 'development') {
-    // only use in development
     app.use(errorhandler())
 }
-
+//#endregion
 
 mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then((result) => {
@@ -33,34 +30,9 @@ mongoose.connect(process.env.DB_BASE_URL,{ useNewUrlParser: true, useUnifiedTopo
 })
 .catch((err) => console.log(err));
 
-//#endregion
-
 
 app.use("/api",require('./routes/mainRouter'));
-/*
-//Maybe in future
-app.use("/delete=:userId",(req,res)=>{
-    User.findOne({"_id":req.params.userId},(err,found)=>{
-        if(err){
-            res.status(400).json({"Message":"Bad Request"});
-        }else{
-            if(found){
-                found.remove((err)=>{
-                    if(err){
-                        res.status(400).json({"Message":"Bad Request"});
-                    }
-                    else{
-                        res.status(200).json({"Message":"User Silindi"});
-                    }
-                });
-            }else{
-                res.status(404).json({"Message":"Not Found"});
-            }
-        }
-    })
-})
-*/
+
 app.use(function(req, res, next) {
-    res.status(404);
-    res.json({ error: 'Not found' });
+    res.status(404).json({ error: 'Not found' });
 });

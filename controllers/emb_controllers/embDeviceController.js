@@ -24,13 +24,19 @@ const generateHardKey = () => {
     return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~+' });
 }
 
+
+const OrderedJson = (doc,fields)=>{
+    return JSON.parse(JSON.stringify( doc, fields));
+};
+
 const notSelected = ["-_id", "-userId", "-deviceId"];
+const populateNotSelected = { '_id': 0,'embId':0};
 //#endregion
 
 
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        const { deviceId } = req.params.deviceId;
+        const { deviceId } = req.params;
         EmbDevice.findOne({ "deviceId": deviceId },
             (err, found) => {
                 if (err) {
@@ -43,20 +49,24 @@ module.exports.get = async (req, res) => {
     })
 }
 
+
+
 module.exports.hardConfigGet = async (req, res) => {
     EmbDevice.findOne({ "api_key": req.params.apikey })
         .select(notSelected)
         .populate([
             {
                 path: 'uart',
-                model: 'EmbUart'
+                model: 'EmbUart',
+                select: populateNotSelected,
             },
             {
                 path: "can",
                 populate: {
                     path: 'msgs',
-                    model: 'EmbCanMessage'
-                }
+                    model: 'EmbCanMessage',
+                    select: populateNotSelected,
+                },
             }
         ])
         .exec((err, found) => {
@@ -74,7 +84,7 @@ module.exports.hardConfigGet = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         //check if this device has embd exist?
-        const { userId, deviceId } = req.params;
+        const {deviceId } = req.params;
         EmbDevice.findOne({ "deviceId": deviceId })
             .exec((err, doc) => {
                 if (err) {
@@ -86,7 +96,6 @@ module.exports.create_child = async (req, res) => {
                     }
                     else{
                         const newEmbDev = EmbDevice({
-                            userId: userId,
                             deviceId: deviceId,
                             api_key: generateHardKey(),
                             can: {
