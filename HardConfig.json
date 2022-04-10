@@ -1,0 +1,130 @@
+{
+  "api_key": "sdfkljfhdsjlwrjkew32",
+  "log_ms": 500,
+  "can": {
+    "count": 2,
+    "messages": [
+      {
+        "is_ex": 1,
+        "id": 156840,
+        "dlc": 3,
+        "data_count": 2,
+        "data": [
+          {
+            "type": "u16",
+            "name": "temp",
+            "index": 0,
+            "log": 0
+          },
+          {
+            "type": "u8",
+            "name": "count",
+            "index": 2,
+            "log": 0
+          }
+        ]
+      },
+      {
+        "is_ex": 1,
+        "id": 156844,
+        "dlc": 8,
+        "data_count": 2,
+        "data": [
+          {
+            "type": "s32",
+            "name": "temp",
+            "index": 3,
+            "log": 0
+          },
+          {
+            "type": "f32",
+            "name": "count",
+            "index": 7,
+            "log": 0
+          }
+        ]
+      }
+    ]
+  },
+  "rs485": {
+    "count": 4,
+    "byte_count": 16,
+    "messages": [
+      {
+        "type": "f32",
+        "name": "count",
+        "index": 11,
+        "log": 0
+      },
+      {
+        "type": "f32",
+        "name": "count",
+        "index": 15,
+        "log": 0
+      },
+      {
+        "type": "f32",
+        "name": "count",
+        "index": 19,
+        "log": 0
+      },
+      {
+        "type": "f32",
+        "name": "count",
+        "index": 23,
+        "log": 0
+      }
+    ]
+  },
+  "spi": {
+    "count": 3,
+    "byte_count": 6,
+    "messages": [
+      {
+        "type": "u16",
+        "name": "count",
+        "index": 27,
+        "log": 0
+      },
+      {
+        "type": "s16",
+        "name": "count",
+        "index": 29,
+        "log": 0
+      },
+      {
+        "type": "u16",
+        "name": "count",
+        "index": 31,
+        "log": 0
+      }
+    ]
+  },
+  "i2c": {
+    "count": 3,
+    "byte_count": 6,
+    "messages": [
+      {
+        "type": "u16",
+        "name": "count",
+        "address": 16,
+        "index": 33,
+        "log": 0
+      },
+      {
+        "type": "s16",
+        "name": "count",
+        "address": 96,
+        "index": 35,
+        "log": 0
+      },
+      {
+        "type": "u16",
+        "name": "count",
+        "address": 255,
+        "index": 37,
+        "log": 0
+      }
+    ]
+  }
+}
