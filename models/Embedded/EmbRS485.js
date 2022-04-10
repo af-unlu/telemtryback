@@ -1,7 +1,8 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
 const EmbData = require('./EmbData');
-const embSerialSchema = new mongoose.Schema({
+
+const embRS485Schema = new mongoose.Schema({
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',
@@ -21,5 +22,5 @@ const embSerialSchema = new mongoose.Schema({
 },{versionKey: false});
 
 
-const EmbUart = mongoose.model('EmbSerial', embSerialSchema);
-module.exports = EmbUart;
+const EmbRS485 = mongoose.model('EmbRS485', embRS485Schema);
+module.exports = EmbRS485;

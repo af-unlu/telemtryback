@@ -21,7 +21,7 @@ router.route('/:embId')
 .get(embController.get)           //Return emb object - Just Populate
 .put(embController.update)      //Patch emb object                 
 .delete(embController.delete)     //Delete                
-.post(embController.create_child);//Create serial object and insert to specific field , so you need to send that field name to 
+.post(embController.create_child);// not allowed
 
 
 router.route('/:embId/can')
