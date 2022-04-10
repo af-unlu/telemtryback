@@ -1,6 +1,6 @@
 //#region depends
 const EmbDevice = require("../../models/Embedded/EmbDevice");
-const EmbSerial = require("../../models/Embedded/EmbDevice");
+const EmbSerial = require("../../models/Embedded/EmbSerial");
 
 const generateApiKey = require('generate-api-key');
 
@@ -21,34 +21,43 @@ const taskToDo = (req, res, task) => {
 }
 
 
-//Populated Message, hope it works
 module.exports.get = async (req, res) => {
-    taskToDo(req, res, () => {
-        const { embId } = req.params;
-        EmbDevice.findOne({ "_id": embId })
-            .populate([
-                {
-                    path: 'uart',
-                    model: 'EmbUart',
+    const { embId } = req.params;
+    EmbDevice.findOne({ "_id": embId })
+        .populate([
+            {
+                path: 'rs485',
+                model: 'EmbSerial',
+            },
+            {
+                path: 'spi',
+                model: 'EmbSerial',
+            },
+            {
+                path: 'i2c',
+                model: 'EmbSerial',
+
+            },
+            {
+                path: "can",
+                populate: {
+                    path: 'msgs',
+                    model: 'EmbCanMessage',
                 },
-                {
-                    path: "can",
-                    populate: {
-                        path: 'msgs',
-                        model: 'EmbCanMessage',
-                    },
-                }
-            ])
-            .exec((err, doc) => {
-                if (err) {
-                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
-                }
-                else {
-                    res.status(200).json(doc);
-                }
-            })
-    });
+            }
+        ])
+        .exec((err, doc) => {
+            if (err) {
+                res.status(400).json({
+                    "Message": "Bad Request"
+                });
+            }
+            else {
+                res.status(200).json(doc);
+            }
+        });
 }
+
 
 module.exports.update = async (req, res) => {
     taskToDo(req, res, () => {
@@ -96,38 +105,41 @@ module.exports.delete = async (req, res) => {
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
         const serialTypes = ["rs485","spi","i2c"];
-        const { serialType,count, byteCount, data} = req.body;
+        const { serialType,count, byte_count, messages} = req.body;
         const { embId } = req.params;
-        if(serialTypeincludes(serialType.toString())){
-            EmbSerial.findOne({ "embId": embId })
+        if(serialTypes.includes(serialType)){
+            EmbDevice.findOne({ "_id": embId })
             .exec((err, doc) => {
                 if (err) {
                     res.status(400).json({ "Message": "Something went wrong", "Error": err });
                 }
                 else {
-                    if (doc != null) {
+                    console.log(serialType);
+                    console.log(doc);
+                    if (doc.serialType != null) {
                         res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
                     }
                     else {
                         const embSerial = EmbSerial({
                             embId: embId,
                             count: count,
-                            byteCount: byteCount,
-                            data: data
+                            byte_count: byte_count,
+                            messages: messages,
                         });
                         embSerial.save((err) => {
                             if (err) {
                                 res.status(400).json({ "Message": "Bad Request", "Error": err });
                             }
                             else {
+                                console.log("Buraya geliyor mu ak")
                                 EmbDevice.updateOne({ "_id": embId },
-                                    { $set: { serialType: embUart } }, (err, doc) => {
+                                    { $set: { serialType: embSerial._id } }, (err, doc) => {
                                         if (err) {
                                             res.status(400).json({ "Message": "Bad Request", "Error": err });
                                         }
                                         else {
                                             if (doc) {
-                                                res.status(201).json(embUart);
+                                                res.status(201).json(doc);
                                             }
                                             else {
                                                 res.status(404).json({ "Message": "Not Exist" });

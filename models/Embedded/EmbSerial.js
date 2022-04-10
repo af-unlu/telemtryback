@@ -11,11 +11,11 @@ const embSerialSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Error Message']
   },
-  byteCount: {
+  byte_count: {
     type: Number,
     required: [true, 'Error Message']
   },
-  data: {
+  messages: {
     type: [EmbData]
   }
 },{versionKey: false});

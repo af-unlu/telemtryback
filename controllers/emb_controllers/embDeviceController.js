@@ -108,7 +108,10 @@ module.exports.create_child = async (req, res) => {
                                 count: 0,
                                 msgs: []
                             },
-                            uart: null
+                            rs485: null,
+                            spi:null,
+                            i2c:null
+
                         });
                         newEmbDev.save((err) => {
                             if (err) {
