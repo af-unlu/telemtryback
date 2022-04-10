@@ -18,10 +18,10 @@ router.route('/')
 
 
 router.route('/:embId')
-.get(embController.get)           //Return emb object - Just Populate -done  
-.put(embController.update)      //Patch emb object                  -done  
-.delete(embController.delete)     //Delete - Done                     -done  
-.post(embController.create_child);//Create Uart Object - Done         -done  
+.get(embController.get)           //Return emb object - Just Populate 
+.put(embController.update)      //Patch emb object                  
+.delete(embController.delete)     //Delete - Done                    
+.post(embController.create_child);//Create Uart Object
 
 
 router.route('/:embId/can')

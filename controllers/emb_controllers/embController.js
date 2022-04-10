@@ -27,19 +27,19 @@ const taskToDo = (req, res, task) => {
 //Populated Message, hope it works
 module.exports.get = async (req, res) => {
     taskToDo(req, res, () => {
-        const {embId} = req.params;
+        const { embId } = req.params;
         EmbDevice.findOne({ "_id": embId })
             .populate([
                 {
                     path: 'uart',
-                    model: 'EmbUart'
+                    model: 'EmbUart',
                 },
                 {
                     path: "can",
                     populate: {
                         path: 'msgs',
-                        model: 'EmbCanMessage'
-                    }
+                        model: 'EmbCanMessage',
+                    },
                 }
             ])
             .exec((err, doc) => {
@@ -56,7 +56,7 @@ module.exports.get = async (req, res) => {
 module.exports.update = async (req, res) => {
     taskToDo(req, res, () => {
         const { log_ms } = req.body;
-        const {embId} = req.params;
+        const { embId } = req.params;
         EmbDevice.updateOne({ "_id": embId },
             { "$set": { log_ms: log_ms } },
             (err, doc) => {
