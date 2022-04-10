@@ -1,7 +1,7 @@
 //Bir CAN Mesajı
 const mongoose = require('mongoose');
 const EmbData = require('./EmbData');
-const embUartSchema = new mongoose.Schema({
+const embSerialSchema = new mongoose.Schema({
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',
@@ -20,16 +20,6 @@ const embUartSchema = new mongoose.Schema({
   }
 },{versionKey: false});
 
-embUartSchema.pre('remove',async function (next) {
-  mongoose.model('EmbDevice').updateOne({"_id":this.embId},
-  {$set:{"uart":null}},
-    (err)=>{
-      if(err){
-        throw Error('Delete : Error emptying reference');
-      }
-    });  
-  next();
-});
 
-const EmbUart = mongoose.model('EmbUart', embUartSchema);
+const EmbUart = mongoose.model('EmbSerial', embSerialSchema);
 module.exports = EmbUart;

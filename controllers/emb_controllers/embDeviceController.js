@@ -25,10 +25,6 @@ const generateHardKey = () => {
 }
 
 
-const OrderedJson = (doc,fields)=>{
-    return JSON.parse(JSON.stringify( doc, fields));
-};
-
 const notSelected = ["-_id", "-userId", "-deviceId"];
 const populateNotSelected = { '_id': 0,'embId':0};
 //#endregion
@@ -56,8 +52,18 @@ module.exports.hardConfigGet = async (req, res) => {
         .select(notSelected)
         .populate([
             {
-                path: 'uart',
-                model: 'EmbUart',
+                path: 'rs485',
+                model: 'EmbSerial',
+                select: populateNotSelected,
+            },
+            {
+                path: 'spi',
+                model: 'EmbSerial',
+                select: populateNotSelected,
+            },
+            {
+                path: 'i2c',
+                model: 'EmbSerial',
                 select: populateNotSelected,
             },
             {
@@ -69,14 +75,14 @@ module.exports.hardConfigGet = async (req, res) => {
                 },
             }
         ])
-        .exec((err, found) => {
+        .exec((err, doc) => {
             if (err) {
                 res.status(400).json({
                     "Message": "Bad Request"
                 });
             }
             else {
-                res.status(200).json(found);
+                res.status(200).json(doc);
             }
         });
 }

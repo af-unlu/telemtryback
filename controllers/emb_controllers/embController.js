@@ -1,9 +1,6 @@
 //#region depends
-const User = require("../../models/User");
-const Device = require("../../models/Device");
 const EmbDevice = require("../../models/Embedded/EmbDevice");
-const EmbCanMessage = require("../../models/Embedded/EmbCanMessage");
-const EmbUart = require("../../models/Embedded/EmbUart");
+const EmbSerial = require("../../models/Embedded/EmbDevice");
 
 const generateApiKey = require('generate-api-key');
 
@@ -98,10 +95,11 @@ module.exports.delete = async (req, res) => {
 
 module.exports.create_child = async (req, res) => {
     taskToDo(req, res, () => {
-        const { count, byteCount, data } = req.body;
+        const serialTypes = ["rs485","spi","i2c"];
+        const { serialType,count, byteCount, data} = req.body;
         const { embId } = req.params;
-
-        EmbUart.findOne({ "embId": embId })
+        if(serialTypeincludes(serialType.toString())){
+            EmbSerial.findOne({ "embId": embId })
             .exec((err, doc) => {
                 if (err) {
                     res.status(400).json({ "Message": "Something went wrong", "Error": err });
@@ -111,20 +109,19 @@ module.exports.create_child = async (req, res) => {
                         res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
                     }
                     else {
-                        const embUart = EmbUart({
+                        const embSerial = EmbSerial({
                             embId: embId,
                             count: count,
                             byteCount: byteCount,
                             data: data
                         });
-
-                        embUart.save((err) => {
+                        embSerial.save((err) => {
                             if (err) {
                                 res.status(400).json({ "Message": "Bad Request", "Error": err });
                             }
                             else {
                                 EmbDevice.updateOne({ "_id": embId },
-                                    { $set: { uart: embUart } }, (err, doc) => {
+                                    { $set: { serialType: embUart } }, (err, doc) => {
                                         if (err) {
                                             res.status(400).json({ "Message": "Bad Request", "Error": err });
                                         }
@@ -142,5 +139,11 @@ module.exports.create_child = async (req, res) => {
                     }
                 }
             })
+        }
+        else{
+            res.status(400).json({ "Message": "Bad Request, Serial is not defined"});
+        }
     });
 }
+
+
