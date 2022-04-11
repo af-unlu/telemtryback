@@ -1,6 +1,5 @@
 //#region depends
 const EmbDevice = require("../../models/Embedded/EmbDevice");
-const EmbSerial = require("../../models/Embedded/EmbSerial");
 
 const generateApiKey = require('generate-api-key');
 
