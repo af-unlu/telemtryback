@@ -88,7 +88,49 @@ module.exports.hardConfigGet = async (req, res) => {
 }
 
 module.exports.create_child = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(405).json({"Message":"Not Allowed"});
+    taskToDo(req, res, () => {
+        //check if this device has embd exist?
+        const {deviceId } = req.params;
+        EmbDevice.findOne({ "deviceId": deviceId })
+            .exec((err, doc) => {
+                if (err) {
+                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                }
+                else {
+                    if (doc != null) {
+                        res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
+                    }
+                    else{
+                        const newEmbDev = EmbDevice({
+                            deviceId: deviceId,
+                            api_key: generateHardKey(),
+                            can: {
+                                count: 0,
+                                msgs: []
+                            },
+                            rs485: null,
+                            spi:null,
+                            i2c:null
+
+                        });
+                        newEmbDev.save((err) => {
+                            if (err) {
+                                res.status(400).json({ "Message": "Bad Request 1" });
+                            } else {
+                                Device.updateOne({ "_id": deviceId },
+                                    { $set: { Emb: newEmbDev._id } },
+                                    (err) => {
+                                        if (err) {
+                                            res.status(400).json({ "Message": "Bad Request 2" });
+                                        }
+                                        else {
+                                            res.status(201).json(newEmbDev);
+                                        }
+                                    });
+                            }
+                        });
+                    }
+                }
+            })
     })
 }
