@@ -115,7 +115,7 @@ module.exports.create_child = async (req, res) => {
                                     }
                                     else {
                                         if (doc) {
-                                            res.status(201).json(doc);
+                                            res.status(201).json(embSerial);
                                         }
                                         else {
                                             res.status(404).json({ "Message": "Not Exist" });

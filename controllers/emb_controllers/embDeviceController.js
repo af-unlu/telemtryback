@@ -52,27 +52,27 @@ module.exports.hardConfigGet = async (req, res) => {
         .select(notSelected)
         .populate([
             {
-                path: 'rs485',
-                model: 'EmbSerial',
-                select: populateNotSelected,
-            },
-            {
-                path: 'spi',
-                model: 'EmbSerial',
-                select: populateNotSelected,
-            },
-            {
-                path: 'i2c',
-                model: 'EmbSerial',
-                select: populateNotSelected,
-            },
-            {
                 path: "can",
                 populate: {
                     path: 'msgs',
                     model: 'EmbCanMessage',
                     select: populateNotSelected,
                 },
+            },
+            {
+                path: 'rs485',
+                model: 'EmbRS485',
+                select: populateNotSelected,
+            },
+            {
+                path: 'i2c',
+                model: 'EmbI2C',
+                select: populateNotSelected,
+            },
+            {
+                path: 'spi',
+                model: 'EmbSPI',
+                select: populateNotSelected,
             }
         ])
         .exec((err, doc) => {

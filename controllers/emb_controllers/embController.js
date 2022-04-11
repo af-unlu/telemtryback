@@ -25,24 +25,24 @@ module.exports.get = async (req, res) => {
     EmbDevice.findOne({ "_id": embId })
         .populate([
             {
-                path: 'rs485',
-                model: 'EmbSerial',
-            },
-            {
-                path: 'spi',
-                model: 'EmbSerial',
-            },
-            {
-                path: 'i2c',
-                model: 'EmbSerial',
-
-            },
-            {
                 path: "can",
                 populate: {
                     path: 'msgs',
                     model: 'EmbCanMessage',
                 },
+            },
+            {
+                path: 'rs485',
+                model: 'EmbRS485',
+            },
+            {
+                path: 'i2c',
+                model: 'EmbI2C',
+
+            },
+            {
+                path: 'spi',
+                model: 'EmbSPI',
             }
         ])
         .exec((err, doc) => {
