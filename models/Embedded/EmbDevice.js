@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-const EmbCanMessage = require("./EmbCanMessage");
-const EmbSerial = require("./EmbSerial");
-
 const embDeviceSchema = new mongoose.Schema({
   deviceId: {
     type: mongoose.Types.ObjectId,
@@ -25,9 +22,9 @@ const embDeviceSchema = new mongoose.Schema({
     },
     messages: [{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
   },
-  rs485: { type: mongoose.Types.ObjectId, ref: 'EmbSerial' },
-  spi: { type: mongoose.Types.ObjectId, ref: 'EmbSerial' },
-  i2c: { type: mongoose.Types.ObjectId, ref: 'EmbSerial' },
+  rs485: { type: mongoose.Types.ObjectId, ref: 'EmbRS485' },
+  spi: { type: mongoose.Types.ObjectId, ref: 'EmbI2C' },
+  i2c: { type: mongoose.Types.ObjectId, ref: 'EmbSPI' },
 
 }, { versionKey: false });
 
@@ -39,7 +36,7 @@ embDeviceSchema.pre('remove', async function (next) {
         throw Error('Delete : Error emptying reference');
       }
     });
-  EmbCanMessage.find({ "embId": this._id }, (err, doc) => {
+    mongoose.model('EmbCanMessage').find({ "embId": this._id }, (err, doc) => {
     if (err) {
       throw Error('Find : Error Finding Child EmbCanMessage');
     }
@@ -55,15 +52,43 @@ embDeviceSchema.pre('remove', async function (next) {
       }
     }
   });
-  EmbUart.findOne({ "embId": this._id }, (err, doc) => {
+  mongoose.model('EmbRS485').findOne({ "embId": this._id }, (err, doc) => {
     if (err) {
-      throw Error('Find : Error Finding Child EmbUart');
+      throw Error('Find : Error Finding Child EmbRS485');
     }
     else {
       if (doc) {
         doc.remove((err) => {
           if (err) {
-            throw Error('Delete : Error Delete Child EmbUart');
+            throw Error('Delete : Error Delete Child EmbRS485');
+          }
+        })
+      }
+    }
+  });
+  mongoose.model('EmbI2C').findOne({ "embId": this._id }, (err, doc) => {
+    if (err) {
+      throw Error('Find : Error Finding Child EmbI2C');
+    }
+    else {
+      if (doc) {
+        doc.remove((err) => {
+          if (err) {
+            throw Error('Delete : Error Delete Child EmbI2C');
+          }
+        })
+      }
+    }
+  });
+  mongoose.model('EmbSPI').findOne({ "embId": this._id }, (err, doc) => {
+    if (err) {
+      throw Error('Find : Error Finding Child EmbSPI');
+    }
+    else {
+      if (doc) {
+        doc.remove((err) => {
+          if (err) {
+            throw Error('Delete : Error Delete Child EmbSPI');
           }
         })
       }

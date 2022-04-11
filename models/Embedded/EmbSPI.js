@@ -1,4 +1,3 @@
-//Bir CAN Mesajı
 const mongoose = require('mongoose');
 const EmbData = require('./EmbData');
 const embSPISchema = new mongoose.Schema({
