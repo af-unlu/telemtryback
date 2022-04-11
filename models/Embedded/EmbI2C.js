@@ -21,5 +21,16 @@ const embI2CSchema = new mongoose.Schema({
 },{versionKey: false});
 
 
+embI2CSchema.pre('remove',async function (next) {
+  mongoose.model('EmbDevice').updateOne({"_id":this.embId},
+  {$set:{"i2c":null}},
+    (err)=>{
+      if(err){
+        throw Error('Delete : Error emptying reference');
+      }
+    });  
+  next();
+});
+
 const EmbI2C = mongoose.model('EmbI2C', embI2CSchema);
 module.exports = EmbI2C;
