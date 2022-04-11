@@ -3,8 +3,11 @@ const { Router } = require('express');
 const embDeviceController = require('../../controllers/emb_controllers/embDeviceController');
 const embController = require('../../controllers/emb_controllers/embController');
 const embCanController = require('../../controllers/emb_controllers/embCanController');
-const embCanMessageController = require('../../controllers/emb_controllers/embCanMessageController');
-const embSerialController = require('../../controllers/emb_controllers/embSerialController');
+const embCanMessageController = require('../../controllers/emb_controllers/embCanMessageController')
+;
+const embRS485Controller = require('../../controllers/emb_controllers/embRS485Controller');
+const embSPIController = require('../../controllers/emb_controllers/embSPIController');
+const embI2CController = require('../../controllers/emb_controllers/embI2CController');
 
 const router = Router({mergeParams:true});
 
@@ -23,6 +26,23 @@ router.route('/:embId')
 .delete(embController.delete)     //Delete                
 .post(embController.create_child);// not allowed
 
+router.route('/:embId/rs485')
+.post(embRS485Controller.create_child)  //create a rs485 object to that emb
+.get(embRS485Controller.get)            //return rs485 object    
+.put(embRS485Controller.update)         //update rs485 object     
+.delete(embRS485Controller.delete);     //delete rs485 object
+
+router.route('/:embId/spi')
+.post(embSPIController.create_child)  //create a spi object to that emb
+.get(embSPIController.get)            //return spi object    
+.put(embSPIController.update)         //update spi object     
+.delete(embSPIController.delete);     //delete spi object
+
+router.route('/:embId/i2c')
+.post(embI2CController.create_child)  //create a i2c object to that emb
+.get(embI2CController.get)            //return i2c object    
+.put(embI2CController.update)         //update i2c object     
+.delete(embI2CController.delete);     //delete i2c object
 
 router.route('/:embId/can')
 .get(embCanController.get)          //return can object - populate and select      
@@ -36,11 +56,7 @@ router.route('/:embId/can/:messageId')
 .delete(embCanMessageController.delete) //delete that can message    
 .post(embCanMessageController.create_child);// not allowed           
 
-router.route('/:embId/serial')
-.get(embSerialController.get)            //return serial object     
-.put(embSerialController.update)         //update serial object     
-.delete(embSerialController.delete)      //delete - empty
-.post(embSerialController.create_child); //c not allowed
+
 
 
 

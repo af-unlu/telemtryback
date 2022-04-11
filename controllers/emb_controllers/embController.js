@@ -103,59 +103,9 @@ module.exports.delete = async (req, res) => {
 }
 
 module.exports.create_child = async (req, res) => {
-    taskToDo(req, res, () => {
-        const serialTypes = ["rs485","spi","i2c"];
-        const { serialType,count, byte_count, messages} = req.body;
-        const { embId } = req.params;
-        if(serialTypes.includes(serialType)){
-            EmbDevice.findOne({ "_id": embId })
-            .exec((err, doc) => {
-                if (err) {
-                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
-                }
-                else {
-                    console.log(serialType);
-                    console.log(doc);
-                    if (doc.serialType != null) {
-                        res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
-                    }
-                    else {
-                        const embSerial = EmbSerial({
-                            embId: embId,
-                            count: count,
-                            byte_count: byte_count,
-                            messages: messages,
-                        });
-                        embSerial.save((err) => {
-                            if (err) {
-                                res.status(400).json({ "Message": "Bad Request", "Error": err });
-                            }
-                            else {
-                                console.log("Buraya geliyor mu ak")
-                                EmbDevice.updateOne({ "_id": embId },
-                                    { $set: { serialType: embSerial._id } }, (err, doc) => {
-                                        if (err) {
-                                            res.status(400).json({ "Message": "Bad Request", "Error": err });
-                                        }
-                                        else {
-                                            if (doc) {
-                                                res.status(201).json(doc);
-                                            }
-                                            else {
-                                                res.status(404).json({ "Message": "Not Exist" });
-                                            }
-                                        }
-                                    })
-                            }
-                        })
-                    }
-                }
-            })
-        }
-        else{
-            res.status(400).json({ "Message": "Bad Request, Serial is not defined"});
-        }
-    });
+    taskToDo(req,res,()=>{
+        res.status(405).json({"Message":"Not Allowed"});
+    })
 }
 
 

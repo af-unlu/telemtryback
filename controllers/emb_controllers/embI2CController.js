@@ -1,5 +1,5 @@
 //#region depends
-const EmbSerial = require("../../models/Embedded/EmbSerial");
+const EmbI2C = require("../../models/Embedded/EmbI2C");
 const EmbDevice = require("../../models/Embedded/EmbDevice");
 
 const taskToDo= (req,res,task)=>{
@@ -21,7 +21,7 @@ const taskToDo= (req,res,task)=>{
 module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         const {embId} = req.params;
-        EmbSerial.findOne({"embId":embId})
+        EmbI2C.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
                 res.status(400).json({"Message":"Error : Bad Request"});
@@ -37,7 +37,7 @@ module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
         const{count,byteCount,data} = req.body;
         const {embId} = req.params;
-        EmbSerial.updateOne({"embId":embId},
+        EmbI2C.updateOne({"embId":embId},
         {
             $set:{
                 "count":count,
@@ -59,7 +59,7 @@ module.exports.update = async (req, res) => {
 module.exports.delete = async (req, res) => {
     taskToDo(req,res,()=>{
         const {embId} = req.params;
-        EmbSerial.findOne({"embId":embId})
+        EmbI2C.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
                 res.status(400).json({"Message":"Error : Bad Request"});
@@ -82,8 +82,50 @@ module.exports.delete = async (req, res) => {
         });
     })
 }
+
 module.exports.create_child = async (req, res) => {
-    taskToDo(req,res,()=>{
-        res.status(405).json({"Message":"Not Allowed"});
-    })
+    taskToDo(req, res, () => {
+        const {count, byte_count, messages} = req.body;
+        const { embId } = req.params;
+        EmbI2C.findOne({ "embId": embId })
+        .exec((err, doc) => {
+            if (err) {
+                res.status(400).json({ "Message": "Something went wrong", "Error": err });
+            }
+            else {
+                if (doc != null) {
+                    res.status(409).json({ "Message": "The Object you wanted to create is already exist" });
+                }
+                else {
+                    const embSerial = EmbI2C({
+                        embId: embId,
+                        count: count,
+                        byte_count: byte_count,
+                        messages: messages,
+                    });
+                    embSerial.save((err) => {
+                        if (err) {
+                            res.status(400).json({ "Message": "Bad Request", "Error": err });
+                        }
+                        else {
+                            EmbDevice.updateOne({ "_id": embId },
+                                { $set: { i2c: embSerial._id } }, (err, doc) => {
+                                    if (err) {
+                                        res.status(400).json({ "Message": "Bad Request", "Error": err });
+                                    }
+                                    else {
+                                        if (doc) {
+                                            res.status(201).json(doc);
+                                        }
+                                        else {
+                                            res.status(404).json({ "Message": "Not Exist" });
+                                        }
+                                    }
+                                })
+                        }
+                    })
+                }
+            }
+        })
+    });
 }
