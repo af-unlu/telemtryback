@@ -54,7 +54,7 @@ module.exports.hardConfigGet = async (req, res) => {
             {
                 path: "can",
                 populate: {
-                    path: 'msgs',
+                    path: 'messages',
                     model: 'EmbCanMessage',
                     select: populateNotSelected,
                 },

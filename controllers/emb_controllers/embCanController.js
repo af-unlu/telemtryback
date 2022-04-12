@@ -85,14 +85,15 @@ module.exports.delete = async (req, res) => {
 
 module.exports.create_child = async (req, res) => {
     taskToDo(req,res,()=>{
-        const {isEx,mId,dlc,data} = req.body;
+        const {is_ex,id,dlc,data_count,data} = req.body;
         const {embId} = req.params;
 
         const newCanMessage = EmbCanMessage({
             embId:embId,
-            isEx:isEx,
-            mId:mId,
+            is_ex:is_ex,
+            id:id,
             dlc:dlc,
+            data_count:data_count,
             data:data
         })
         newCanMessage.save((err)=>{
@@ -101,7 +102,7 @@ module.exports.create_child = async (req, res) => {
             }
             else{
                 EmbDevice.updateOne({"_id":embId},
-                {$push:{"can.msgs":newCanMessage._id},$inc:{"can.count":1}},
+                {$push:{"can.messages":newCanMessage._id},$inc:{"can.count":1}},
                 (err)=>{
                     if(err){
                         res.status(400).json({"Message":"Bad Request : Updating Parent"});

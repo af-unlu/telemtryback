@@ -39,14 +39,15 @@ module.exports.get = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        const{isEx,mId,dlc,data} = req.body;
+        const{is_ex,id,dlc,data_count,data} = req.body;
         const {messageId} = req.params;
         EmbCanMessage.updateOne({"_id":messageId},
         {
             $set:{
-                "isEx":isEx,
-                "mId":mId,
+                "is_ex":is_ex,
+                "id":id,
                 "dlc":dlc,
+                "data_count":data_count,
                 "data":data
             }
         })
