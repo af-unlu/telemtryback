@@ -1,6 +1,5 @@
 //#region depends
 const generateApiKey = require('generate-api-key');
-require('dotenv').config();
 const User = require("../models/User");
 const Device = require("../models/Device")
 

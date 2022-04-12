@@ -35,19 +35,19 @@ module.exports.get = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     taskToDo(req,res,()=>{
-        const{count,byteCount,data} = req.body;
+        const{count,byte_count,messages} = req.body;
         const {embId} = req.params;
         EmbRS485.updateOne({"embId":embId},
         {
             $set:{
                 "count":count,
-                "byteCount":byteCount,
-                "data":data
+                "byte_count":byte_count,
+                "messages":messages
             }
         })
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error : Bad Request","Error":err});
             }
             else{
                 res.status(200).json(doc);
