@@ -5,15 +5,15 @@ const embI2CSchema = new mongoose.Schema({
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',
-    required: [true, 'Error Message'],
+    required: [true, 'EmbI2C.embId'],
   },
   count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbI2C.count']
   },
   byte_count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbI2C.byte_count']
   },
   messages: {
     type: [EmbData]

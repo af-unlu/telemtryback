@@ -8,22 +8,22 @@ const Device = require("../models/Device");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please enter a name'],
+    required: [true, 'User.name'],
   },
   surname: {
     type: String,
-    required: [true, 'Please enter a surname'],
+    required: [true, 'User.surname'],
   },
   email: {
     type: String,
-    required: [true, 'Please enter an email'],
+    required: [true, 'User.email'],
     unique: true,
     lowercase: true,
-    validate: [isEmail, 'Please enter a valid email']
+    validate: [isEmail, 'User.isEmail.Not']
   },
   password: {
     type: String,
-    required: [true, 'Please enter a password'],
+    required: [true, 'User.password'],
     minlength: [6, 'Minimum password length is 6 characters'],
   },
   devices: [{ type: mongoose.Types.ObjectId, ref: 'Device' }],

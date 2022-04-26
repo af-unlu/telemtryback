@@ -5,7 +5,7 @@ const uiDeviceSchema = new mongoose.Schema({
     deviceId:{
         type: mongoose.Types.ObjectId, 
         ref: 'Device' ,
-        required: [true, 'Error Message'],
+        required: [true, 'UiDevice.deviceId'],
     },
     widgets:{
         type:[{ type: mongoose.Types.ObjectId, ref: 'UiWidget' }]

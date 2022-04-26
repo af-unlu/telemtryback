@@ -7,18 +7,18 @@ const deviceSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-        required: [true, 'Error Message'],
+        required: [true, 'Device.userId'],
     },
     name: {
         type: String,
-        required: [true, 'Please enter a name'],
+        required: [true, 'Device.name'],
     },
     props: {
         type: Object
     },
     apikey: {
         type: String,
-        required: [true, 'Error Message'],
+        required: [true, 'Device.apikey'],
     },
     //bunların default işlemleri vardı, otomatik update vs edildiğinde kendi yazıyordu
     Ui: {

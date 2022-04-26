@@ -5,15 +5,15 @@ const embRS485Schema = new mongoose.Schema({
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',
-    required: [true, 'Error Message'],
+    required: [true, 'EmbRS485.embId'],
   },
   count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbRS485.count']
   },
   byte_count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbRS485.byte_count']
   },
   messages: {
     type: [EmbData]

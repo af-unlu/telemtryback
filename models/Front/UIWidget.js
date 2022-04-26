@@ -12,24 +12,24 @@ const uiWidgetSchema = new mongoose.Schema({
     },
     w_type: {
         type: Number,
-        required: [true, 'Error Message']
+        required: [true, 'UiWidget.w_type']
     },
     data: {
         name: {
             type: String,
-            required: [true, 'Please enter a name'],
+            required: [true, 'UiWidget.data.name'],
         },
         dataType: {
             type: String,
-            required: [true, 'Please enter the type of data'],
+            required: [true, 'UiWidget.data.dataType'],
         },
         stIndex: {
             type: Number,
-            required: [true, 'Please enter the starting index of data']
+            required: [true, 'UiWidget.data.stIndex']
         },
         endIndex: {
             type: Number,
-            required: [true, 'Please enter the ending index of data']
+            required: [true, 'UiWidget.data.endIndex']
         }
     },
     is_hidden: {

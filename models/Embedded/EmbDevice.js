@@ -4,21 +4,21 @@ const embDeviceSchema = new mongoose.Schema({
   deviceId: {
     type: mongoose.Types.ObjectId,
     ref: 'Device',
-    required: [true, 'Error Message'],
+    required: [true, 'EmbDevice.deviceId'],
   },
   log_ms: {
     type: Number,
     default: 1000,
-    required: [true, 'Error Message']
+    required: [true, 'EmbDevice.log_ms']
   },
   api_key: {
     type: String,
-    required: [true, 'Error Message']
+    required: [true, 'EmbDevice.api_key']
   },
   can: {
     count: {
       type: Number,
-      required: [true, 'Error Message']
+      required: [true, 'EmbDevice.can']
     },
     messages: [{ type: mongoose.Types.ObjectId, ref: 'EmbCanMessage' }]
   },

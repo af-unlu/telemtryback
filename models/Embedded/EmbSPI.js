@@ -4,15 +4,15 @@ const embSPISchema = new mongoose.Schema({
   embId: {
     type: mongoose.Types.ObjectId,
     ref: 'EmbDevice',
-    required: [true, 'Error Message'],
+    required: [true, 'EmbSPI.embId'],
   },
   count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbSPI.count']
   },
   byte_count: {
     type: Number,
-    required: [true, 'Error Message']
+    required: [true, 'EmbSPI.byte_count']
   },
   messages: {
     type: [EmbData]

@@ -4,15 +4,15 @@ const mongoose = require('mongoose');
 const embDataSchema = new mongoose.Schema({
   type: {
     type: String,
-    required: [true, 'Please enter the type of data'],
+    required: [true, 'EmbData.type'],
   },
   name: {
     type: String,
-    required: [true, 'Please enter a name'],
+    required: [true, 'EmbData.name'],
   },
   index: {
     type: Number,
-    required: [true, 'Please enter the index of data']
+    required: [true, 'EmbData.index']
   },
   log: {
     type: Number,
