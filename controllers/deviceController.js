@@ -30,9 +30,7 @@ module.exports.get = async (req, res) => {
         Device.find({ "userId": req.params.userId },
             (err, found) => {
                 if (err) {
-                    res.status(400).json({
-                        "Message": "Error"
-                    });
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
                 else {
                     res.status(200).json(found);
@@ -45,7 +43,9 @@ module.exports.get = async (req, res) => {
 //deleting all devices of a user
 module.exports.delete = async (req, res) => {
     Device.find({"userId":req.params.userId},(err,found)=>{
-        if(err){res.status(400).json({"Message":"Bad Request"});}
+        if(err){
+            res.status(400).json({"Message":"Error","Error":err});
+        }
         else{
             if(found){
                 let erro;
@@ -57,14 +57,14 @@ module.exports.delete = async (req, res) => {
                     });
                 })
                 if(erro){
-                    res.status(400).json({"Message":"Bad Request"});
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
                 else{
                     res.status(200).json({"Message":"Succes"});
                 }
             }
             else{
-                res.status(400).json({"Message":"Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
         }
     });
@@ -83,13 +83,13 @@ module.exports.create_child = async (req, res) => {
         });
         newDevice.save((err)=>{
             if(err){
-                res.status(400).json({"Message":"Invalid Device"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else
             {
                 User.CreateNewDevice(userId,newDevice,(err)=>{
                     if(err){
-                        res.status(400).json({"Message":"Bad Request"});
+                        res.status(400).json({"Message":"Error","Error":err});
                     }
                     else
                     {

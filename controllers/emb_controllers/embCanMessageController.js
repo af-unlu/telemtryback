@@ -27,7 +27,7 @@ module.exports.get = async (req, res) => {
         EmbCanMessage.findOne({"_id":messageId})
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -53,7 +53,7 @@ module.exports.update = async (req, res) => {
         })
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -69,13 +69,13 @@ module.exports.delete = async (req, res) => {
         EmbCanMessage.findOne({"_id":messageId})
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 if(doc){
                     doc.remove((err)=>{
                         if(err){
-                            res.status(400).json({"Message":"Error : Delete Error"});
+                            res.status(400).json({"Message":"Error : Delete Error","Error":err});
                         }
                         else{
                             res.status(200).json({"Message":"Item Deleted"});

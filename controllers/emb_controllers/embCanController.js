@@ -33,7 +33,7 @@ module.exports.get = async (req, res) => {
         .select(["can","-_id"])
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 if(doc){
@@ -58,7 +58,7 @@ module.exports.delete = async (req, res) => {
         EmbCanMessage.find({"embId":req.params.embId},
         (err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 if(doc !=null){
@@ -69,7 +69,7 @@ module.exports.delete = async (req, res) => {
                         })
                     });
                     if(error){
-                        res.status(400).json({"Message":"Error Deleting Childs : Can Messages"});
+                        res.status(400).json({"Message":"Error Deleting Childs : Can Messages","Error":err});
                     }
                     else{
                         res.status(200).json({"Message":"Succes"});
@@ -98,14 +98,14 @@ module.exports.create_child = async (req, res) => {
         })
         newCanMessage.save((err)=>{
             if(err){
-                res.status(400).json({"Message":"Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 EmbDevice.updateOne({"_id":embId},
                 {$push:{"can.messages":newCanMessage._id},$inc:{"can.count":1}},
                 (err)=>{
                     if(err){
-                        res.status(400).json({"Message":"Bad Request : Updating Parent"});
+                        res.status(400).json({"Message":"Bad Request : Updating Parent","Error":err});
                     }
                     else{
                          res.status(201).json(newCanMessage);

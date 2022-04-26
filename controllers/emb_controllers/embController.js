@@ -47,9 +47,7 @@ module.exports.get = async (req, res) => {
         ])
         .exec((err, doc) => {
             if (err) {
-                res.status(400).json({
-                    "Message": "Bad Request"
-                });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else {
                 res.status(200).json(doc);
@@ -66,7 +64,7 @@ module.exports.update = async (req, res) => {
             { "$set": { log_ms: log_ms } },
             (err, doc) => {
                 if (err) {
-                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
                 else {
                     res.status(200).json(doc);
@@ -81,20 +79,20 @@ module.exports.delete = async (req, res) => {
         const embId = req.params.embId;
         EmbDevice.findOne({ "_id": embId }, (err, doc) => {
             if (err) {
-                res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else {
                 if (doc) {
                     doc.remove((err) => {
                         if (err) {
-                            res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                            res.status(400).json({"Message":"Error","Error":err});
                         }
                         else {
                             res.status(200).json({ "Message": "Deleted", "embId": embId });
                         }
                     })
                 } else {
-                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
             }
         })

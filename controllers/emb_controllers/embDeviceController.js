@@ -36,7 +36,7 @@ module.exports.get = async (req, res) => {
         EmbDevice.findOne({ "deviceId": deviceId },
             (err, found) => {
                 if (err) {
-                    res.status(400).json({ "Message": "Error" });
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
                 else{
                     res.status(200).json(found);
@@ -77,9 +77,7 @@ module.exports.hardConfigGet = async (req, res) => {
         ])
         .exec((err, doc) => {
             if (err) {
-                res.status(400).json({
-                    "Message": "Bad Request"
-                });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else {
                 res.status(200).json(doc);
@@ -94,7 +92,7 @@ module.exports.create_child = async (req, res) => {
         EmbDevice.findOne({ "deviceId": deviceId })
             .exec((err, doc) => {
                 if (err) {
-                    res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                    res.status(400).json({"Message":"Error","Error":err});
                 }
                 else {
                     if (doc != null) {
@@ -115,13 +113,13 @@ module.exports.create_child = async (req, res) => {
                         });
                         newEmbDev.save((err) => {
                             if (err) {
-                                res.status(400).json({ "Message": "Bad Request 1" });
+                                res.status(400).json({"Message":"Error","Error":err});
                             } else {
                                 Device.updateOne({ "_id": deviceId },
                                     { $set: { Emb: newEmbDev._id } },
                                     (err) => {
                                         if (err) {
-                                            res.status(400).json({ "Message": "Bad Request 2" });
+                                            res.status(400).json({"Message":"Error","Error":err});
                                         }
                                         else {
                                             res.status(201).json(newEmbDev);

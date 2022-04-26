@@ -24,7 +24,7 @@ module.exports.get = async (req, res) => {
         EmbRS485.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -47,7 +47,7 @@ module.exports.update = async (req, res) => {
         })
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request","Error":err});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -62,13 +62,13 @@ module.exports.delete = async (req, res) => {
         EmbRS485.findOne({"embId":embId})
         .exec((err,doc)=>{
             if(err){
-                res.status(400).json({"Message":"Error : Bad Request"});
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 if(doc !=null){
                     doc.remove((err)=>{
                         if(err){
-                            res.status(400).json({"Message":"Error : Delete Error"});
+                            res.status(400).json({"Message":"Error : Delete Error","Error":err});
                         }
                         else{
                             res.status(200).json({"Message":"Item Deleted"});
@@ -90,7 +90,7 @@ module.exports.create_child = async (req, res) => {
         EmbRS485.findOne({ "embId": embId })
         .exec((err, doc) => {
             if (err) {
-                res.status(400).json({ "Message": "Something went wrong", "Error": err });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else {
                 if (doc != null) {
@@ -105,13 +105,13 @@ module.exports.create_child = async (req, res) => {
                     });
                     embSerial.save((err) => {
                         if (err) {
-                            res.status(400).json({ "Message": "Bad Request", "Error": err });
+                            res.status(400).json({"Message":"Error","Error":err});
                         }
                         else {
                             EmbDevice.updateOne({ "_id": embId },
                                 { $set: { rs485: embSerial._id } }, (err, doc) => {
                                     if (err) {
-                                        res.status(400).json({ "Message": "Bad Request", "Error": err });
+                                        res.status(400).json({"Message":"Error","Error":err});
                                     }
                                     else {
                                         if (doc) {

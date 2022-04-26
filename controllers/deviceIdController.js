@@ -22,9 +22,7 @@ module.exports.get = async (req, res) => {
     taskToDo(req,res,()=>{
         Device.findOne({"_id":req.params.deviceId},(err, doc) => {
             if (err) {
-                res.status(400).json({
-                    "Message": "Error"
-                });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -43,9 +41,7 @@ module.exports.update = async (req, res) => {
         { "$set": { name:name,props:props}},
         (err, doc) => {
             if (err) {
-                res.status(400).json({
-                    "Message": "Error"
-                });
+                res.status(400).json({"Message":"Error","Error":err});
             }
             else{
                 res.status(200).json(doc);
@@ -60,17 +56,13 @@ module.exports.delete = async (req, res) => {
        Device.findOne({"_id":deviceId},
        (err, doc) => {
         if (err) {
-            res.status(400).json({
-                "Message": "Error"
-            });
+            res.status(400).json({"Message":"Error","Error":err});
         }
         else{
             if(doc){
                 doc.remove((err)=>{
                     if(err){
-                        res.status(400).json({
-                            "Message": "Error"
-                        });
+                        res.status(400).json({"Message":"Error","Error":err});
                     }
                     else{
                         res.status(200).json({
