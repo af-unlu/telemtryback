@@ -11,10 +11,6 @@ const embDeviceSchema = new mongoose.Schema({
     default: 1000,
     required: [true, 'EmbDevice.log_ms']
   },
-  api_key: {
-    type: String,
-    required: [true, 'EmbDevice.api_key']
-  },
   can: {
     count: {
       type: Number,
