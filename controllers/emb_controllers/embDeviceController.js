@@ -80,7 +80,16 @@ module.exports.hardConfigGet = async (req, res) => {
                 res.status(400).json({"Message":"Error","Error":err});
             }
             else {
-                res.status(200).json(doc);
+                //Doc nesnesi databaseden dönen veri
+                const temp = {
+                    api_key: doc.api_key,
+                    log_ms:doc.log_ms,
+                    can : doc.can,
+                    rs485 :doc.rs485,
+                    spi:doc.spi,
+                    i2c:doc.i2c
+                }
+                res.status(200).json(temp);
             }
         });
 }

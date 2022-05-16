@@ -16,6 +16,7 @@ const embDataSchema = new mongoose.Schema({
   },
   log: {
     type: Number,
+    required: [true, 'EmbData.log']
   }
 },{ _id : false ,versionKey: false});
 
