@@ -18,9 +18,9 @@ const taskToDo = (req, res, task) => {
     }
 }
 
-const generateHardKey = () => {
+/*const generateHardKey = () => {
     return generateApiKey({ method: 'string', prefix: 'HardConfig', pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_&+-' });
-}
+}*/
 
 //#endregion
 
@@ -79,7 +79,7 @@ module.exports.create_child = async (req, res) => {
             userId: userId,
             name: name,
             props: props,
-            apikey: generateHardKey(),
+            //apikey: generateHardKey(),
         });
         newDevice.save((err)=>{
             if(err){

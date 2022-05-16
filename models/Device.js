@@ -16,10 +16,6 @@ const deviceSchema = new mongoose.Schema({
     props: {
         type: Object
     },
-    apikey: {
-        type: String,
-        required: [true, 'Device.apikey'],
-    },
     //bunların default işlemleri vardı, otomatik update vs edildiğinde kendi yazıyordu
     Ui: {
         type: { type: mongoose.Types.ObjectId, ref: 'UiDevice' }
