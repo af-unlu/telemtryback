@@ -6,7 +6,6 @@ const helmet = require('helmet');
 //const logger = require('morgan');
 var errorhandler = require('errorhandler');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 var cors = require("cors");
 //#endregion
 
@@ -15,7 +14,6 @@ const app = express();
 //#region MiddleWare
 app.use(helmet());
 app.use(express.json());
-app.use(cookieParser());
 app.use(cors());
 //app.use(logger);
 if (process.env.NODE_ENV === 'development') {
